@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets
+    xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>myLOG</Title>
+      <Shortcut>myLOG</Shortcut>
+    </Header>
+    <Snippet>
+      <Code Language="cSharp">
+        <![CDATA[
+        /// <summary>
+        /// ログ出力
+        /// </summary>
+        /// <param name="word">ログ内容</param>
+        public static void WriteLog(string word)
+        {
+            //ログファイル名
+            var logName = "log.log";
+            //ログローテート
+            if (File.Exists(logName))
+            {
+                var writeTime = File.GetLastWriteTime(logName);
+                if (writeTime.Month != DateTime.Now.Month)
+                {
+                    File.Move(logName, logName.Replace(".log", "") + writeTime.ToString("yyyyMMddhh") + ".log");
+                }
+            }
+            try
+            {
+                File.AppendAllText(logName, DateTime.Now.ToString("yyyy/MM/dd (dddd) hh時mm分ss秒") + " " + word + Environment.NewLine);
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("ログ出力でエラー:" + word + " " + e.Message);
+            }
+        }
+        ]]>
+      </Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>

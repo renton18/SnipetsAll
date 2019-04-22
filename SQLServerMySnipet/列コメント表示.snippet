@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+  <Header>
+    <Title>列コメント表示</Title>
+    <Shortcut>myColComment</Shortcut>
+  </Header>
+  <Snippet>
+    <Code Language="SQL">
+      SELECT
+      t.name    AS テーブル名
+      ,c.name    AS 列名
+      ,ep.value  AS 列コメント
+      FROM
+      sys.tables AS t
+      ,sys.columns AS c
+      ,sys.extended_properties AS ep
+      WHERE
+      t.name = 'test_table'
+      AND t.object_id = c.object_id
+      AND c.object_id = ep.major_id
+      AND c.column_id = ep.minor_id
+    </Code>
+  </Snippet>
+</CodeSnippet>
+</CodeSnippets>

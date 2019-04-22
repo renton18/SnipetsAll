@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets
+    xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>DELETE</Title>
+      <Shortcut>myEntityCRUD</Shortcut>
+    </Header>
+    <Snippet>
+      <Code Language="cSharp">
+        <![CDATA[
+            //【注意】デフォルトの削除ボタンを使用すると一つ先のレコードを削除してしまうため使用不可
+            //メッセージボックス表示
+            DialogResult result = MessageBox.Show("削除してもいいですか？", "確認", MessageBoxButtons.OKCancel);
+            if (result == DialogResult.Cancel)
+            {
+                return;
+            }
+
+            int currentRow = 0;
+            //DataGridViewの場合
+            //currentRow = (int)dataGridView1.CurrentRow.Cells[0].Value;
+            int updateCount = 0;
+            using (var db = new dbContext())
+            {
+                try
+                {
+                     //SQL出力
+                    db.Database.Log = logger.Info;
+                    
+                    var item = db.EmailAddress.SingleOrDefault(x => x.EmailAddressID == currentRow);
+                    if (item != null)
+                    {
+                        db.EmailAddress.Remove(item);
+                        updateCount = db.SaveChanges();
+                    }
+                }
+                catch (DbEntityValidationException ex)
+                {
+                    var errorMessage = "";
+                    ex.EntityValidationErrors.SelectMany(error => error.ValidationErrors).ToList()
+                        .ForEach(model => errorMessage = errorMessage + model.PropertyName + " - " + model.ErrorMessage);
+                    logger.Error(errorMessage);
+                    MessageBox.Show(errorMessage);
+                }
+            }
+            //DataGridViewの場合 表示上の削除
+            //dataGridView1.Rows.RemoveAt(dataGridView1.CurrentRow.Index);
+        ]]>
+      </Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>

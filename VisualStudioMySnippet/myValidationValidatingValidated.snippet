@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets
+    xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>ValidatingValidated</Title>
+      <Shortcut>myValidation</Shortcut>
+    </Header>
+    <Snippet>
+      <Code Language="cSharp">
+        <![CDATA[
+        ErrorProvider errorProvider = new ErrorProvider();
+        public enum StringType
+        {
+            HALF_NUMBER,
+            HALF_NUMBER_DOT,
+            HALF_ALPHA_NUMBER,
+            HALF_ALPHA_NUMBER_SYMBOL
+        } 
+        private void OriginalValidate(Control sender, CancelEventArgs e, StringType stringType)
+        {
+            string regexString = "";
+            string errorString = "";
+
+            switch (stringType)
+            {
+                case StringType.HALF_NUMBER:
+                    regexString = @"^[0-9]*$$";
+                    errorString = "半角数字";
+                    break;
+                case StringType.HALF_NUMBER_DOT:
+                    regexString = @"^\d*\.*\d*$$";
+                    errorString = "半角数字(小数点以下含む)";
+                    break;
+                case StringType.HALF_ALPHA_NUMBER:
+                    regexString = @"^[0-9a-zA-Z]*$$";
+                    errorString = "半角英数字";
+                    break;
+                case StringType.HALF_ALPHA_NUMBER_SYMBOL:
+                    regexString = @"^[!-~]*$$";
+                    errorString = "半角英数字記号";
+                    break;
+            }
+            Regex regex = new Regex(regexString);
+            if (!regex.IsMatch(((Control)sender).Text))
+            {
+                errorProvider.SetError((Control)sender, errorString);
+                e.Cancel = true;
+            }
+        }
+        private void OriginalValidated(Control control)
+        {
+            errorProvider.SetError(control, null);
+        }
+        ]]>
+      </Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>

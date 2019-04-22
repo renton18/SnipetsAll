@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets
+    xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>Export</Title>
+      <Shortcut>myCSV</Shortcut>
+    </Header>
+    <Snippet>
+      <Code Language="cSharp">
+        <![CDATA[
+        private void ExportCSV(object[] objects, String fileFullPath, Boolean hasHeader = true)
+        {
+            try
+            {
+                // appendをtrueにすると，既存のファイルに追記。alseにすると，ファイルを新規作成する
+                var append = false;
+                using (var sw = new System.IO.StreamWriter(fileFullPath, append, Encoding.GetEncoding("shift_jis")))
+                {
+                    //ヘッダ
+                    if (hasHeader)
+                    {
+                        var headerList = new List<string>();
+                        foreach (var prop in objects[0].GetType().GetProperties())
+                        {
+                            DisplayNameAttribute attr = (DisplayNameAttribute)Attribute.GetCustomAttribute(prop, typeof(DisplayNameAttribute));
+                            headerList.Add(attr == null ? "" : attr.DisplayName);
+                        }
+                        sw.WriteLine(string.Join(",", headerList));
+                    }
+
+                    //実データ
+                    foreach (var x in objects.Select((item, index) => new { item, index }))
+                    {
+                        sw.WriteLine(string.Join(",", x.item.GetType().GetProperties().Select(a => a.GetValue(x.item))));
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("CSVエクスポート失敗" + Environment.NewLine + ex.Message);
+            }
+        }
+        ]]>
+      </Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>

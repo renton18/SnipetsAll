@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets
+    xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>SELECT左外部結合</Title>
+      <Shortcut>myEntityCRUD</Shortcut>
+    </Header>
+    <Snippet>
+      <Code Language="cSharp">
+        <![CDATA[
+            using (var db = new dbContext())
+            {
+                 try
+                {                    
+                     //SQL出力
+                    db.Database.Log = logger.Info;
+                    
+                    DateTime fromDt = DateTime.Now.AddYears(-8);
+                    DateTime toDt = DateTime.Now.AddYears(-7);
+                    var datas = from left in db.SalesPerson
+                                join sub in db.SalesTerritory  on left.TerritoryID equals sub.TerritoryID into subjoin
+                                from right in subjoin.DefaultIfEmpty()
+                                where left.ModifiedDate >= fromDt && left.ModifiedDate <= toDt
+                                orderby left.BusinessEntityID
+                                select new 
+                                {
+                                    left.BusinessEntityID,
+                                    left.rowguid,
+                                    left.ModifiedDate,
+                                    TerritoryIDa = (right.TerritoryID ?? null),
+                                    Name = (right.Name ?? null)
+                                };
+                                
+                    this.bindingSource1.DataSource = datas.ToList();
+                    this.dataGridView1.DataSource = bindingSource1;
+                }
+                catch (DbEntityValidationException ex)
+                {
+                    var errorMessage = "";
+                    ex.EntityValidationErrors.SelectMany(error => error.ValidationErrors).ToList()
+                        .ForEach(model => errorMessage = errorMessage + model.PropertyName + " - " + model.ErrorMessage);
+                    logger.Error(errorMessage);
+                    MessageBox.Show(errorMessage);
+                }
+            }
+        ]]>
+      </Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>

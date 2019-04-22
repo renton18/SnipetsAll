@@ -1,0 +1,77 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets
+    xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>Export</Title>
+      <Shortcut>myCSV</Shortcut>
+    </Header>
+    <Snippet>
+      <Code Language="cSharp">
+        <![CDATA[
+        private List<object> ImportCSV(object obj, String fileFullPath, Boolean hasHeader = true)
+        {
+            List<object> resultList = new List<object>();
+            try
+            {
+                using (var sr = new System.IO.StreamReader(fileFullPath, Encoding.GetEncoding("shift_jis")))
+                {
+                    if (hasHeader)
+                    {
+                        sr.ReadLine();
+                    }
+                    //実データ
+                    while (!sr.EndOfStream)
+                    {
+                        string[] values = sr.ReadLine().Split(',');
+                        object objItem = Activator.CreateInstance(obj.GetType());
+                        foreach (var x in values.Select((item, index) => new { item, index }))
+                        {
+                            if (objItem.GetType().GetProperties()[x.index].PropertyType == typeof(int))
+                            {
+                                objItem.GetType().GetProperties().ElementAt(x.index).SetValue(objItem, int.Parse(x.item));
+                            }
+                            else if (objItem.GetType().GetProperties()[x.index].PropertyType == typeof(double))
+                            {
+                                objItem.GetType().GetProperties().ElementAt(x.index).SetValue(objItem, double.Parse(x.item));
+                            }
+                            else if (objItem.GetType().GetProperties()[x.index].PropertyType == typeof(decimal))
+                            {
+                                objItem.GetType().GetProperties().ElementAt(x.index).SetValue(objItem, decimal.Parse(x.item));
+                            }
+                            else if (objItem.GetType().GetProperties()[x.index].PropertyType == typeof(int?))
+                            {
+                                objItem.GetType().GetProperties().ElementAt(x.index).SetValue(objItem, null);
+                            }
+                            else if (objItem.GetType().GetProperties()[x.index].PropertyType == typeof(decimal?))
+                            {
+                                objItem.GetType().GetProperties().ElementAt(x.index).SetValue(objItem, null);
+                            }
+                            else if (objItem.GetType().GetProperties()[x.index].PropertyType == typeof(Guid))
+                            {
+                                objItem.GetType().GetProperties().ElementAt(x.index).SetValue(objItem, Guid.Parse(x.item));
+                            }
+                            else if (objItem.GetType().GetProperties()[x.index].PropertyType == typeof(DateTime))
+                            {
+                                objItem.GetType().GetProperties().ElementAt(x.index).SetValue(objItem, DateTime.Parse(x.item));
+                            }
+                            else
+                            {
+                                objItem.GetType().GetProperties().ElementAt(x.index).SetValue(objItem, x.item);
+                            }
+                        }
+                        resultList.Add(objItem);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("CSVインポート失敗" + Environment.NewLine + ex.Message);
+            }
+            return resultList;
+        }
+        ]]>
+      </Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>

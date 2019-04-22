@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets
+    xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>SeederAdd</Title>
+      <Shortcut>myEntity</Shortcut>
+    </Header>
+    <Snippet>
+      <Code Language="cSharp">
+        <![CDATA[
+            //(p => new { A, B } A&B列で一意なら上書きされる（複合キーパターン）
+            context.Accounts.AddOrUpdate(p => new { p.accountId, p.recordDatetime }
+                , new Account("A10001", "yahoo1", "user@yahoo.co.jp", "password", "", DateTime.Now, DateTime.Now)
+                , new Account("A100012", "yahoo", "user@yahoo.co.jp", "password", "", DateTime.Now, DateTime.Now)
+                , new Account("A10002", "yahoo", "user@yahoo.co.jp", "password", "", DateTime.Now.AddHours(1.0), DateTime.Now)
+                , new Account("A10002", "yahoo", "user@yahoo.co.jp", "password", "", DateTime.Now.AddHours(2.0), DateTime.Now)
+            );
+        ]]>
+      </Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>

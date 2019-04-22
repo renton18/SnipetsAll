@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets
+    xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>myLOG_テキストボックス出力</Title>
+      <Shortcut>myLOG_テキストボックス出力</Shortcut>
+    </Header>
+    <Snippet>
+      <Code Language="cSharp">
+        <![CDATA[
+        /// <summary>
+        /// テキストボックスへのログ出力
+        /// </summary>
+        /// <param name="word">ログ内容</param>
+        public void WriteLoOnStatusTb(String word)
+        {
+            Status_tb.Text = Status_tb.Text.Insert(0, word);
+            Status_tb.SelectionStart = 0;
+        }
+        ]]>
+      </Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>

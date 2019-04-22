@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets
+    xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>Model</Title>
+      <Shortcut>myEntity</Shortcut>
+    </Header>
+    <Snippet>
+      <Code Language="cSharp">
+        <![CDATA[
+        //①【参照設定】System.ComponentModel.DataAnnotations
+        //②index使用する場合は「using System.ComponentModel.DataAnnotations.Schema;」を追加（「Ctrl + .」では追加されない)
+        //③テーブル名の指定以下クラス名の上に追加　[Table("テーブル名")]
+        //④1つの列にユニークインデックス(一意にしたい）を設定したい場合は　[Index(IsUnique = true)]　を使用する
+        
+        [Key]
+        public int Id { get; set; }
+
+        [Index("account", 1, IsUnique = true)]    // 複合ユニークインデックス
+        [Required]  //NotNULL
+        [StringLength(100)]
+        [DisplayName("アカウントID")]
+        public string accountId { get; set; }
+        
+        [Index("account", 2, IsUnique = true)]    // 複合ユニークインデックス
+        [DisplayName("作成日時")]
+        public DateTime createdDatetime { get; set; }
+        
+        [Required] 
+        [StringLength(100)]
+        [DisplayName("アカウント名")]
+        public string acountName { get; set; }
+
+        [Required]
+        [EmailAddress]
+        [DisplayName("メールアドレス")]
+        public string mailAddress { get; set; }
+
+        [Required]
+        [StringLength(100)]
+        [DisplayName("パスワード")]
+        public string password { get; set; }
+
+        [StringLength(100)]
+        [DisplayName("詳細")]
+        public string detail { get; set; }
+
+        [DisplayName("作成日時")]
+        public DateTime createdDatetime { get; set; }
+      
+        [DisplayName("更新日時")]
+        public DateTime updatedDatetime { get; set; }
+      ]]>
+      </Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>

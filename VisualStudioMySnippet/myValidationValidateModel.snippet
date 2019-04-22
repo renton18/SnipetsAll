@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets
+    xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>ValidateModel</Title>
+      <Shortcut>myValidation</Shortcut>
+    </Header>
+    <Snippet>
+      <Code Language="cSharp">
+        <![CDATA[private void validate(object obj)
+        {
+            foreach (PropertyInfo prop in obj.GetType().GetProperties())
+            {
+                // 値
+                string val = prop.GetValue(obj).ToString();
+                // DisplayName属性取得
+                DisplayNameAttribute dispNameAttr = Attribute.GetCustomAttribute(prop, typeof(DisplayNameAttribute)) as DisplayNameAttribute;
+                // StringLength属性取得
+                StringLengthAttribute lengthAttr = Attribute.GetCustomAttribute(prop, typeof(StringLengthAttribute)) as StringLengthAttribute;
+                // Required属性取得
+                RequiredAttribute requireAttr = Attribute.GetCustomAttribute(prop, typeof(RequiredAttribute)) as RequiredAttribute;
+                // RegularExpression属性取得
+                RegularExpressionAttribute regexAttr = Attribute.GetCustomAttribute(prop, typeof(RegularExpressionAttribute)) as RegularExpressionAttribute;
+                // Range属性取得
+                RangeAttribute rangeAttr = Attribute.GetCustomAttribute(prop, typeof(RangeAttribute)) as RangeAttribute;
+
+                // ↓チェック処理
+                if (lengthAttr != null && val.Length > lengthAttr.MaximumLength)
+                {
+                    Console.WriteLine(string.Format("{0}({1})は最大桁数{2}桁を超えています。", dispNameAttr.DisplayName, val, lengthAttr.MaximumLength));
+                }
+                if (requireAttr != null && string.IsNullOrEmpty(val))
+                {
+                    Console.WriteLine(string.Format("{0}は必須項目です。", dispNameAttr.DisplayName));
+                }
+                if (regexAttr != null)
+                {
+                    Match match = Regex.Match(val, regexAttr.Pattern);
+                    if (!match.Success)
+                    {
+                        Console.WriteLine(string.Format("{0}({1})は({2})に当てはまらないです。", dispNameAttr.DisplayName, val, regexAttr.Pattern));
+                    }
+                }
+                if (rangeAttr != null && (val.Length > int.Parse(rangeAttr.Maximum.ToString()) && val.Length > int.Parse(rangeAttr.Minimum.ToString())))
+                {
+                    Console.WriteLine(string.Format("{0}({1})は範囲({2}-{3})外です。", dispNameAttr.DisplayName, val, rangeAttr.Minimum.ToString(), rangeAttr.Maximum.ToString()));
+                }
+            }
+        }
+        ]]>
+      </Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>

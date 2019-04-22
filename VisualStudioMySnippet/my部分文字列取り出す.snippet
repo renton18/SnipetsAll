@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets
+    xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>my部分文字列取り出す</Title>
+      <Shortcut>my部分文字列取り出す</Shortcut>
+    </Header>
+    <Snippet>
+      <Code Language="cSharp">
+        <![CDATA[        var target = "aaaa=000;bbbb=111;cccc=222";
+        var value = "bbbb";
+        var startIndex = target.IndexOf(value) + value.Length;
+        var endIndex = target.IndexOf(";", startIndex);
+        var bbbb = target.Substring(startIndex, endIndex - startIndex);]]>
+      </Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>

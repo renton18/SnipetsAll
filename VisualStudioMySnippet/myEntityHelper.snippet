@@ -1,0 +1,149 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets
+    xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>HelperMethod</Title>
+      <Shortcut>myEntityCRUD</Shortcut>
+    </Header>
+    <Snippet>
+      <Code Language="cSharp">
+        <![CDATA[
+   //初期変更点
+    //①モデルの置換
+    //②91行目と123行目のフィールド変更
+
+    public static class SalesOrderModelHelper
+    {
+        public static List<SalesTerritory> SelectAll()
+        {
+            using (var db = new DataDbContext())
+            {
+                try
+                {
+                    //SQL出力
+                    //db.Database.Log = logger.Info;
+
+                    var objects = db.SalesTerritory.ToList();
+
+                    if (objects.Count() > 0)
+                    {
+                        return objects;
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                }
+                catch (DbEntityValidationException ex)
+                {
+                    var errorMessage = "";
+                    ex.EntityValidationErrors.SelectMany(error => error.ValidationErrors).ToList()
+                                        .ForEach(m => errorMessage = errorMessage + m.PropertyName + " - " + m.ErrorMessage);
+                    //logger.Error(errorMessage);
+                    MessageBox.Show(errorMessage);
+                    return null;
+                }
+            }
+        }
+
+        public static bool Add(SalesTerritory model)
+        {
+            var resultFlag = false;
+            var updateCount = 0;
+            using (var db = new DataDbContext())
+            {
+                try
+                {
+                    //SQL出力
+                    //db.Database.Log = logger.Info;
+
+                    db.SalesTerritory.Add(model);
+                    updateCount = db.SaveChanges();
+                    resultFlag = updateCount == 1 ? true : false;
+                }
+                catch (DbEntityValidationException ex)
+                {
+                    var errorMessage = "";
+                    ex.EntityValidationErrors.SelectMany(error => error.ValidationErrors).ToList()
+                                        .ForEach(m => errorMessage = errorMessage + m.PropertyName + " - " + m.ErrorMessage);
+                    //logger.Error(errorMessage);
+                    MessageBox.Show(errorMessage);
+                }
+            }
+            return resultFlag;
+        }
+
+        public static bool Delete(int id)
+        {
+            //メッセージボックス表示
+            DialogResult result = MessageBox.Show("削除してもいいですか？", "確認", MessageBoxButtons.OKCancel);
+            if (result == DialogResult.Cancel)
+            {
+                return false;
+            }
+
+            var resultFlag = false;
+            var deleteCount = 0;
+
+            using (var db = new DataDbContext())
+            {
+                try
+                {
+                    //SQL出力
+                    //db.Database.Log = logger.Info;
+                    SalesTerritory model = db.SalesTerritory.Where(a => a.TerritoryID == id).FirstOrDefault();
+                    if (model != null)
+                    {
+                        db.SalesTerritory.Remove(model);
+                        deleteCount = db.SaveChanges();
+                        resultFlag = deleteCount == 1 ? true : false;
+                    }
+                }
+                catch (DbEntityValidationException ex)
+                {
+                    var errorMessage = "";
+                    ex.EntityValidationErrors.SelectMany(error => error.ValidationErrors).ToList()
+                        .ForEach(m => errorMessage = errorMessage + m.PropertyName + " - " + m.ErrorMessage);
+                    //logger.Error(errorMessage);
+                    MessageBox.Show(errorMessage);
+                }
+            }
+            return resultFlag;
+        }
+
+        public static bool Update(int id)
+        {
+            var resultFlag = false;
+            var updateCount = 0;
+
+            using (var db = new DataDbContext())
+            {
+                try
+                {
+                    //SQL出力
+                    //db.Database.Log = logger.Info;
+
+                    SalesTerritory model = db.SalesTerritory.Where(a => a.TerritoryID == id).FirstOrDefault();
+                    if (model != null)
+                    {
+                        updateCount = db.SaveChanges();
+                        resultFlag = updateCount == 1 ? true : false;
+                    }
+                }
+                catch (DbEntityValidationException ex)
+                {
+                    var errorMessage = "";
+                    ex.EntityValidationErrors.SelectMany(error => error.ValidationErrors).ToList()
+                                            .ForEach(m => errorMessage = errorMessage + m.PropertyName + " - " + m.ErrorMessage);
+                    //logger.Error(errorMessage);
+                    MessageBox.Show(errorMessage);
+                }
+            }
+            return resultFlag;
+        }
+        ]]>
+      </Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>

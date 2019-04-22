@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets
+    xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>UPDATEForm</Title>
+      <Shortcut>myEntityCRUD</Shortcut>
+    </Header>
+    <Snippet>
+      <Code Language="cSharp">
+        <![CDATA[
+            var currentId = (int)personDataGridView.CurrentRow.Cells[0].Value;
+            using (NameListDbContext db = new NameListDbContext())
+            { 
+                new UpdateForm() { person = db.Persons.SingleOrDefault(a => a.Id == currentId) }.ShowDialog();
+                personBindingSource.DataSource = db.Persons.ToList();
+            }
+        ]]>
+      </Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>
