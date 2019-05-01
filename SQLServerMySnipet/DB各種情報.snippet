@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+  <Header>
+    <Title>前回エラー表示</Title>
+    <Shortcut>myInformation</Shortcut>
+  </Header>
+  <Snippet>
+    <Code Language="SQL">SELECT SERVERPROPERTY ('edition') as 'エディション',
+SERVERPROPERTY ('productlevel') as 'プロダクトエディション',
+@@VERSION as 'バージョン';
+select * from sys.database_files;</Code>
+  </Snippet>
+</CodeSnippet>
+</CodeSnippets>

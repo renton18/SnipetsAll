@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+  <Header>
+    <Title>日付当月月初から月末まで</Title>
+    <Shortcut>myDate</Shortcut>
+  </Header>
+  <Snippet>
+    <Code Language="SQL">where ModifiedDate BETWEEN DATEADD(dd, 1, EOMONTH (getdate() , -1)) AND EOMONTH(getdate())</Code>
+  </Snippet>
+</CodeSnippet>
+</CodeSnippets>
