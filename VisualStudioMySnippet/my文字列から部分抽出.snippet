@@ -3,12 +3,12 @@
     xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
   <CodeSnippet Format="1.0.0">
     <Header>
-      <Title>任意日付生成</Title>
-      <Shortcut>myDateTime</Shortcut>
+      <Title>my文字列から部分抽出</Title>
+      <Shortcut>my文字列から部分抽出</Shortcut>
     </Header>
     <Snippet>
       <Code Language="cSharp">
-        <![CDATA[new DateTime(2019, 3, 17);]]>
+        <![CDATA[resWord.Substring(resWord.IndexOf(@"""id"":") + 5, resWord.IndexOf(@","""))]]>
       </Code>
     </Snippet>
   </CodeSnippet>
