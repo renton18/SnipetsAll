@@ -1,0 +1,3 @@
+S_ReplaceAll('^', '"', 12);
+S_ReplaceAll('$', ' " +', 12);
+SelectAll(0);

@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets
+    xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>SELECT_LOGなし</Title>
+      <Shortcut>myEntityCRUD</Shortcut>
+    </Header>
+    <Snippet>
+      <Code Language="cSharp">
+        <![CDATA[
+            using (var db = new dbContext())
+            {
+                 try
+                {
+                    var query = db.EmailAddress.Where(a => a.EmailAddress1.Contains(searchTb.Text));
+                    
+                    this.bindingSource1.DataSource = query.ToList();
+                    this.dataGridView1.DataSource = bindingSource1;
+                }
+                catch (DbEntityValidationException ex)
+                {
+                    var errorMessage = "";
+                    ex.EntityValidationErrors.SelectMany(error => error.ValidationErrors).ToList()
+                        .ForEach(model => errorMessage = errorMessage + model.PropertyName + " - " + model.ErrorMessage);
+                    MessageBox.Show(errorMessage);
+                }
+            }
+        ]]>
+      </Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>
