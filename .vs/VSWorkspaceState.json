@@ -1,8 +1,9 @@
 {
   "ExpandedNodes": [
     "",
-    "\\SQLServerMySnipet"
+    "\\SakuraEditorSnipet",
+    "\\各設定"
   ],
-  "SelectedNode": "\\SQLServerMySnipet\\バックアップファイル詳細確認.snippet",
+  "SelectedNode": "\\SakuraEditorSnipet\\SQL抽出_シングルクオーテーション.js",
   "PreviewInSolutionExplorer": false
 }
