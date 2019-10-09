@@ -1,0 +1,73 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets
+    xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>印刷ボタン</Title>
+      <Shortcut>myReportViewer</Shortcut>
+    </Header>
+    <Snippet>
+      <Code Language="cSharp">
+        <![CDATA[#region 印刷ボタン
+        /// <summary>
+        /// 印刷処理
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnPrint_Click(object sender, EventArgs e)
+        {
+            ////////////////////////////////////////////////////////////////////////////////
+            // ラジオボタンがある場合
+            ////////////////////////////////////////////////////////////////////////////////
+            var OnRb = groupPrint.Controls.OfType<RadioButton>().SingleOrDefault(rb => rb.Checked == true);
+            var sql = "";
+            switch (OnRb.Text)
+            {
+                case "編集済":
+                    sql = "";
+                    break;
+
+                case "依頼項目要確認":
+                    sql = "";
+                    break;
+            }
+            ////////////////////////////////////////////////////////////////////////////////
+            // レポートデータを取得する
+            ////////////////////////////////////////////////////////////////////////////////
+            DataTable dt = new DataTable();
+            try
+            {
+                SQLSERVER TRUST = new SQLSERVER(COMMON.TRUSTConnection);
+                TRUST.Open();
+                dt = TRUST.Select(sql);
+                TRUST.Close();
+            }
+            catch (Exception ex)
+            {
+                SQLSERVERHelper.Log("1", ex.Message, "オーダ受信", sql, "NoLoginUser");
+            }
+            ////////////////////////////////////////////////////////////////////////////////
+            // レポートビューアに表示する
+            ////////////////////////////////////////////////////////////////////////////////
+            reportViewer1.Reset();
+            reportViewer1.ProcessingMode = ProcessingMode.Local;
+            reportViewer1.LocalReport.ReportEmbeddedResource = "REPORT.ReportOne.rdlc";
+            reportViewer1.LocalReport.DataSources.Add(new ReportDataSource("DataSet2", dt));
+            reportViewer1.LocalReport.DataSources.Clear();
+            reportViewer1.RefreshReport();
+            ////////////////////////////////////////////////////////////////////////////////
+            // レポートを印刷する　レポートビューアを使用する場合はこの個所をメソッド化する必要がある
+            ////////////////////////////////////////////////////////////////////////////////
+            ReportViewerHelper rvh = new ReportViewerHelper(COMMON.ListPrinter);
+            rvh.Run("REPORT/Report.rdlc", dt, "DataSet1");
+            rvh.Dispose();
+
+            ////////////////////////////////////////////////////////////////////////////////
+            // レポートを印刷する　ポップアッププレビュー
+            ////////////////////////////////////////////////////////////////////////////////
+        }
+        #endregion]]>
+      </Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>

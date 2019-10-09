@@ -23,9 +23,7 @@
                 {
                     //SQL出力
                     //db.Database.Log = logger.Info;
-
                     var objects = db.SalesTerritory.ToList();
-
                     if (objects.Count() > 0)
                     {
                         return objects;
@@ -57,7 +55,6 @@
                 {
                     //SQL出力
                     //db.Database.Log = logger.Info;
-
                     db.SalesTerritory.Add(model);
                     updateCount = db.SaveChanges();
                     resultFlag = updateCount == 1 ? true : false;
@@ -82,10 +79,8 @@
             {
                 return false;
             }
-
             var resultFlag = false;
             var deleteCount = 0;
-
             using (var db = new DataDbContext())
             {
                 try
@@ -123,7 +118,6 @@
                 {
                     //SQL出力
                     //db.Database.Log = logger.Info;
-
                     SalesTerritory model = db.SalesTerritory.Where(a => a.TerritoryID == id).FirstOrDefault();
                     if (model != null)
                     {
@@ -141,8 +135,7 @@
                 }
             }
             return resultFlag;
-        }
-        ]]>
+        }]]>
       </Code>
     </Snippet>
   </CodeSnippet>
