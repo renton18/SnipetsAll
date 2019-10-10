@@ -47,24 +47,37 @@
                 SQLSERVERHelper.Log("1", ex.Message, "オーダ受信", sql, "NoLoginUser");
             }
             ////////////////////////////////////////////////////////////////////////////////
-            // レポートビューアに表示する
+            // ①レポートビューア表示 & 印刷
             ////////////////////////////////////////////////////////////////////////////////
             reportViewer1.Reset();
             reportViewer1.ProcessingMode = ProcessingMode.Local;
-            reportViewer1.LocalReport.ReportEmbeddedResource = "REPORT.ReportOne.rdlc";
-            reportViewer1.LocalReport.DataSources.Add(new ReportDataSource("DataSet2", dt));
+            reportViewer1.LocalReport.ReportEmbeddedResource = "REPORT.Report.rdlc";
+            reportViewer1.LocalReport.DataSources.Add(new ReportDataSource("DataSet1", dt));
             reportViewer1.LocalReport.DataSources.Clear();
+            //パラメータを追加する
+            var reportParams = new List<ReportParameter>();
+            reportParams.Add(new ReportParameter("FileDate", filedate));
+            reportViewer1.LocalReport.SetParameters(reportParams);
             reportViewer1.RefreshReport();
+            
+            ReportViewerHelper rvh = new ReportViewerHelper(COMMON.ListPrinter);
+            rvh.Run(reportViewer1.LocalReport);
+            rvh.Dispose();
+            
             ////////////////////////////////////////////////////////////////////////////////
-            // レポートを印刷する　レポートビューアを使用する場合はこの個所をメソッド化する必要がある
+            // ②直接印刷
             ////////////////////////////////////////////////////////////////////////////////
             ReportViewerHelper rvh = new ReportViewerHelper(COMMON.ListPrinter);
+            //パラメータを追加する
+            var reportParams = new List<ReportParameter>();
+            reportParams.Add(new ReportParameter("FileDate", filedate));
             rvh.Run("REPORT/Report.rdlc", dt, "DataSet1");
             rvh.Dispose();
 
             ////////////////////////////////////////////////////////////////////////////////
-            // レポートを印刷する　ポップアッププレビュー
+            // ③レポップアッププレビューを表示して印刷
             ////////////////////////////////////////////////////////////////////////////////
+            //追加予定
         }
         #endregion]]>
       </Code>

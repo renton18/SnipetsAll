@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets
+    xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>追加ボタン</Title>
+      <Shortcut>mySQLSERVER</Shortcut>
+    </Header>
+    <Snippet>
+      <Code Language="cSharp">
+        <![CDATA[#region 削除ボタン
+            ////////////////////////////////////////////////////////////////////////////////
+            // 削除
+            ////////////////////////////////////////////////////////////////////////////////
+            if (senderGrid.Columns[e.ColumnIndex].Name == "削除")
+            {
+                try
+                {
+                    TRUST.Open();
+                    sql = "DELETE " +
+                            "FROM [dbo].[T_IdnoToIdzero] " +
+                            "WHERE Filedate = '" + filedate + "' " +
+                            "   AND Idno = '" + idno + "' ";
+                    TRUST.ExecuteNonQuery(sql);
+                    SQLSERVERHelper.Log("0", "", "削除", sql, "NoLoginUser");
+                }
+                catch (Exception ex)
+                {
+                    SQLSERVERHelper.Log("1", ex.Message, "削除", sql, "NoLoginUser");
+                    MessageBox.Show("エラー発生:" + ex.Message);
+                    return;
+                }
+                finally
+                {
+                    TRUST.Close();
+                }
+                ////////////////////////////////////////////////////////////////////////////////
+                // 表示
+                ////////////////////////////////////////////////////////////////////////////////
+            }
+            #endregion]]>
+      </Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>

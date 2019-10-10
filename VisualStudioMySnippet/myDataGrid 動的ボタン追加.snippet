@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets
+    xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>動的ボタン追加</Title>
+      <Shortcut>myDataGridView</Shortcut>
+    </Header>
+    <Snippet>
+      <Code Language="cSharp">
+        <![CDATA[#region データグリッドビューのデータソース変更時
+        private void dgvMain_DataSourceChanged(object sender, EventArgs e)
+        {
+            var senderGrid = (DataGridView)sender;
+            //filedateは見えないようにする
+            senderGrid.Columns["filedate"].Visible = false;
+            senderGrid.Columns["idno"].HeaderText = "IDNO";
+            senderGrid.Columns["Idzero"].HeaderText = "ID-0";
+            senderGrid.Columns["UpdateDt"].HeaderText = "更新日時";
+            senderGrid.Columns["CreateDt"].HeaderText = "作成日時";
+            senderGrid.Columns["idno"].ReadOnly = true;
+            senderGrid.Columns["Idzero"].ReadOnly = false;
+            senderGrid.Columns["UpdateDt"].ReadOnly = true;
+            senderGrid.Columns["CreateDt"].ReadOnly = true;
+            senderGrid.Columns["idno"].DefaultCellStyle.BackColor = Color.LightSkyBlue;
+            senderGrid.Columns["UpdateDt"].DefaultCellStyle.BackColor = Color.LightSkyBlue;
+            senderGrid.Columns["CreateDt"].DefaultCellStyle.BackColor = Color.LightSkyBlue;
+            if (senderGrid.Columns.Contains("削除") == false)
+            {
+                DataGridViewButtonColumn column = new DataGridViewButtonColumn();
+                column.Name = "削除";
+                column.UseColumnTextForButtonValue = true;
+                column.Text = "削除";
+                senderGrid.Columns.Add(column);
+            }
+            if (senderGrid.Columns.Contains("更新") == false)
+            {
+                DataGridViewButtonColumn column = new DataGridViewButtonColumn();
+                column.Name = "更新";
+                column.UseColumnTextForButtonValue = true;
+                column.Text = "更新";
+                senderGrid.Columns.Add(column);
+            }
+        }
+        #endregion]]>
+      </Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>

@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets
+    xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>更新ボタン</Title>
+      <Shortcut>mySQLSERVER</Shortcut>
+    </Header>
+    <Snippet>
+      <Code Language="cSharp">
+        <![CDATA[#region 更新ボタン
+            ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            // 更新
+            ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            if (senderGrid.Columns[e.ColumnIndex].Name == "更新")
+            {
+                try
+                {
+                    TRUST.Open();
+                    sql = "UPDATE [dbo].[T_IdnoToIdzero] " +
+                            "   SET [Filedate] = '" + filedate + "' " +
+                            "      ,[Idno] = '" + idno + "' " +
+                            "      ,[Idzero] = '" + idzero + "' " +
+                            "      ,[UpdateDt] = '" + DateTime.Now + "' " +
+                            "      ,[UpdateId] = 'NoLoginUser' " +
+                            "      ,[UpdateTer] = '" + Dns.GetHostName() + "' " +
+                            "WHERE Filedate = '" + filedate + "' " +
+                            "   AND Idno = '" + idno + "' ";
+                    TRUST.ExecuteNonQuery(sql);
+                    SQLSERVERHelper.Log("0", "", "更新", sql, "NoLoginUser");
+                }
+                catch (Exception ex)
+                {
+                    SQLSERVERHelper.Log("1", ex.Message, "更新", sql, "NoLoginUser");
+                    MessageBox.Show("エラー発生:" + ex.Message);
+                    return;
+                }
+                finally
+                {
+                    TRUST.Close();
+                }
+                ////////////////////////////////////////////////////////////////////////////////
+                // 表示
+                ////////////////////////////////////////////////////////////////////////////////
+
+            }
+            #endregion]]>
+      </Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>
