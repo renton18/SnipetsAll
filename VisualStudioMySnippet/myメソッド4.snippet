@@ -3,67 +3,57 @@
     xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
   <CodeSnippet Format="1.0.0">
     <Header>
-      <Title>印刷ボタン</Title>
-      <Shortcut>myReportViewer</Shortcut>
+      <Title>印刷ボタンクリック</Title>
+      <Shortcut>myメソッド</Shortcut>
     </Header>
     <Snippet>
       <Code Language="cSharp">
         <![CDATA[#region 印刷ボタン
-        /// <summary>
-        /// 印刷処理
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void btnPrint_Click(object sender, EventArgs e)
         {
+            var filedate = dtpFiledate.Value.ToString("yyyy-MM-dd");
             ////////////////////////////////////////////////////////////////////////////////
-            // ラジオボタンがある場合
+            // SQL文を設定する
             ////////////////////////////////////////////////////////////////////////////////
-            var OnRb = groupPrint.Controls.OfType<RadioButton>().SingleOrDefault(rb => rb.Checked == true);
             var sql = "";
-            switch (OnRb.Text)
+            switch (selectedBtn)
             {
-                case "編集済":
+                case "通常分":
                     sql = "";
                     break;
 
-                case "依頼項目要確認":
+                case "夜間分":
                     sql = "";
                     break;
+
+                case "朝着分":
+                    sql = "";
+                    break;
+
+                case "選択分":
+                    sql = "";
+                    break;
+
             }
             ////////////////////////////////////////////////////////////////////////////////
-            // レポートデータを取得する
+            // データを取得する
             ////////////////////////////////////////////////////////////////////////////////
-            DataTable dt = new DataTable();
-            try
+            DataTable dt = SQLSERVERHelper.Search(sql);
+            if (dt.Rows.Count == 0)
             {
-                SQLSERVER TRUST = new SQLSERVER(COMMON.TRUSTConnection);
-                TRUST.Open();
-                dt = TRUST.Select(sql);
-                TRUST.Close();
+                return;
             }
-            catch (Exception ex)
-            {
-                SQLSERVERHelper.Log("1", ex.Message, "オーダ受信", sql, "NoLoginUser");
-            }
+
             ////////////////////////////////////////////////////////////////////////////////
-            // ①レポートビューア表示 & 印刷
+            //【印刷】ReportViewer
             ////////////////////////////////////////////////////////////////////////////////
-            reportViewer1.ProcessingMode = ProcessingMode.Local;
-            reportViewer1.LocalReport.DataSources.Add(new ReportDataSource("DataSet1", dt));
-            //パラメータを追加する
-            var reportParams = new List<ReportParameter>();
-            reportParams.Add(new ReportParameter("FileDate", filedate));
-            reportViewer1.LocalReport.SetParameters(reportParams);
-            reportViewer1.RefreshReport();
             
+            // ①レポートビューア表示中を印刷
             ReportViewerHelper rvh = new ReportViewerHelper(COMMON.ListPrinter, true);
             rvh.Run(reportViewer1.LocalReport);
             rvh.Dispose();
-            
-            ////////////////////////////////////////////////////////////////////////////////
+
             // ②直接印刷
-            ////////////////////////////////////////////////////////////////////////////////
             ReportViewerHelper rvh = new ReportViewerHelper(COMMON.ListPrinter, true);
             //パラメータを追加する
             var reportParams = new List<ReportParameter>();
@@ -72,9 +62,11 @@
             rvh.Dispose();
 
             ////////////////////////////////////////////////////////////////////////////////
-            // ③レポップアッププレビューを表示して印刷
+            //【印刷】ラベルシール（複数枚可）
             ////////////////////////////////////////////////////////////////////////////////
-            //追加予定
+            B_EV4D_GH17_R b_ev4D = new B_EV4D_GH17_R("", dt, null, null);
+            b_ev4D.Print();
+
         }
         #endregion]]>
       </Code>

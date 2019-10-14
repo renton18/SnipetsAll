@@ -1,0 +1,67 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets
+    xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>表示</Title>
+      <Shortcut>myメソッド</Shortcut>
+    </Header>
+    <Snippet>
+      <Code Language="cSharp">
+        <![CDATA[#region 表示
+        private void btnHyouji_Click(object sender, EventArgs e)
+        {
+            var filedate = dtpFiledate.Value.ToString("yyyy-MM-dd");
+            ////////////////////////////////////////////////////////////////////////////////
+            // SQL文を設定する
+            ////////////////////////////////////////////////////////////////////////////////
+            var sql = "";
+            switch (selectedBtn)
+            {
+                case "通常分":
+                    sql = "";
+                    break;
+
+                case "夜間分":
+                    sql = "";
+                    break;
+
+                case "朝着分":
+                    sql = "";
+                    break;
+
+                case "選択分":
+                    sql = "";
+                    break;
+
+            }
+            ////////////////////////////////////////////////////////////////////////////////
+            // データを取得する
+            ////////////////////////////////////////////////////////////////////////////////
+            DataTable dt = SQLSERVERHelper.Search(sql);
+            if (dt.Rows.Count == 0)
+            {
+                return;
+            }
+            ////////////////////////////////////////////////////////////////////////////////
+            //【表示】データグリッドビュー
+            ////////////////////////////////////////////////////////////////////////////////
+            dgv.datasorce = dt;
+
+            ////////////////////////////////////////////////////////////////////////////////
+            //【表示】ReportViewer
+            ////////////////////////////////////////////////////////////////////////////////
+            reportViewer1.ProcessingMode = ProcessingMode.Local;
+            reportViewer1.LocalReport.DataSources.Add(new ReportDataSource("DataSet1", dt));
+            //パラメータを追加する
+            var reportParams = new List<ReportParameter>();
+            reportParams.Add(new ReportParameter("FileDate", filedate));
+            reportViewer1.LocalReport.SetParameters(reportParams);
+            reportViewer1.RefreshReport();
+
+        }
+        #endregion]]>
+      </Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>

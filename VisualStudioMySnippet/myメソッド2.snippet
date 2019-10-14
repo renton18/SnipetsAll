@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets
+    xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>フォームロード共通初期設定</Title>
+      <Shortcut>myメソッド</Shortcut>
+    </Header>
+    <Snippet>
+      <Code Language="cSharp">
+        <![CDATA[#region 共通初期設定
+            ////////////////////////////////////////////////////////////////////////////////
+            // 共通初期設定
+            ////////////////////////////////////////////////////////////////////////////////
+            //INIファイル読込む
+            if (COMMON.SetConfig() == false)
+            {
+                this.Close();
+                return;
+            }
+            //ステータスバーを表示する
+            COMMON.SetForm(this);
+            #endregion
+            ////////////////////////////////////////////////////////////////////////////////
+            // その他初期設定
+            ////////////////////////////////////////////////////////////////////////////////]]>
+      </Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>

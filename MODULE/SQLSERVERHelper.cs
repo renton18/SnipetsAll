@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace 直送分ID0
+namespace 不明検体BC
 {
     public static class SQLSERVERHelper
     {
@@ -54,25 +54,25 @@ namespace 直送分ID0
         #endregion
 
         #region  データグリッドビュー初期表示用
-        public static DataTable GetInitData(string filedate)
+        public static DataTable GetDgvData(string filedate)
         {
             var sql = "";
             var dt = new DataTable();
+            SQLSERVER TRUST = new SQLSERVER(COMMON.TRUSTConnection);
             try
             {
-                SQLSERVER TRUST = new SQLSERVER(COMMON.TRUSTConnection);
                 TRUST.Open();
-                sql = "SELECT filedate, idno, Idzero, UpdateDt, CreateDt " +
-                        "FROM T_IdnoToIdzero " +
-                        "WHERE filedate ='" + filedate + "' " +
-                        "ORDER BY Idno";
-
+                sql = "";
                 dt = TRUST.Select(sql);
             }
             catch (Exception ex)
             {
-                SQLSERVERHelper.Log("1", ex.Message, "初期表示", sql, "NoLoginUser");
+                SQLSERVERHelper.Log("1", ex.Message, "データグリッドビュー初期表示用", sql, "NoLoginUser");
                 MessageBox.Show("エラー発生:" + Environment.NewLine + ex.Message);
+            }
+            finally
+            {
+                TRUST.Close();
             }
             return dt;
         }
@@ -83,24 +83,101 @@ namespace 直送分ID0
         {
             var sql = "";
             var dt = new DataTable();
+            SQLSERVER TRUST = new SQLSERVER(COMMON.TRUSTConnection);
             try
             {
-                SQLSERVER TRUST = new SQLSERVER(COMMON.TRUSTConnection);
                 TRUST.Open();
-                sql = "SELECT filedate, idno, Idzero, UpdateDt, CreateDt " +
-                        "FROM T_IdnoToIdzero " +
-                        "WHERE filedate ='" + filedate + "' " +
-                        "AND Idno like'%" + idno + "%' " +
-                        "ORDER BY Idno";
-
+                sql = "";
                 dt = TRUST.Select(sql);
             }
             catch (Exception ex)
             {
-                SQLSERVERHelper.Log("1", ex.Message, "検索", sql, "NoLoginUser");
+                SQLSERVERHelper.Log("1", ex.Message, "検索用", sql, "NoLoginUser");
                 MessageBox.Show("エラー発生:" + Environment.NewLine + ex.Message);
             }
+            finally
+            {
+                TRUST.Close();
+            }
             return dt;
+        }
+        #endregion
+
+        #region  追加
+        public static int Insert(string filedate, string idno)
+        {
+            var sql = "";
+            var cnt = 0;
+            SQLSERVER TRUST = new SQLSERVER(COMMON.TRUSTConnection);
+            try
+            {
+                TRUST.Open();
+                sql = "";
+                cnt = TRUST.ExecuteNonQuery(sql);
+                return cnt;
+            }
+            catch (Exception ex)
+            {
+                SQLSERVERHelper.Log("1", ex.Message, "追加", sql, "NoLoginUser");
+                MessageBox.Show("エラー発生:" + Environment.NewLine + ex.Message);
+            }
+            finally
+            {
+                TRUST.Close();
+            }
+            return cnt;
+        }
+        #endregion
+
+        #region  更新
+        public static int Update(string filedate, string idno)
+        {
+            var sql = "";
+            var cnt = 0;
+            SQLSERVER TRUST = new SQLSERVER(COMMON.TRUSTConnection);
+            try
+            {
+                TRUST.Open();
+                sql = "";
+                cnt = TRUST.ExecuteNonQuery(sql);
+                return cnt;
+            }
+            catch (Exception ex)
+            {
+                SQLSERVERHelper.Log("1", ex.Message, "更新", sql, "NoLoginUser");
+                MessageBox.Show("エラー発生:" + Environment.NewLine + ex.Message);
+            }
+            finally
+            {
+                TRUST.Close();
+            }
+            return cnt;
+        }
+        #endregion
+
+        #region  削除
+        public static int Delete(string filedate, string idno)
+        {
+            var sql = "";
+            var cnt = 0;
+            SQLSERVER TRUST = new SQLSERVER(COMMON.TRUSTConnection);
+            try
+            {
+                TRUST.Open();
+                sql = "";
+                cnt = TRUST.ExecuteNonQuery(sql);
+                return cnt;
+            }
+            catch (Exception ex)
+            {
+                SQLSERVERHelper.Log("1", ex.Message, "削除", sql, "NoLoginUser");
+                MessageBox.Show("エラー発生:" + Environment.NewLine + ex.Message);
+            }
+            finally
+            {
+                TRUST.Close();
+            }
+            return cnt;
         }
         #endregion
     }

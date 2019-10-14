@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets
+    xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>ボタンをON/OFFする(単一選択)</Title>
+      <Shortcut>myメソッド</Shortcut>
+    </Header>
+    <Snippet>
+      <Code Language="cSharp">
+        <![CDATA[#region ボタンのONOFF切り替え　単一選択バージョン
+        //【導入手順】
+        //①該当ボタンコントロールのClickイベントを登録する必要がある
+        string selectedBtn = "";
+        private void SetButton(string btnName)
+        {
+            selectedBtn = btnName;
+            //各ボタンのONOFFを切り替える
+            btn1.BackColor = btnName == "通常分" ? Color.PaleGreen : Color.White;
+            btn2.BackColor = btnName == "夜間分" ? Color.PaleGreen : Color.White;
+            btn3.BackColor = btnName == "朝着分" ? Color.PaleGreen : Color.White;
+            btn4.BackColor = btnName == "選択分" ? Color.PaleGreen : Color.White;
+        }
+        private void btnOnOff_Click(object sender, EventArgs e)
+        {
+            SetButton(((Button)sender).Text);
+        }
+        #endregion ]]>
+      </Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>

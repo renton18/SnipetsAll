@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets
+    xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>ボタンをON/OFFする(複数選択)</Title>
+      <Shortcut>myメソッド</Shortcut>
+    </Header>
+    <Snippet>
+      <Code Language="cSharp">
+        <![CDATA[#region ボタンをON/OFFする 複数選択バージョン
+        //【導入手順】
+        //該当ボタンコントロールのClickイベントを登録する必要がある
+        private void btnOnOff_Click(object sender, EventArgs e)
+        {
+            ((Button)sender).BackColor = ((Button)sender).BackColor == Color.White ? Color.PaleGreen : Color.White;
+        }
+        #endregion]]>
+      </Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>
