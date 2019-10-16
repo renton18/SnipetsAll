@@ -51,14 +51,17 @@
             ////////////////////////////////////////////////////////////////////////////////
             //【表示】ReportViewer
             ////////////////////////////////////////////////////////////////////////////////
+            reportViewer1.Reset();
             reportViewer1.ProcessingMode = ProcessingMode.Local;
+            reportViewer1.LocalReport.ReportEmbeddedResource = reportName;
+            reportViewer1.LocalReport.ReportPath = reportName;
+            reportViewer1.SetDisplayMode(DisplayMode.PrintLayout);
             reportViewer1.LocalReport.DataSources.Add(new ReportDataSource("DataSet1", dt));
             //パラメータを追加する
             var reportParams = new List<ReportParameter>();
             reportParams.Add(new ReportParameter("FileDate", filedate));
             reportViewer1.LocalReport.SetParameters(reportParams);
             reportViewer1.RefreshReport();
-
         }
         #endregion]]>
       </Code>

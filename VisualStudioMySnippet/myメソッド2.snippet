@@ -3,7 +3,7 @@
     xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
   <CodeSnippet Format="1.0.0">
     <Header>
-      <Title>フォームロード共通初期設定</Title>
+      <Title>共通初期設定(Form_Load)</Title>
       <Shortcut>myメソッド</Shortcut>
     </Header>
     <Snippet>
@@ -23,7 +23,13 @@
             #endregion
             ////////////////////////////////////////////////////////////////////////////////
             // その他初期設定
-            ////////////////////////////////////////////////////////////////////////////////]]>
+            ////////////////////////////////////////////////////////////////////////////////
+            SQLSERVERHelper.logConnection = COMMON.TRUSTConnection;
+#if DEBUG == true
+            lbKmcd.Items.Add("327500");
+            lbKmcd.Items.Add("327600");
+            lbKmcd.Items.Add("327700");
+#endif]]>
       </Code>
     </Snippet>
   </CodeSnippet>

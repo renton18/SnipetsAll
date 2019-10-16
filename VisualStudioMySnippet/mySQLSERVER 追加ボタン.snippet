@@ -22,7 +22,7 @@
             SQLSERVER  = new SQLSERVER(COMMON.);
             try
             {
-                TRUST.Open();
+                DB.Open();
                 sql = "INSERT INTO [T_IdnoToIdzero] " +
                         "           ([Filedate] " +
                         "           ,[Idno] " +
@@ -37,19 +37,19 @@
                         "           ,'" + DateTime.Now + "' " +
                         "               ,'NoLoginUser' " +
                         "           ,'" + Dns.GetHostName() + "' )";
-                TRUST.ExecuteNonQuery(sql);
+                DB.ExecuteNonQuery(sql);
 
-                SQLSERVERHelper.Log("0", "", " 挿入", sql, "NoLoginUser");
+                SQLSERVERHelper.Log("0", "", " 追加", sql, "NoLoginUser");
             }
             catch (Exception ex)
             {
-                SQLSERVERHelper.Log("1", ex.Message, "挿入", sql, "NoLoginUser");
+                SQLSERVERHelper.Log("1", ex.Message, "追加", sql, "NoLoginUser");
                 MessageBox.Show("エラー発生:" + Environment.NewLine + ex.Message);
                 return;
             }
             finally
             {
-                TRUST.Close();
+                DB.Close();
             }
             ////////////////////////////////////////////////////////////////////////////////
             // 表示

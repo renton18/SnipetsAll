@@ -3,7 +3,7 @@
     xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
   <CodeSnippet Format="1.0.0">
     <Header>
-      <Title>更新ボタン</Title>
+      <Title>更新(DGV)</Title>
       <Shortcut>mySQLSERVER</Shortcut>
     </Header>
     <Snippet>
@@ -14,10 +14,7 @@
             ////////////////////////////////////////////////////////////////////////////////////////////////////////////
             if (senderGrid.Columns[e.ColumnIndex].Name == "更新")
             {
-                try
-                {
-                    TRUST.Open();
-                    sql = "UPDATE [dbo].[T_IdnoToIdzero] " +
+                var sql ="UPDATE [dbo].[T_IdnoToIdzero] " +
                             "   SET [Filedate] = '" + filedate + "' " +
                             "      ,[Idno] = '" + idno + "' " +
                             "      ,[Idzero] = '" + idzero + "' " +
@@ -26,18 +23,9 @@
                             "      ,[UpdateTer] = '" + Dns.GetHostName() + "' " +
                             "WHERE Filedate = '" + filedate + "' " +
                             "   AND Idno = '" + idno + "' ";
-                    TRUST.ExecuteNonQuery(sql);
-                    SQLSERVERHelper.Log("0", "", "更新", sql, "NoLoginUser");
-                }
-                catch (Exception ex)
+                if (SQLSERVERHelper.Update(sql) == 0)
                 {
-                    SQLSERVERHelper.Log("1", ex.Message, "更新", sql, "NoLoginUser");
-                    MessageBox.Show("エラー発生:" + ex.Message);
                     return;
-                }
-                finally
-                {
-                    TRUST.Close();
                 }
                 ////////////////////////////////////////////////////////////////////////////////
                 // 表示

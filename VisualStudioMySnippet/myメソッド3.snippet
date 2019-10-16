@@ -10,22 +10,21 @@
       <Code Language="cSharp">
         <![CDATA[#region ボタンのONOFF切り替え　単一選択バージョン
         //【導入手順】
-        //①該当ボタンコントロールのClickイベントを登録する必要がある
+        //①該当ボタンコントロールのClickイベントにbtnOnOff_Clickを登録する必要がある
         string selectedBtn = "";
         private void SetButton(string btnName)
         {
             selectedBtn = btnName;
             //各ボタンのONOFFを切り替える
-            btn1.BackColor = btnName == "通常分" ? Color.PaleGreen : Color.White;
-            btn2.BackColor = btnName == "夜間分" ? Color.PaleGreen : Color.White;
-            btn3.BackColor = btnName == "朝着分" ? Color.PaleGreen : Color.White;
-            btn4.BackColor = btnName == "選択分" ? Color.PaleGreen : Color.White;
+            btn1.BackColor = btnName == "平日" ? Color.PaleGreen : Color.White;
+            btn2.BackColor = btnName == "日祝日" ? Color.PaleGreen : Color.White;
         }
         private void btnOnOff_Click(object sender, EventArgs e)
         {
             SetButton(((Button)sender).Text);
+            Preview();
         }
-        #endregion ]]>
+        #endregion]]>
       </Code>
     </Snippet>
   </CodeSnippet>

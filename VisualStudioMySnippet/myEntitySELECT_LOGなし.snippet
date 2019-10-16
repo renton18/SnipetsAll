@@ -8,12 +8,23 @@
     </Header>
     <Snippet>
       <Code Language="cSharp">
-        <![CDATA[
-#if DEBUG == true
-
-#else
-
-#endif]]>
+        <![CDATA[using (var db = new dbContext())
+            {
+                 try
+                {
+                    var query = db.EmailAddress.Where(a => a.EmailAddress1.Contains(searchTb.Text));
+                    
+                    this.bindingSource1.DataSource = query.ToList();
+                    this.dataGridView1.DataSource = bindingSource1;
+                }
+                catch (DbEntityValidationException ex)
+                {
+                    var errorMessage = "";
+                    ex.EntityValidationErrors.SelectMany(error => error.ValidationErrors).ToList()
+                        .ForEach(model => errorMessage = errorMessage + model.PropertyName + " - " + model.ErrorMessage);
+                    MessageBox.Show(errorMessage);
+                }
+            }]]>
       </Code>
     </Snippet>
   </CodeSnippet>

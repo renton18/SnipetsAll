@@ -13,14 +13,15 @@ namespace 不明検体BC
 {
     public static class SQLSERVERHelper
     {
+        public static string logConnection = "";
         #region Logを出力する
         public static void Log(string LOG_LEVEL, string ERROR_MESSAGE, string SUBJECT, string MESSAGE, string UPDTID)
         {
             try
             {
-                SQLSERVER trustDb = new SQLSERVER(COMMON.TRUSTConnection);
-                trustDb.Open();
-                trustDb.ExecuteNonQuery(
+                SQLSERVER DB = new SQLSERVER(logConnection);
+                DB.Open();
+                DB.ExecuteNonQuery(
                         "INSERT INTO SERVERLOG ( " +
                         "	[TIME_STAMP] " +
                         "	,[LOG_LEVEL] " +
@@ -43,7 +44,7 @@ namespace 不明検体BC
                         "	,'" + UPDTID + "' " +
                         "	,'" + Dns.GetHostName() + "' " +
                         "	)");
-                trustDb.Close();
+                DB.Close();
             }
             catch (Exception ex)
             {
@@ -54,16 +55,14 @@ namespace 不明検体BC
         #endregion
 
         #region  データグリッドビュー初期表示用
-        public static DataTable GetDgvData(string filedate)
+        public static DataTable GetDgvData(string sql, string connection)
         {
-            var sql = "";
             var dt = new DataTable();
-            SQLSERVER TRUST = new SQLSERVER(COMMON.TRUSTConnection);
+            SQLSERVER DB = new SQLSERVER(connection);
             try
             {
-                TRUST.Open();
-                sql = "";
-                dt = TRUST.Select(sql);
+                DB.Open();
+                dt = DB.Select(sql);
             }
             catch (Exception ex)
             {
@@ -72,48 +71,45 @@ namespace 不明検体BC
             }
             finally
             {
-                TRUST.Close();
+                DB.Close();
             }
             return dt;
         }
         #endregion
 
-        #region  検索用
-        public static DataTable Search(string filedate, string idno)
+        #region  検索
+        public static DataTable Search(string sql, string connection)
         {
-            var sql = "";
             var dt = new DataTable();
-            SQLSERVER TRUST = new SQLSERVER(COMMON.TRUSTConnection);
+            SQLSERVER DB = new SQLSERVER(connection);
             try
             {
-                TRUST.Open();
-                sql = "";
-                dt = TRUST.Select(sql);
+                DB.Open();
+                dt = DB.Select(sql);
             }
             catch (Exception ex)
             {
-                SQLSERVERHelper.Log("1", ex.Message, "検索用", sql, "NoLoginUser");
+                SQLSERVERHelper.Log("1", ex.Message, "検索", sql, "NoLoginUser");
                 MessageBox.Show("エラー発生:" + Environment.NewLine + ex.Message);
             }
             finally
             {
-                TRUST.Close();
+                DB.Close();
             }
             return dt;
         }
         #endregion
 
         #region  追加
-        public static int Insert(string filedate, string idno)
+        public static int Insert(string sql, string connection)
         {
-            var sql = "";
             var cnt = 0;
-            SQLSERVER TRUST = new SQLSERVER(COMMON.TRUSTConnection);
+            SQLSERVER DB = new SQLSERVER(connection);
             try
             {
-                TRUST.Open();
-                sql = "";
-                cnt = TRUST.ExecuteNonQuery(sql);
+                DB.Open();
+                cnt = DB.ExecuteNonQuery(sql);
+                SQLSERVERHelper.Log("0", "", "追加 ( " + cnt + " 件)", sql, "NoLoginUser");
                 return cnt;
             }
             catch (Exception ex)
@@ -123,23 +119,22 @@ namespace 不明検体BC
             }
             finally
             {
-                TRUST.Close();
+                DB.Close();
             }
             return cnt;
         }
         #endregion
 
         #region  更新
-        public static int Update(string filedate, string idno)
+        public static int Update(string sql, string connection)
         {
-            var sql = "";
             var cnt = 0;
-            SQLSERVER TRUST = new SQLSERVER(COMMON.TRUSTConnection);
+            SQLSERVER DB = new SQLSERVER(connection);
             try
             {
-                TRUST.Open();
-                sql = "";
-                cnt = TRUST.ExecuteNonQuery(sql);
+                DB.Open();
+                cnt = DB.ExecuteNonQuery(sql);
+                SQLSERVERHelper.Log("0", "", "更新 ( " + cnt + " 件)", sql, "NoLoginUser");
                 return cnt;
             }
             catch (Exception ex)
@@ -149,23 +144,22 @@ namespace 不明検体BC
             }
             finally
             {
-                TRUST.Close();
+                DB.Close();
             }
             return cnt;
         }
         #endregion
 
         #region  削除
-        public static int Delete(string filedate, string idno)
+        public static int Delete(string sql, string connection)
         {
-            var sql = "";
             var cnt = 0;
-            SQLSERVER TRUST = new SQLSERVER(COMMON.TRUSTConnection);
+            SQLSERVER DB = new SQLSERVER(connection);
             try
             {
-                TRUST.Open();
-                sql = "";
-                cnt = TRUST.ExecuteNonQuery(sql);
+                DB.Open();
+                cnt = DB.ExecuteNonQuery(sql);
+                SQLSERVERHelper.Log("0", "", "削除 ( " + cnt + " 件)", sql, "NoLoginUser");
                 return cnt;
             }
             catch (Exception ex)
@@ -175,7 +169,7 @@ namespace 不明検体BC
             }
             finally
             {
-                TRUST.Close();
+                DB.Close();
             }
             return cnt;
         }

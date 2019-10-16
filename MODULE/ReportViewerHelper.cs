@@ -10,7 +10,7 @@ using System.IO;
 using System.Text;
 using System.Windows.Forms;
 
-namespace 直送分ID0
+namespace 委託先項目検索
 {
     public class ReportViewerHelper
     {
@@ -24,16 +24,16 @@ namespace 直送分ID0
         /// コンストラクタ
         /// </summary>
         /// <param name="printerName"></param>
-        public ReportViewerHelper(string printerName, Boolean onPreview)
+        public ReportViewerHelper(string printerName)
         {
             printDoc.PrinterSettings.PrinterName = printerName;
             //XPSファイルとして保存する場合
-            if (onPreview)
+            if (printerName == "Microsoft XPS Document Writer")
             {
                 printDoc.PrinterSettings.PrinterName = "Microsoft XPS Document Writer";
                 printDoc.PrinterSettings.PrintFileName = "test.xps";
                 Process.Start(Application.StartupPath);
-                printDoc.PrinterSettings.PrintToFile = onPreview;
+                printDoc.PrinterSettings.PrintToFile = true;
             }
             report.SubreportProcessing += new SubreportProcessingEventHandler(LocalReport_SubreportProcessing);
         }
@@ -133,7 +133,7 @@ namespace 直送分ID0
         /// <param name="bs"></param>
         /// <param name="datasetName"></param>
         /// <param name="paramList"></param>
-        public void Run(string reportPath, BindingSource bs, string datasetName, List<ReportParameter> paramList)
+        public void Run(string reportPath, BindingSource bs, string datasetName, List<ReportParameter> paramList = null)
         {
             try
             {
@@ -142,7 +142,10 @@ namespace 直送分ID0
                 rds.Name = datasetName;
                 rds.Value = bs;
                 report.DataSources.Add(rds);
-                report.SetParameters(paramList);
+                if (paramList != null)
+                {
+                    report.SetParameters(paramList);
+                }
                 Run();
             }
             catch (Exception ex)
@@ -158,7 +161,7 @@ namespace 直送分ID0
         /// <param name="dt"></param>
         /// <param name="datasetName"></param>
         /// <param name="paramList"></param>
-        public void Run(string reportPath, DataTable dt, string datasetName, List<ReportParameter> paramList)
+        public void Run(string reportPath, DataTable dt, string datasetName, List<ReportParameter> paramList = null)
         {
             try
             {
@@ -167,7 +170,10 @@ namespace 直送分ID0
                 rds.Name = datasetName;
                 rds.Value = dt;
                 report.DataSources.Add(rds);
-                report.SetParameters(paramList);
+                if (paramList != null)
+                {
+                    report.SetParameters(paramList);
+                }
                 Run();
             }
             catch (Exception ex)
