@@ -1,0 +1,116 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets
+    xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>myコントロール状態保存</Title>
+      <Shortcut>myコントロール状態保存</Shortcut>
+    </Header>
+    <Snippet>
+      <Code Language="cSharp">
+        <![CDATA[#region コントロール内容保存
+        //保存したいコントロールのTagプロパティにsaveを設定する
+        //フォームのロード時とクローズ時にAとBを設定する
+        #region A　コントロールの状態を保存する
+        private void SaveControlStatus(string fileName = "controlStatus.ini")
+        {
+            ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            // コントロールの状態保存
+            ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            var dict = new Dictionary<string, string>();
+            foreach (Control item in GetAllControls(this))
+            {
+                if (item.Tag == null)
+                {
+                    continue;
+                }
+                if (item.Tag.ToString() != "save")
+                {
+                    continue;
+                }
+
+                    dict.Add(item.Name, item.Text);
+            }
+            ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            // INI保存する
+            ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            SaveDictionary(fileName, dict);
+        }
+        public Control[] GetAllControls(Control top)
+        {
+            ArrayList buf = new ArrayList();
+            foreach (Control c in top.Controls)
+            {
+                buf.Add(c);
+                buf.AddRange(GetAllControls(c));
+            }
+            return (Control[])buf.ToArray(typeof(Control));
+        }
+        #endregion
+        #region B　コントロールの状態を読み込む
+        private void ReadControlStatus(string fileName = "controlStatus.ini")
+        {
+
+            Dictionary<string, string> dict = ReadIni(fileName);
+            if (dict.Count < 1)
+            {
+                return;
+            }
+            ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            // コントロールの状態復元
+            ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            foreach (Control item in GetAllControls(this))
+            {
+                Console.WriteLine(item.Name);
+                if (item.Tag == null)
+                {
+                    continue;
+                }
+                if (item.Tag.ToString() != "save")
+                {
+                    continue;
+                }
+                item.Text = dict[item.Name];
+            }
+
+        }
+        #endregion
+        #region DictionaryをINIファイルとして保存する
+        private void SaveDictionary(string fileFullPath, Dictionary<string, string> dict)
+        {
+            using (StreamWriter sw = new StreamWriter(fileFullPath, false, Encoding.UTF8))
+            {
+                foreach (KeyValuePair<string, string> item in dict)
+                {
+                    sw.WriteLine(item.Key + "=" + item.Value);
+                }
+            }
+        }
+        #endregion
+        #region INIファイルを読み込む
+        private Dictionary<string, string> ReadIni(string fileFullPath)
+        {
+            Dictionary<string, string> dict = new Dictionary<string, string>();
+            var lines = System.IO.File.ReadLines(fileFullPath);
+            foreach (var line in lines)
+            {
+                var item = line.ToString().Split('=');
+                if (item.Length < 2)
+                {
+                    continue;
+                }
+                if (item[0] == "")
+                {
+                    continue;
+                }
+                dict.Add(item[0], item[1]);
+            }
+            return dict;
+        }
+        #endregion
+        #endregion
+]]>
+      </Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>

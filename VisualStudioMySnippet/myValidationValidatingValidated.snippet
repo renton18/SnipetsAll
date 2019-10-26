@@ -10,8 +10,8 @@
       <Code Language="cSharp">
         <![CDATA[ #region バリデーション
         //【手順】
-        //　①該当コントロールにOriginalValidatedを設定する
-        //　②該当コントロールにValidatetingメソッドを設定する
+        //　①該当コントロールのValidatedにOriginalValidatedを設定する
+        //　②該当コントロールのValidatingにOriginalValidatingメソッドを設定する
         ErrorProvider errorProvider = new ErrorProvider();
         public enum StringType
         {
@@ -24,7 +24,6 @@
         {
             OriginalValidate((Control)sender, e, StringType.HALF_NUMBER);
         }
-
         private void HALF_NUMBER_DOT(object sender, CancelEventArgs e)
         {
             OriginalValidate((Control)sender, e, StringType.HALF_NUMBER_DOT);
@@ -37,7 +36,7 @@
         {
             OriginalValidate((Control)sender, e, StringType.HALF_ALPHA_NUMBER_SYMBOL);
         }
-        private void OriginalValidate(Control sender, CancelEventArgs e, StringType stringType)
+        private void OriginalValidated(Control sender, CancelEventArgs e, StringType stringType)
         {
             string regexString = "";
             string errorString = "";
@@ -68,7 +67,7 @@
                 e.Cancel = true;
             }
         }
-        private void OriginalValidated(object sender, EventArgs e)
+        private void OriginalValidating(object sender, EventArgs e)
         {
             errorProvider.SetError((Control)sender, null);
         }
