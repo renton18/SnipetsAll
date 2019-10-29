@@ -18,15 +18,17 @@ namespace 委託先項目検索
         private IList<Stream> m_streams;
         public LocalReport report = new LocalReport();
         private PrintDocument printDoc = new PrintDocument();
+        private Boolean tateYoko;
 
         #region コンストラクタ
         /// <summary>
         /// コンストラクタ
         /// </summary>
         /// <param name="printerName"></param>
-        public ReportViewerHelper(string printerName)
+        public ReportViewerHelper(string printerName, string tateYoko = true)
         {
             printDoc.PrinterSettings.PrinterName = printerName;
+            this.tateYoko = tateYoko;
             //XPSファイルとして保存する場合
             if (printerName == "Microsoft XPS Document Writer")
             {
@@ -103,6 +105,8 @@ namespace 委託先項目検索
             else
             {
                 printDoc.PrintPage += new PrintPageEventHandler(PrintPage);
+                // 用紙の向きを設定(横：true、縦：false)
+                printDoc.DefaultPageSettings.Landscape = tateYoko;
                 m_currentPageIndex = 0;
                 printDoc.Print();
             }
