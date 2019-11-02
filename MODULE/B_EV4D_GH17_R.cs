@@ -7,7 +7,7 @@ using System.Drawing.Printing;
 using System.Text;
 using System.Windows.Forms;
 
-namespace 分注トラブル
+namespace AAA
 {
     public class B_EV4D_GH17_R
     {

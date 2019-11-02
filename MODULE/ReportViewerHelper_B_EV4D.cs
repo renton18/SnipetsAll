@@ -18,13 +18,15 @@ namespace AAA
         private IList<Stream> m_streams;
         public LocalReport report = new LocalReport();
         private PrintDocument printDoc = new PrintDocument();
-        private Boolean IsYoko;
 
         #region コンストラクタ
-        public ReportViewerHelper(string printerName = "Microsoft XPS Document Writer", Boolean IsYoko = false)
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        /// <param name="printerName"></param>
+        public ReportViewerHelper(string printerName = "Microsoft XPS Document Writer")
         {
             printDoc.PrinterSettings.PrinterName = printerName;
-            this.IsYoko = IsYoko;
             //XPSファイルとして保存する場合
             if (printerName == "Microsoft XPS Document Writer")
             {
@@ -54,12 +56,12 @@ namespace AAA
             string deviceInfo =
               @"<DeviceInfo>
                 <OutputFormat>EMF</OutputFormat>
-                <PageWidth>8.5in</PageWidth>
-                <PageHeight>11in</PageHeight>
-                <MarginTop>0.25in</MarginTop>
-                <MarginLeft>0.25in</MarginLeft>
-                <MarginRight>0.25in</MarginRight>
-                <MarginBottom>0.25in</MarginBottom>
+                <PageWidth>9cm</PageWidth>
+                <PageHeight>7cm</PageHeight>
+                <MarginTop>0.1cm</MarginTop>
+                <MarginLeft>0.1cm</MarginLeft>
+                <MarginRight>0.1cm</MarginRight>
+                <MarginBottom>0.1cm</MarginBottom>
             </DeviceInfo>";
             Warning[] warnings;
             m_streams = new List<Stream>();
@@ -101,8 +103,6 @@ namespace AAA
             else
             {
                 printDoc.PrintPage += new PrintPageEventHandler(PrintPage);
-                // 用紙の向きを設定(横：true、縦：false)
-                printDoc.DefaultPageSettings.Landscape = IsYoko;
                 m_currentPageIndex = 0;
                 printDoc.Print();
             }

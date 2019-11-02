@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace 不明検体BC
+namespace AAA
 {
     public static class SQLSERVERHelper
     {
@@ -55,7 +55,6 @@ namespace 不明検体BC
             {
                 DB.Close();
             }
-
         }
         #endregion
 
@@ -83,79 +82,79 @@ namespace 不明検体BC
         #endregion
 
         #region  追加
-        public static int Insert(string sql, string connection)
-        {
-            var cnt = 0;
-            SQLSERVER DB = new SQLSERVER(connection);
-            try
-            {
-                DB.Open();
-                cnt = DB.ExecuteNonQuery(sql);
-                SQLSERVERHelper.Log("0", "", "追加 ( " + cnt + " 件)", sql, "NoLoginUser");
-                return cnt;
-            }
-            catch (Exception ex)
-            {
-                SQLSERVERHelper.Log("1", ex.Message, "追加", sql, "NoLoginUser");
-                MessageBox.Show("エラー発生:" + Environment.NewLine + ex.Message);
-            }
-            finally
-            {
-                DB.Close();
-            }
-            return cnt;
-        }
+        //public static int Insert(string sql, string connection, string errorTitle)
+        //{
+        //    var cnt = 0;
+        //    SQLSERVER DB = new SQLSERVER(connection);
+        //    try
+        //    {
+        //        DB.Open();
+        //        cnt = DB.ExecuteNonQuery(sql);
+        //        SQLSERVERHelper.Log("0", "", "追加 ( " + cnt + " 件)", sql, "NoLoginUser");
+        //        return cnt;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        SQLSERVERHelper.Log("1", ex.Message, errorTitle, sql, "NoLoginUser");
+        //        MessageBox.Show("エラー発生:" + Environment.NewLine + ex.Message);
+        //    }
+        //    finally
+        //    {
+        //        DB.Close();
+        //    }
+        //    return cnt;
+        //}
         #endregion
 
         #region  更新
-        public static int Update(string sql, string connection, string difference)
-        {
-            var cnt = 0;
-            SQLSERVER DB = new SQLSERVER(connection);
-            try
-            {
-                DB.Open();
-                //更新処理
-                cnt = DB.ExecuteNonQuery(sql);
-                SQLSERVERHelper.Log("0", "", "更新 ( " + cnt + " 件)", sql, "NoLoginUser", difference);
-                return cnt;
-            }
-            catch (Exception ex)
-            {
-                SQLSERVERHelper.Log("1", ex.Message, "更新", sql, "NoLoginUser", difference);
-                MessageBox.Show("エラー発生:" + Environment.NewLine + ex.Message);
-            }
-            finally
-            {
-                DB.Close();
-            }
-            return cnt;
-        }
+        //public static int Update(string sql, string connection, string difference)
+        //{
+        //    var cnt = 0;
+        //    SQLSERVER DB = new SQLSERVER(connection);
+        //    try
+        //    {
+        //        DB.Open();
+        //        //更新処理
+        //        cnt = DB.ExecuteNonQuery(sql);
+        //        SQLSERVERHelper.Log("0", "", "更新 ( " + cnt + " 件)", sql, "NoLoginUser", difference);
+        //        return cnt;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        SQLSERVERHelper.Log("1", ex.Message, "更新", sql, "NoLoginUser", difference);
+        //        MessageBox.Show("エラー発生:" + Environment.NewLine + ex.Message);
+        //    }
+        //    finally
+        //    {
+        //        DB.Close();
+        //    }
+        //    return cnt;
+        //}
         #endregion
 
         #region  削除
-        public static int Delete(string sql, string connection)
-        {
-            var cnt = 0;
-            SQLSERVER DB = new SQLSERVER(connection);
-            try
-            {
-                DB.Open();
-                cnt = DB.ExecuteNonQuery(sql);
-                SQLSERVERHelper.Log("0", "", "削除 ( " + cnt + " 件)", sql, "NoLoginUser");
-                return cnt;
-            }
-            catch (Exception ex)
-            {
-                SQLSERVERHelper.Log("1", ex.Message, "削除", sql, "NoLoginUser");
-                MessageBox.Show("エラー発生:" + Environment.NewLine + ex.Message);
-            }
-            finally
-            {
-                DB.Close();
-            }
-            return cnt;
-        }
+        //public static int Delete(string sql, string connection)
+        //{
+        //    var cnt = 0;
+        //    SQLSERVER DB = new SQLSERVER(connection);
+        //    try
+        //    {
+        //        DB.Open();
+        //        cnt = DB.ExecuteNonQuery(sql);
+        //        SQLSERVERHelper.Log("0", "", "削除 ( " + cnt + " 件)", sql, "NoLoginUser");
+        //        return cnt;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        SQLSERVERHelper.Log("1", ex.Message, "削除", sql, "NoLoginUser");
+        //        MessageBox.Show("エラー発生:" + Environment.NewLine + ex.Message);
+        //    }
+        //    finally
+        //    {
+        //        DB.Close();
+        //    }
+        //    return cnt;
+        //}
         #endregion
     }
 }

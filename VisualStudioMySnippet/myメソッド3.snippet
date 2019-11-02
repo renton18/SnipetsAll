@@ -16,12 +16,12 @@
         {
             selectedBtn = btnName;
             //各ボタンのONOFFを切り替える
-            btn1.BackColor = btnName == "平日" ? Color.PaleGreen : Color.White;
-            btn2.BackColor = btnName == "日祝日" ? Color.PaleGreen : Color.White;
+            btn1.BackColor = btnName == "btn1" ? Color.PaleGreen : Color.White;
+            btn2.BackColor = btnName == "btn2" ? Color.PaleGreen : Color.White;
         }
         private void btnOnOff_Click(object sender, EventArgs e)
         {
-            SetButton(((Button)sender).Text);
+            SetButton(((Button)sender).Name);
             Preview();
         }
         #endregion]]>

@@ -4,7 +4,7 @@ using System.Data;
 using System.Data.SqlClient;
 
 
-namespace 直送分ID0
+namespace AAA
 {
 
     //ADO.NET
