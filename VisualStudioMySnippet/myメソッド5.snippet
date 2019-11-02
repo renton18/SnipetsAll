@@ -3,13 +3,13 @@
     xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
   <CodeSnippet Format="1.0.0">
     <Header>
-      <Title>表示</Title>
+      <Title>表示用メソッド</Title>
       <Shortcut>myメソッド</Shortcut>
     </Header>
     <Snippet>
       <Code Language="cSharp">
-        <![CDATA[#region 表示
-        private void btnHyouji_Click(object sender, EventArgs e)
+        <![CDATA[#region 表示用メソッド
+        private void Preview()
         {
             var filedate = dtpFiledate.Value.ToString("yyyy-MM-dd");
             ////////////////////////////////////////////////////////////////////////////////
@@ -39,15 +39,11 @@
             // データを取得する
             ////////////////////////////////////////////////////////////////////////////////
             DataTable dt = SQLSERVERHelper.Search(sql);
-            if (dt.Rows.Count == 0)
-            {
-                return;
-            }
+            if (dt.Rows.Count == 0) return;
             ////////////////////////////////////////////////////////////////////////////////
             //【表示】データグリッドビュー
             ////////////////////////////////////////////////////////////////////////////////
-            dgv.datasorce = dt;
-
+            dgv.DataSource = dt;
             ////////////////////////////////////////////////////////////////////////////////
             //【表示】ReportViewer
             ////////////////////////////////////////////////////////////////////////////////

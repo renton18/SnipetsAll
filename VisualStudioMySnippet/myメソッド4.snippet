@@ -8,8 +8,8 @@
     </Header>
     <Snippet>
       <Code Language="cSharp">
-        <![CDATA[#region 印刷ボタン
-        private void btnPrint_Click(object sender, EventArgs e)
+        <![CDATA[#region 印刷用メソッド
+        private void Print()
         {
             var filedate = dtpFiledate.Value.ToString("yyyy-MM-dd");
             ////////////////////////////////////////////////////////////////////////////////
@@ -25,36 +25,23 @@
                 case "夜間分":
                     sql = "";
                     break;
-
-                case "朝着分":
-                    sql = "";
-                    break;
-
-                case "選択分":
-                    sql = "";
-                    break;
-
             }
             ////////////////////////////////////////////////////////////////////////////////
             // データを取得する
             ////////////////////////////////////////////////////////////////////////////////
             DataTable dt = SQLSERVERHelper.Search(sql);
-            if (dt.Rows.Count == 0)
-            {
-                return;
-            }
-
+            if (dt.Rows.Count == 0) return;
             ////////////////////////////////////////////////////////////////////////////////
             //【印刷】ReportViewer
             ////////////////////////////////////////////////////////////////////////////////
             
             // ①レポートビューア表示中を印刷
-            ReportViewerHelper rvh = new ReportViewerHelper(COMMON.ListPrinter, true);
+            ReportViewerHelper rvh = new ReportViewerHelper(COMMON.ListPrinter);
             rvh.Run(reportViewer1.LocalReport);
             rvh.Dispose();
 
             // ②直接印刷
-            ReportViewerHelper rvh = new ReportViewerHelper(COMMON.ListPrinter, true);
+            ReportViewerHelper rvh = new ReportViewerHelper(COMMON.ListPrinter);
             //パラメータを追加する
             var reportParams = new List<ReportParameter>();
             reportParams.Add(new ReportParameter("FileDate", filedate));
@@ -66,7 +53,6 @@
             ////////////////////////////////////////////////////////////////////////////////
             B_EV4D_GH17_R b_ev4D = new B_EV4D_GH17_R("", dt, null, null);
             b_ev4D.Print();
-
         }
         #endregion]]>
       </Code>
