@@ -18,15 +18,17 @@ namespace AAA
         private IList<Stream> m_streams;
         public LocalReport report = new LocalReport();
         private PrintDocument printDoc = new PrintDocument();
+        private Boolean isYoko;
 
         #region コンストラクタ
         /// <summary>
         /// コンストラクタ
         /// </summary>
         /// <param name="printerName"></param>
-        public ReportViewerHelper(string printerName = "Microsoft XPS Document Writer")
+        public ReportViewerHelper(string printerName, Boolean isYoko = false)
         {
             printDoc.PrinterSettings.PrinterName = printerName;
+            this.isYoko = isYoko;
             //XPSファイルとして保存する場合
             if (printerName == "Microsoft XPS Document Writer")
             {
@@ -56,13 +58,26 @@ namespace AAA
             string deviceInfo =
               @"<DeviceInfo>
                 <OutputFormat>EMF</OutputFormat>
-                <PageWidth>9cm</PageWidth>
-                <PageHeight>7cm</PageHeight>
-                <MarginTop>0.1cm</MarginTop>
-                <MarginLeft>0.1cm</MarginLeft>
-                <MarginRight>0.1cm</MarginRight>
-                <MarginBottom>0.1cm</MarginBottom>
+                <PageWidth>8.5in</PageWidth>
+                <PageHeight>11in</PageHeight>
+                <MarginTop>0.25in</MarginTop>
+                <MarginLeft>0.25in</MarginLeft>
+                <MarginRight>0.25in</MarginRight>
+                <MarginBottom>0.25in</MarginBottom>
             </DeviceInfo>";
+            if (isYoko)
+            {
+                deviceInfo =
+              @"<DeviceInfo>
+                <OutputFormat>EMF</OutputFormat>
+                <PageWidth>11in</PageWidth>
+                <PageHeight>8.5in</PageHeight>
+                <MarginTop>0.25in</MarginTop>
+                <MarginLeft>0.25in</MarginLeft>
+                <MarginRight>0.25in</MarginRight>
+                <MarginBottom>0.25in</MarginBottom>
+            </DeviceInfo>";
+            }
             Warning[] warnings;
             m_streams = new List<Stream>();
             report.Render("Image", deviceInfo, CreateStream, out warnings);
@@ -103,6 +118,8 @@ namespace AAA
             else
             {
                 printDoc.PrintPage += new PrintPageEventHandler(PrintPage);
+                // 用紙の向きを設定(横：true、縦：false)
+                printDoc.DefaultPageSettings.Landscape = isYoko;
                 m_currentPageIndex = 0;
                 printDoc.Print();
             }
