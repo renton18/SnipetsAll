@@ -18,17 +18,13 @@ namespace AAA
         private IList<Stream> m_streams;
         public LocalReport report = new LocalReport();
         private PrintDocument printDoc = new PrintDocument();
-        private Boolean isYoko;
+        private Boolean IsYoko;
 
         #region コンストラクタ
-        /// <summary>
-        /// コンストラクタ
-        /// </summary>
-        /// <param name="printerName"></param>
-        public ReportViewerHelper(string printerName, Boolean isYoko = false)
+        public ReportViewerHelper(string printerName = "Microsoft XPS Document Writer", Boolean IsYoko = false)
         {
             printDoc.PrinterSettings.PrinterName = printerName;
-            this.isYoko = isYoko;
+            this.IsYoko = IsYoko;
             //XPSファイルとして保存する場合
             if (printerName == "Microsoft XPS Document Writer")
             {
@@ -58,26 +54,27 @@ namespace AAA
             string deviceInfo =
               @"<DeviceInfo>
                 <OutputFormat>EMF</OutputFormat>
-                <PageWidth>8.5in</PageWidth>
-                <PageHeight>11in</PageHeight>
-                <MarginTop>0.25in</MarginTop>
-                <MarginLeft>0.25in</MarginLeft>
-                <MarginRight>0.25in</MarginRight>
-                <MarginBottom>0.25in</MarginBottom>
+                <PageWidth>21cm</PageWidth>
+                <PageHeight>29.7cm</PageHeight>
+                <MarginTop>0.5cm</MarginTop>
+                <MarginLeft>2cm</MarginLeft>
+                <MarginRight>2cm</MarginRight>
+                <MarginBottom>1.5cm</MarginBottom>
             </DeviceInfo>";
-            if (isYoko)
+            if (IsYoko)
             {
                 deviceInfo =
               @"<DeviceInfo>
                 <OutputFormat>EMF</OutputFormat>
-                <PageWidth>11in</PageWidth>
-                <PageHeight>8.5in</PageHeight>
-                <MarginTop>0.25in</MarginTop>
-                <MarginLeft>0.25in</MarginLeft>
-                <MarginRight>0.25in</MarginRight>
-                <MarginBottom>0.25in</MarginBottom>
+                <PageWidth>29.7cm</PageWidth>
+                <PageHeight>21cm</PageHeight>
+                <MarginTop>0.5cm</MarginTop>
+                <MarginLeft>2cm</MarginLeft>
+                <MarginRight>2cm</MarginRight>
+                <MarginBottom>1.5cm</MarginBottom>
             </DeviceInfo>";
             }
+
             Warning[] warnings;
             m_streams = new List<Stream>();
             report.Render("Image", deviceInfo, CreateStream, out warnings);
@@ -119,7 +116,7 @@ namespace AAA
             {
                 printDoc.PrintPage += new PrintPageEventHandler(PrintPage);
                 // 用紙の向きを設定(横：true、縦：false)
-                printDoc.DefaultPageSettings.Landscape = isYoko;
+                printDoc.DefaultPageSettings.Landscape = IsYoko;
                 m_currentPageIndex = 0;
                 printDoc.Print();
             }

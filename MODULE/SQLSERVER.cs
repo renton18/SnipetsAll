@@ -6,14 +6,13 @@ using System.Data.SqlClient;
 
 namespace AAA
 {
-
     //ADO.NET
     //参照追加必要なし
     class SQLSERVER
     {
         private string connectionStr = "";
         private SqlConnection connection;
-        private SqlTransaction transaction;
+        public SqlTransaction transaction;
 
         /// <summary>
         /// コンストラクタ
@@ -44,6 +43,10 @@ namespace AAA
         /// </summary>
         public void Close()
         {
+            if (this.connection == null)
+            {
+                return;
+            }
             this.connection.Close();
             this.connection.Dispose();
         }
@@ -151,11 +154,16 @@ namespace AAA
         /// </summary>
         public void RollBack()
         {
-            if (this.transaction.Connection != null)
+            if (this.transaction == null)
             {
-                this.transaction.Rollback();
-                this.transaction.Dispose();
+                return;
             }
+            if (this.transaction.Connection == null)
+            {
+                return;
+            }
+            this.transaction.Rollback();
+            this.transaction.Dispose();
         }
     }
 }
