@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+  <Header>
+    <Title>ロック情報</Title>
+    <Shortcut>myロック解除情報</Shortcut>
+  </Header>
+  <Snippet>
+    <Code Language="SQL"> SELECT *
+      FROM sys.dm_tran_locks
+      WHERE
+      (resource_associated_entity_id
+      =(SELECT TOP 1 object_id FROM sys.partitions WHERE OBJECT_NAME(object_id)=''))
+
+      exec sp_lock
+      exec sp_who
+      exec sp_who2
+    </Code>
+  </Snippet>
+</CodeSnippet>
+</CodeSnippets>

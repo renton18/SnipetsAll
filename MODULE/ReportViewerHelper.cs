@@ -54,13 +54,26 @@ namespace AAA
             string deviceInfo =
               @"<DeviceInfo>
                 <OutputFormat>EMF</OutputFormat>
-                <PageWidth>8.5in</PageWidth>
-                <PageHeight>11in</PageHeight>
-                <MarginTop>0.25in</MarginTop>
-                <MarginLeft>0.25in</MarginLeft>
-                <MarginRight>0.25in</MarginRight>
-                <MarginBottom>0.25in</MarginBottom>
+                <PageWidth>21cm</PageWidth>
+                <PageHeight>29.7cm</PageHeight>
+                <MarginTop>0.5cm</MarginTop>
+                <MarginLeft>2cm</MarginLeft>
+                <MarginRight>2cm</MarginRight>
+                <MarginBottom>1.5cm</MarginBottom>
             </DeviceInfo>";
+            if (IsYoko)
+            {
+                deviceInfo =
+              @"<DeviceInfo>
+                <OutputFormat>EMF</OutputFormat>
+                <PageWidth>29.7cm</PageWidth>
+                <PageHeight>21cm</PageHeight>
+                <MarginTop>0.5cm</MarginTop>
+                <MarginLeft>2cm</MarginLeft>
+                <MarginRight>2cm</MarginRight>
+                <MarginBottom>1.5cm</MarginBottom>
+            </DeviceInfo>";
+            }
             Warning[] warnings;
             m_streams = new List<Stream>();
             report.Render("Image", deviceInfo, CreateStream, out warnings);

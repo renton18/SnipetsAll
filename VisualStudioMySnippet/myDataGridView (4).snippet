@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets
+    xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>ダブルバッファリング</Title>
+      <Shortcut>myDataGridView</Shortcut>
+    </Header>
+    <Snippet>
+      <Code Language="cSharp">
+        <![CDATA[ // Reflectionでダブルバッファリングを有効化
+            Type myType = typeof(DataGridView);
+            PropertyInfo myPropertyInfo = myType.GetProperty("DoubleBuffered", BindingFlags.Instance | BindingFlags.NonPublic);
+            myPropertyInfo.SetValue(orderInformationDetailDataGridView, true, null);]]>
+      </Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>

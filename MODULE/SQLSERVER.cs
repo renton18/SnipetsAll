@@ -165,5 +165,41 @@ namespace AAA
             this.transaction.Rollback();
             this.transaction.Dispose();
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="procedureName">プロシージャネーム</param>
+        /// <returns></returns>
+        public int StoreProcedure(string procedureName, List<SqlParameter> para = null)
+        {
+            int ret = 0;
+            using (var command = new SqlCommand() { Connection = connection })
+            {
+                try
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = procedureName;
+                    if (para != null)
+                    {
+                        command.Parameters.AddRange(para.ToArray());
+                    }
+                    command.ExecuteNonQuery();
+                    //返り値がある場合
+                    if (para != null)
+                    {
+                        ret = (int)command.Parameters["ReturnValue"].Value;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+            }
+            return ret;
+        }
+
+
+
     }
 }

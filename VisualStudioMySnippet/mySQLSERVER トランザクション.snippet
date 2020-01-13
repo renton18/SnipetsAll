@@ -13,10 +13,12 @@
             string sql = "";
             try
             {
+                SQLSERVERHelper.Log("0", "", "【開始】", "", "NoLoginUser");
                 TRUST.Open();
                 TRUST.BeginTransaction();
-                SQLSERVERHelper.Log("0", "", "【開始】", "", "NoLoginUser");
+                #region sql
                 sql = "";
+                #endregion
                 TRUST.ExecuteNonQuery(sql);
                 //コミット
                 TRUST.Commit();

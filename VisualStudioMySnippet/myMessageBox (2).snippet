@@ -3,16 +3,13 @@
     xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
   <CodeSnippet Format="1.0.0">
     <Header>
-      <Title>すぐに消えるメッセージボックス</Title>
+      <Title>削除確認用のメッセージボックス</Title>
       <Shortcut>myMessageBox</Shortcut>
     </Header>
     <Snippet>
       <Code Language="cSharp">
-        <![CDATA[ var CIform = new CopyInfoForm();
-            CIform.Show();
-            CIform.Refresh();
-            System.Threading.Thread.Sleep(1000);
-            CIform.Close();]]>
+        <![CDATA[DialogResult result = MessageBox.Show("ファイルを削除しますか？", "確認", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button2);
+            if (result == DialogResult.No) return;]]>
       </Code>
     </Snippet>
   </CodeSnippet>
