@@ -6,16 +6,47 @@
     <Shortcut>myロック解除情報</Shortcut>
   </Header>
   <Snippet>
-    <Code Language="SQL"> SELECT *
-      FROM sys.dm_tran_locks
-      WHERE
-      (resource_associated_entity_id
-      =(SELECT TOP 1 object_id FROM sys.partitions WHERE OBJECT_NAME(object_id)=''))
+    <Code Language="SQL">
+      --sys.dm_tran_locks・・・ロック情報を参照できるビュー。ビュー詳細情報<Micrsoft MSDN="">
+        --sys.partitions・・・テーブルまたはインデックスで使用されているパーティション情報を参照できるビュー。ビュー詳細情報<Micrsoft MSDN="">
+          --sys.sysprocesses・・・接続されているProcess情報を参照できるビュー。
+          --S	共有ロック	他のトランザクションからの読込は可能。更新は不可となる。
+          --X	 排他ロック	他のトランザクションからの読込・更新が共に不可となる。
+          --INSERT、UPDATE、DELETEを実行するとこのロックになる。
+          --U	更新ロック	他のトランザクションからの読込は可能。更新は不可となる。
+          --SELECTで WITH( UPDLOCK ）を指定するとこのロックになる。
+          SELECT
+          resource_type AS type --オブジェクトの種類
+          ,resource_associated_entity_id as entity_id  --エンティティID
+          ,( CASE WHEN resource_type = 'OBJECT' THEN
+          OBJECT_NAME( resource_associated_entity_id )
+          ELSE
+          ( SELECT
+          OBJECT_NAME( OBJECT_ID )
+          FROM
+          sys.partitions
+          WHERE
+          hobt_id=resource_associated_entity_id )
+          END)
+          AS object_name
+          ,request_mode --ロックの種類
+          ,request_type --要求の種類
+          ,request_status  --状態
+          ,request_session_id AS Session_id --セッションID
+          ,(SELECT hostname
+          FROM sys.sysprocesses
+          WHERE spid = request_session_id) AS ProcessName
+          FROM
+          sys.dm_tran_locks
+          WHERE
+          resource_type <> 'DATABASE'
+          ORDER BY
+          request_session_id
 
-      exec sp_lock
-      exec sp_who
-      exec sp_who2
-    </Code>
+          exec sp_lock
+          exec sp_who
+          exec sp_who2
+        </Code>
   </Snippet>
 </CodeSnippet>
 </CodeSnippets>

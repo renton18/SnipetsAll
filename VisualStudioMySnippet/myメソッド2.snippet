@@ -20,6 +20,8 @@
             }
             //ステータスバーを表示する
             COMMON.SetForm(this);
+            //EXEワーキングフォルダの設定
+            Directory.SetCurrentDirectory(Application.StartupPath);
             #endregion
             ////////////////////////////////////////////////////////////////////////////////
             // その他初期設定
