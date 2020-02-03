@@ -70,7 +70,7 @@ namespace AAA
             }
             catch (Exception ex)
             {
-                SQLSERVERHelper.Log("1", ex.Message, "検索", sql, "NoLoginUser");
+                SQLSERVERHelper.Log("1", ex.Message + Environment.NewLine + ex.InnerException.Message, "検索", sql, "NoLoginUser");
                 MessageBox.Show("エラー発生:" + Environment.NewLine + ex.Message);
             }
             finally
@@ -95,7 +95,7 @@ namespace AAA
             }
             catch (Exception ex)
             {
-                SQLSERVERHelper.Log("1", ex.Message, errorTitle, sql, "NoLoginUser");
+                SQLSERVERHelper.Log("1", ex.Message + Environment.NewLine + ex.InnerException.Message, errorTitle, sql, "NoLoginUser");
                 MessageBox.Show("エラー発生:" + Environment.NewLine + ex.Message);
             }
             finally
@@ -121,7 +121,7 @@ namespace AAA
             }
             catch (Exception ex)
             {
-                SQLSERVERHelper.Log("1", ex.Message, errorTitle, sql, "NoLoginUser", difference);
+                SQLSERVERHelper.Log("1", ex.Message + Environment.NewLine + ex.InnerException.Message, errorTitle, sql, "NoLoginUser", difference);
                 MessageBox.Show("エラー発生:" + Environment.NewLine + ex.Message);
             }
             finally
@@ -146,7 +146,7 @@ namespace AAA
             }
             catch (Exception ex)
             {
-                SQLSERVERHelper.Log("1", ex.Message, errorTitle, sql, "NoLoginUser");
+                SQLSERVERHelper.Log("1", ex.Message + Environment.NewLine + ex.InnerException.Message, errorTitle, sql, "NoLoginUser");
                 MessageBox.Show("エラー発生:" + Environment.NewLine + ex.Message);
             }
             finally

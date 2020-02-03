@@ -1,6 +1,10 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\MODULE",
+    "\\SQLServerMySnipet",
+    "\\VisualStudioMySnippet"
   ],
+  "SelectedNode": "\\MODULE\\ReportViewerHelper.cs",
   "PreviewInSolutionExplorer": false
 }

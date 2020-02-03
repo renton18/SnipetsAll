@@ -20,8 +20,16 @@ namespace AAA
         private PrintDocument printDoc = new PrintDocument();
         private Boolean IsYoko;
 
+        public LocalReport report = new LocalReport();
+        public string width = "21";
+        public string height = "29.7";
+        public string top = "0.5";
+        public string bottom = "0.5";
+        public string left = "2";
+        public string right = "2";
+
         #region コンストラクタ
-        public ReportViewerHelper(string printerName = "Microsoft XPS Document Writer", Boolean IsYoko = false)
+        public ReportViewerHelper(string paperSize, string printerName = "Microsoft XPS Document Writer", Boolean IsYoko = false)
         {
             printDoc.PrinterSettings.PrinterName = printerName;
             this.IsYoko = IsYoko;
@@ -52,27 +60,27 @@ namespace AAA
         public void Export()
         {
             string deviceInfo =
-              @"<DeviceInfo>
-                <OutputFormat>EMF</OutputFormat>
-                <PageWidth>21cm</PageWidth>
-                <PageHeight>29.7cm</PageHeight>
-                <MarginTop>0.5cm</MarginTop>
-                <MarginLeft>2cm</MarginLeft>
-                <MarginRight>2cm</MarginRight>
-                <MarginBottom>1.5cm</MarginBottom>
-            </DeviceInfo>";
+              @"<DeviceInfo> " +
+                "<OutputFormat>EMF</OutputFormat> " +
+                "<PageWidth>" + width + "cm</PageWidth>" +
+                "<PageHeight>" + height + "cm</PageHeight>" +
+                "<MarginTop>" + top + "cm</MarginTop>" +
+                "<MarginLeft>" + left + "cm</MarginLeft> " +
+                "<MarginRight>" + right + "cm</MarginRight> " +
+                "<MarginBottom>" + bottom + "cm</MarginBottom> " +
+            "</DeviceInfo>";
             if (IsYoko)
             {
                 deviceInfo =
-              @"<DeviceInfo>
-                <OutputFormat>EMF</OutputFormat>
-                <PageWidth>29.7cm</PageWidth>
-                <PageHeight>21cm</PageHeight>
-                <MarginTop>0.5cm</MarginTop>
-                <MarginLeft>2cm</MarginLeft>
-                <MarginRight>2cm</MarginRight>
-                <MarginBottom>1.5cm</MarginBottom>
-            </DeviceInfo>";
+              @"<DeviceInfo> " +
+                "<OutputFormat>EMF</OutputFormat> " +
+                "< PageWidth>" + height + "cm</PageWidth>" +
+                "<PageHeight>" + width + "cm</PageHeight>" +
+                "<MarginTop>" + top + "cm</MarginTop>" +
+                "<MarginLeft>" + left + "cm</MarginLeft> " +
+                "<MarginRight>" + right + "cm</MarginRight> " +
+                "<MarginBottom>" + bottom + "cm</MarginBottom> " +
+            "</DeviceInfo>";
             }
             Warning[] warnings;
             m_streams = new List<Stream>();
@@ -116,6 +124,25 @@ namespace AAA
                 printDoc.PrintPage += new PrintPageEventHandler(PrintPage);
                 // 用紙の向きを設定(横：true、縦：false)
                 printDoc.DefaultPageSettings.Landscape = IsYoko;
+                #region サイズ用紙設定
+                PaperKind pk = new PaperKind();
+                switch (paperSize)
+                {
+                    case "A4":
+                        pk = PaperKind.A4;
+                        break;
+                    case "B4":
+                        pk = PaperKind.B4;
+                        break;
+                }
+                foreach (PaperSize ps in printDoc.PrinterSettings.PaperSizes)
+                {
+                    if (ps.Kind == pk)
+                    {
+                        printDoc.DefaultPageSettings.PaperSize = ps;
+                    }
+                }
+                #endregion
                 m_currentPageIndex = 0;
                 printDoc.Print();
             }
@@ -134,7 +161,7 @@ namespace AAA
             }
             catch (Exception ex)
             {
-                MessageBox.Show("印刷に失敗しました：" + ex.Message);
+                MessageBox.Show("印刷に失敗しました：" + ex.Message + Environment.NewLine + ex.InnerException.Message);
             }
         }
         #endregion
@@ -163,7 +190,7 @@ namespace AAA
             }
             catch (Exception ex)
             {
-                MessageBox.Show("印刷に失敗しました：" + ex.Message);
+                MessageBox.Show("印刷に失敗しました：" + ex.Message + Environment.NewLine + ex.InnerException.Message);
             }
         }
 
@@ -191,7 +218,7 @@ namespace AAA
             }
             catch (Exception ex)
             {
-                MessageBox.Show("印刷に失敗しました：" + ex.Message);
+                MessageBox.Show("印刷に失敗しました：" + ex.Message + Environment.NewLine + ex.InnerException.Message);
             }
         }
 
@@ -208,7 +235,7 @@ namespace AAA
             }
             catch (Exception ex)
             {
-                MessageBox.Show("印刷に失敗しました：" + ex.Message);
+                MessageBox.Show("印刷に失敗しました：" + ex.Message + Environment.NewLine + ex.InnerException.Message);
             }
         }
 
@@ -238,11 +265,49 @@ namespace AAA
                 form.WindowState = FormWindowState.Maximized;
                 form.Controls.Add(rv);
                 rv.Dock = DockStyle.Fill;
+                rv.SetDisplayMode(DisplayMode.PrintLayout);
                 rv.RefreshReport();
             }
             catch (Exception ex)
             {
-                MessageBox.Show("印刷に失敗しました：" + ex.Message);
+                MessageBox.Show("印刷に失敗しました：" + ex.Message + Environment.NewLine + ex.InnerException.Message);
+            }
+        }
+
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="reportPath"></param>
+        /// <param name="bs"></param>
+        /// <param name="datasetName"></param>
+        /// <param name="paramList"></param>
+        public void OpenForm(string reportPath, BindingSource bs, string datasetName, List<ReportParameter> paramList = null)
+        {
+            try
+            {
+                ReportViewer rv = new ReportViewer();
+                report = rv.LocalReport;
+
+                report.ReportPath = reportPath;
+                ReportDataSource rds = new ReportDataSource();
+                rds.Name = datasetName;
+                rds.Value = bs;
+                report.DataSources.Add(rds);
+
+                //リポートフォーム表示する
+                Form form = new Form();
+                form.Show();
+                form.WindowState = FormWindowState.Maximized;
+                form.Controls.Add(new Button() { Text = "aa" });
+                form.Controls.Add(rv);
+                //rv.Dock = DockStyle.Fill;
+                rv.SetDisplayMode(DisplayMode.PrintLayout);
+
+                rv.RefreshReport();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("印刷に失敗しました：" + ex.Message + Environment.NewLine + ex.InnerException.Message);
             }
         }
 

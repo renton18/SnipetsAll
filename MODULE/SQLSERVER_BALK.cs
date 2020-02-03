@@ -11,15 +11,18 @@ namespace IDNO新旧変換
         public string importFilePath { get; set; } = "";
         public string exportFilePath { get; set; } = "";
         public string formatFilePath { get; set; } = "";
+        public string log { get; set; } = "";
 
         #region インポート
         public void Import()
         {
             var proc = new Process();
             proc.StartInfo.FileName = "BCP";
-            proc.StartInfo.Arguments = tableName + @" IN """ + importFilePath + @""" -f """ + formatFilePath + @""" -S " + serverName + " -U " + id + " -P " + pass;
+            log = tableName + @" IN """ + importFilePath + @""" -f """ + formatFilePath + @""" -S " + serverName + " -U " + id + " -P " + pass;
+            proc.StartInfo.Arguments = log;
             proc.Start();
-
+            //終了するまで最大10秒間だけ待機する
+            proc.WaitForExit(10000);
         }
         #endregion
 
@@ -28,9 +31,11 @@ namespace IDNO新旧変換
         {
             var proc = new Process();
             proc.StartInfo.FileName = "BCP";
-            proc.StartInfo.Arguments = tableName + @" OUT """ + exportFilePath + @""" -f """ + formatFilePath + @""" -S " + serverName + " -U " + id + " -P " + pass;
+            log = tableName + @" OUT """ + exportFilePath + @""" -f """ + formatFilePath + @""" -S " + serverName + " -U " + id + " -P " + pass;
+            proc.StartInfo.Arguments = log;
             proc.Start();
-
+            //終了するまで最大10秒間だけ待機する
+            proc.WaitForExit(10000);
         }
         #endregion
     }

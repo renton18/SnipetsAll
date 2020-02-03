@@ -12,16 +12,17 @@
             ////////////////////////////////////////////////////////////////////////////////
             // 削除
             ////////////////////////////////////////////////////////////////////////////////
-            if (senderGrid.Columns[e.ColumnIndex].Name == "削除")
+            if (senderGrid.Columns[e.ColumnIndex].HeaderText == "削除")
             {
-                var sql = "";
-                if (SQLSERVERHelper.Delete(sql) == 0)
+                var fileDate = senderGrid.CurrentRow.Cells[0].Value.ToString().Trim();
+                var sql = ""
+                if (SQLSERVERHelper.Delete(sql, COMMON.TRUSTConnection, "") == 0)
                 {
+                    MessageBox.Show("削除に失敗しました");
                     return;
                 }
-                ////////////////////////////////////////////////////////////////////////////////
                 // 表示
-                ////////////////////////////////////////////////////////////////////////////////
+                reportItemBindingSource.RemoveCurrent();               
             }
             #endregion]]>
       </Code>

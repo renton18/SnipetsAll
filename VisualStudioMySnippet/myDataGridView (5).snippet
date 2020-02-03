@@ -3,21 +3,20 @@
     xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
   <CodeSnippet Format="1.0.0">
     <Header>
-      <Title>クリック時その列を参照して詳細画面にデータを表示させる</Title>
+      <Title>行背景色設定</Title>
       <Shortcut>myDataGridView</Shortcut>
     </Header>
     <Snippet>
       <Code Language="cSharp">
-        <![CDATA[var senderGrid = (DataGridView)sender;
-            if (e.RowIndex == -1) return;  //ヘッダをクリック時はスルー
-            #region DGV_項目情報取得
-            var itemCd = senderGrid.CurrentRow.Cells["ItemCd"].Value.ToString().Trim();
-            if (itemCd == "") return;
-            #region sql
-            var sql = "";
-            #endregion
-            iTEMBindingSource.DataSource = SQLSERVERHelper.Search(sql, COMMON.);
-            #endregion]]>
+        <![CDATA[////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// 行背景色設定
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+var Editabled = senderGrid.Rows[e.RowIndex].Cells["Editabled"].Value.ToString();
+if (isFD == "true")
+{
+    e.CellStyle.BackColor = e.CellStyle.SelectionBackColor = Color.Gray;
+    e.CellStyle.ForeColor = e.CellStyle.SelectionForeColor = Color.LightGray;
+}]]>
       </Code>
     </Snippet>
   </CodeSnippet>

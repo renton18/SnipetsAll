@@ -167,10 +167,10 @@ namespace AAA
         }
 
         /// <summary>
-        /// 
+        ///  ストアド実行
         /// </summary>
         /// <param name="procedureName">プロシージャネーム</param>
-        /// <returns></returns>
+        /// <returns>正常=0</returns>
         public int StoreProcedure(string procedureName, List<SqlParameter> para = null)
         {
             int ret = 0;
@@ -198,8 +198,6 @@ namespace AAA
             }
             return ret;
         }
-
-
 
     }
 }
