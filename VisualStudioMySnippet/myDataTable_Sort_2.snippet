@@ -3,14 +3,14 @@
     xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
   <CodeSnippet Format="1.0.0">
     <Header>
-      <Title>文字列</Title>
-      <Shortcut>myContains</Shortcut>
+      <Title>Sort_2</Title>
+      <Shortcut>myDataTable</Shortcut>
     </Header>
     <Snippet>
       <Code Language="cSharp">
-        <![CDATA[if (new String[] { "", "", "" }.Contains("") == true)
-            {
-            }]]>
+        <![CDATA[DataView view = new DataView(sendDt);
+            view.Sort = "InputDatetime ASC";
+            BindingSource.DataSource = view.ToTable();]]>
       </Code>
     </Snippet>
   </CodeSnippet>

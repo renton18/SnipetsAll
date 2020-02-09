@@ -36,12 +36,12 @@
             ////////////////////////////////////////////////////////////////////////////////
             
             // ①レポートビューア表示中を印刷
-            ReportViewerHelper rvh = new ReportViewerHelper(COMMON.ListPrinter);
+            ReportViewerHelper rvh = new ReportViewerHelper("A4", COMMON.ListPrinter);
             rvh.Run(reportViewer1.LocalReport);
             rvh.Dispose();
 
             // ②直接印刷
-            ReportViewerHelper rvh = new ReportViewerHelper(COMMON.ListPrinter);
+            ReportViewerHelper rvh = new ReportViewerHelper("A4", COMMON.ListPrinter);
             //パラメータを追加する
             var reportParams = new List<ReportParameter>();
             reportParams.Add(new ReportParameter("FileDate", filedate));

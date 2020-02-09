@@ -49,7 +49,7 @@ namespace AAA
             }
             catch (Exception ex)
             {
-                File.AppendAllText("ErrorLog.txt", DateTime.Now.ToString("yyyy/MM/dd (dddd) hh時mm分ss秒") + " " + ex.Message + Environment.NewLine);
+                File.AppendAllText("ErrorLog.txt", DateTime.Now.ToString("yyyy/MM/dd (dddd) hh時mm分ss秒") + " " + ex.Message + (ex.InnerException == null ? "" : Environment.NewLine + ex.InnerException.Message));
             }
             finally
             {
@@ -70,8 +70,8 @@ namespace AAA
             }
             catch (Exception ex)
             {
-                SQLSERVERHelper.Log("1", ex.Message + Environment.NewLine + ex.InnerException.Message, "検索", sql, "NoLoginUser");
-                MessageBox.Show("エラー発生:" + Environment.NewLine + ex.Message);
+                SQLSERVERHelper.Log("1", ex.Message + Environment.NewLine + (ex.InnerException == null ? "" : Environment.NewLine + ex.InnerException.Message), "検索", sql, "NoLoginUser");
+                MessageBox.Show("エラー発生:" + Environment.NewLine + ex.Message + (ex.InnerException == null ? "" : Environment.NewLine + ex.InnerException.Message));
             }
             finally
             {
@@ -81,7 +81,7 @@ namespace AAA
         }
         #endregion
 
-        #region  追加
+        #region  挿入
         public static int Insert(string sql, string connection, string errorTitle)
         {
             var cnt = 0;
@@ -90,13 +90,13 @@ namespace AAA
             {
                 DB.Open();
                 cnt = DB.ExecuteNonQuery(sql);
-                SQLSERVERHelper.Log("0", "", "追加 ( " + cnt + " 件)", sql, "NoLoginUser");
+                SQLSERVERHelper.Log("0", "", "挿入 ( " + cnt + " 件)", sql, "NoLoginUser");
                 return cnt;
             }
             catch (Exception ex)
             {
-                SQLSERVERHelper.Log("1", ex.Message + Environment.NewLine + ex.InnerException.Message, errorTitle, sql, "NoLoginUser");
-                MessageBox.Show("エラー発生:" + Environment.NewLine + ex.Message);
+                SQLSERVERHelper.Log("1", ex.Message + (ex.InnerException == null ? "" : Environment.NewLine + ex.InnerException.Message), errorTitle, sql, "NoLoginUser");
+                MessageBox.Show("エラー発生:" + Environment.NewLine + ex.Message + (ex.InnerException == null ? "" : Environment.NewLine + ex.InnerException.Message));
             }
             finally
             {
@@ -106,7 +106,7 @@ namespace AAA
         }
         #endregion
 
-        #region  更新
+        #region  更新 
         public static int Update(string sql, string connection, string errorTitle, string difference)
         {
             var cnt = 0;
@@ -121,8 +121,8 @@ namespace AAA
             }
             catch (Exception ex)
             {
-                SQLSERVERHelper.Log("1", ex.Message + Environment.NewLine + ex.InnerException.Message, errorTitle, sql, "NoLoginUser", difference);
-                MessageBox.Show("エラー発生:" + Environment.NewLine + ex.Message);
+                SQLSERVERHelper.Log("1", ex.Message + (ex.InnerException == null ? "" : Environment.NewLine + ex.InnerException.Message), errorTitle, sql, "NoLoginUser", difference);
+                MessageBox.Show("エラー発生:" + Environment.NewLine + ex.Message + (ex.InnerException == null ? "" : Environment.NewLine + ex.InnerException.Message));
             }
             finally
             {
@@ -146,13 +146,14 @@ namespace AAA
             }
             catch (Exception ex)
             {
-                SQLSERVERHelper.Log("1", ex.Message + Environment.NewLine + ex.InnerException.Message, errorTitle, sql, "NoLoginUser");
-                MessageBox.Show("エラー発生:" + Environment.NewLine + ex.Message);
+                SQLSERVERHelper.Log("1", ex.Message + (ex.InnerException == null ? "" : Environment.NewLine + ex.InnerException.Message), errorTitle, sql, "NoLoginUser");
+                MessageBox.Show("エラー発生:" + Environment.NewLine + ex.Message + (ex.InnerException == null ? "" : Environment.NewLine + ex.InnerException.Message));
             }
             finally
             {
                 DB.Close();
             }
+            return cnt;
         }
         #endregion
     }

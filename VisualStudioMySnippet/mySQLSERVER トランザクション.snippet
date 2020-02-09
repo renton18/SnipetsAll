@@ -27,8 +27,8 @@
             catch (Exception ex)
             {
                 TRUST.RollBack();
-                SQLSERVERHelper.Log("1", ex.Message, "【中断】", sql, "NoLoginUser");
-                MessageBox.Show("エラーが発生しました：" + Environment.NewLine + ex.Message);
+                SQLSERVERHelper.Log("1", ex.Message + (ex.InnerException == null ? "" : Environment.NewLine + ex.InnerException.Message), "【中断】", sql, "NoLoginUser");
+                MessageBox.Show("エラーが発生しました：" + Environment.NewLine + ex.Message + (ex.InnerException == null ? "" : Environment.NewLine + ex.InnerException.Message));
             }
             finally
             {
