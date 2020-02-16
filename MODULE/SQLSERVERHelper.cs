@@ -50,6 +50,8 @@ namespace AAA
             catch (Exception ex)
             {
                 File.AppendAllText("ErrorLog.txt", DateTime.Now.ToString("yyyy/MM/dd (dddd) hh時mm分ss秒") + " " + ex.Message + (ex.InnerException == null ? "" : Environment.NewLine + ex.InnerException.Message));
+                MessageBox.Show("データベースに接続ができませんでした(ErrorLog.txt)：" + ex.Message + (ex.InnerException == null ? "" : Environment.NewLine + ex.InnerException.Message));
+                throw ex;
             }
             finally
             {
@@ -72,6 +74,7 @@ namespace AAA
             {
                 SQLSERVERHelper.Log("1", ex.Message + Environment.NewLine + (ex.InnerException == null ? "" : Environment.NewLine + ex.InnerException.Message), "検索", sql, "NoLoginUser");
                 MessageBox.Show("エラー発生:" + Environment.NewLine + ex.Message + (ex.InnerException == null ? "" : Environment.NewLine + ex.InnerException.Message));
+                throw ex;
             }
             finally
             {
@@ -97,6 +100,7 @@ namespace AAA
             {
                 SQLSERVERHelper.Log("1", ex.Message + (ex.InnerException == null ? "" : Environment.NewLine + ex.InnerException.Message), errorTitle, sql, "NoLoginUser");
                 MessageBox.Show("エラー発生:" + Environment.NewLine + ex.Message + (ex.InnerException == null ? "" : Environment.NewLine + ex.InnerException.Message));
+                throw ex;
             }
             finally
             {
@@ -123,6 +127,7 @@ namespace AAA
             {
                 SQLSERVERHelper.Log("1", ex.Message + (ex.InnerException == null ? "" : Environment.NewLine + ex.InnerException.Message), errorTitle, sql, "NoLoginUser", difference);
                 MessageBox.Show("エラー発生:" + Environment.NewLine + ex.Message + (ex.InnerException == null ? "" : Environment.NewLine + ex.InnerException.Message));
+                throw ex;
             }
             finally
             {
@@ -148,7 +153,8 @@ namespace AAA
             {
                 SQLSERVERHelper.Log("1", ex.Message + (ex.InnerException == null ? "" : Environment.NewLine + ex.InnerException.Message), errorTitle, sql, "NoLoginUser");
                 MessageBox.Show("エラー発生:" + Environment.NewLine + ex.Message + (ex.InnerException == null ? "" : Environment.NewLine + ex.InnerException.Message));
-            }
+                throw ex;
+            } 
             finally
             {
                 DB.Close();

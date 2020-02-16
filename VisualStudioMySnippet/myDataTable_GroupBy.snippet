@@ -3,13 +3,12 @@
     xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
   <CodeSnippet Format="1.0.0">
     <Header>
-      <Title>数字チェック</Title>
-      <Shortcut>myCheckNumber</Shortcut>
+      <Title>GroupBy複数キー</Title>
+      <Shortcut>myDataTable</Shortcut>
     </Header>
     <Snippet>
       <Code Language="cSharp">
-        <![CDATA[var result = 0;
-            if (int.TryParse(torayNo, out result) == false) return;]]>
+        <![CDATA[T_OrderDt.Select("Itak = '12'").GroupBy(a => new { Field1 = a.Field<DateTime>("A"), Field2 = a.Field<int>("B") }).Count().ToString();]]>
       </Code>
     </Snippet>
   </CodeSnippet>
