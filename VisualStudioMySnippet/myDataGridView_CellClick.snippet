@@ -1,0 +1,117 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets
+    xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>CellClick</Title>
+      <Shortcut>myDataGridView</Shortcut>
+    </Header>
+    <Snippet>
+      <Code Language="cSharp">
+        <![CDATA[var senderGrid = (DataGridView)sender;
+            if (e.RowIndex == -1) return;
+            if (e.ColumnIndex == -1) return;
+            #region スルー
+            //削除ボタンと選択チェック以外はスルー
+            if (new int[] { deletedButtunPos, selectedPos }.Contains(e.ColumnIndex) == false)
+            {
+                return;
+            }
+            senderGrid.Columns[e.ColumnIndex].HeaderText
+            //禁止はスルー //出力済はスルー
+            if (senderGrid[fdTextPos, e.RowIndex].Value.ToString() == "1" || senderGrid[outputTextPos, e.RowIndex].Value.ToString() == "1")
+            {
+                return;
+            }
+            #endregion
+            ////////////////////////////////////////////////////////////////////////////////
+            // レコードクリック　詳細表示
+            ////////////////////////////////////////////////////////////////////////////////
+            #region  レコードクリック　詳細表示
+            var itemCd = senderGrid.CurrentRow.Cells[""].Value.ToString().Trim(); //項目CD
+            if (itemCd == "")
+            {
+                var sql = "";
+                iTEMBindingSource.DataSource = SQLSERVERHelper.Search(sql, COMMON.NIBSConnecttion);
+            }
+            #endregion
+            ////////////////////////////////////////////////////////////////////////////////
+            // 削除ボタンクリック
+            ////////////////////////////////////////////////////////////////////////////////
+            #region 削除ボタンクリック
+            if (senderGrid.Columns[e.ColumnIndex].DataPropertyName == "IsDeleted")
+            {
+                ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                // ①論理削除 DB反映なし 背景色変更
+                ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                DataGridViewButtonCell buttonCell = (DataGridViewButtonCell)senderGrid[e.ColumnIndex, e.RowIndex];
+                var buttonCellValue = buttonCell.FormattedValue.ToString().Trim();
+                buttonCell.UseColumnTextForButtonValue = false;
+                buttonCell.Value = buttonCellValue.ToString() == "削除" ? "1" : "0";
+                //削除時は修正フラグを立てる
+                //削除ボタンが変更された場合、IsEditに1を設定する。この修正フラグは確定ボタンを押すときに使用する
+                if (senderGrid[editPos, e.RowIndex].Value == null)
+                {
+                    senderGrid[editPos, e.RowIndex].Value = 1;
+                }
+                else
+                {
+                    senderGrid[editPos, e.RowIndex].Value = senderGrid[editPos, e.RowIndex].Value.ToString().Trim() == "1" ? "0" : "1";
+                }
+                senderGrid.CurrentRow.DefaultCellStyle.BackColor = senderGrid.CurrentRow.DefaultCellStyle.SelectionBackColor = buttonCellValue.ToString() == "削除" ? Color.White : Color.Gray;
+                senderGrid.CurrentRow.DefaultCellStyle.ForeColor = senderGrid.CurrentRow.DefaultCellStyle.SelectionForeColor = buttonCellValue.ToString() == "削除" ? Color.Black : Color.White;
+                ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                // ②論理削除 DB反映なし
+                ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                rECORDBindingSource.RemoveAt(e.RowIndex);
+                return;
+                ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                // ③物理削除 DB反映あり
+                ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                DialogResult result = MessageBox.Show("削除してもいいですか？", "確認", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button2);
+                if (result == DialogResult.No) return;
+                var seq = senderGrid.CurrentRow.Cells[""].Value.ToString().Trim();
+                if (seq == "")
+                {
+                    var sql = "";
+                    try
+                    {
+                        sql = "";
+                        SQLSERVERHelper.Search(sql, COMMON.);
+                    }
+                    catch (Exception ex)
+                    {
+                        SQLSERVERHelper.Log("1", ex.Message + Environment.NewLine + (ex.InnerException == null ? "" : Environment.NewLine + ex.InnerException.Message), "削除ボタン", sql, "NoLoginUser");
+                        MessageBox.Show("エラー発生:" + Environment.NewLine + ex.Message + (ex.InnerException == null ? "" : Environment.NewLine + ex.InnerException.Message));
+                    }
+                    return;
+                }
+            }
+            #endregion
+            ////////////////////////////////////////////////////////////////////////////////
+            // 選択チェックボックスON/OFF
+            ////////////////////////////////////////////////////////////////////////////////
+            #region 選択チェックボックスON/OFF
+            if (senderGrid.Columns[e.ColumnIndex].DataPropertyName == "IsSelected")
+            {
+                DataGridViewCheckBoxCell cbCell = (DataGridViewCheckBoxCell)senderGrid[selectedPos, e.RowIndex];
+                if (cbCell.Value == null)
+                {
+                    cbCell.Value = true;
+                }
+                else
+                {
+                    cbCell.Value = cbCell.Value.ToString() == "true" ? "false" : "true";
+                }
+            }
+            #endregion
+            //データグリッドビューの状態をDatatableに保存する
+            senderGrid.EndEdit();
+            ((DataRowView)senderGrid.CurrentRow.DataBoundItem).EndEdit();
+            //DGV表示更新
+            sendDt = SQLSERVERHelper.InitDGV(dtpAddS.Value.ToString("yyyy/MM/dd"), COMMON.TRUSTConnection);
+            sEND_ITEMBindingSource.DataSource = sendDt;]]>
+      </Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>

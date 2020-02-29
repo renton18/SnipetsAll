@@ -174,7 +174,7 @@ namespace AAA
         public int StoreProcedure(string procedureName, List<SqlParameter> para = null)
         {
             int ret = 0;
-            using (var command = new SqlCommand() { Connection = connection })
+            using (var command = new SqlCommand() { Connection = connection, Transaction = transaction })
             {
                 try
                 {
@@ -194,10 +194,42 @@ namespace AAA
                 catch (Exception ex)
                 {
                     throw ex;
+                }finally
+                {
+                    return ret;
+                }
+            }
+        }
+
+        /// <summary>
+        /// insert後seq取得
+        /// </summary>
+        /// <param name="sql"></param>
+        /// <returns></returns>
+        public long ExecuteScalar(string sql)
+        {
+            long ret = 0;
+            using (var command = new SqlCommand() { Connection = connection, Transaction = transaction })
+            {
+                try
+                {
+                    command.CommandText = sql;
+                    var returnSeq = command.ExecuteScalar();
+                    if (returnSeq != null)
+                    {
+                        ret = (long)returnSeq;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
                 }
             }
             return ret;
         }
+
+
+
 
     }
 }

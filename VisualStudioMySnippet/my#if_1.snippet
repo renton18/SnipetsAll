@@ -3,13 +3,14 @@
     xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
   <CodeSnippet Format="1.0.0">
     <Header>
-      <Title>小ネタ</Title>
-      <Shortcut>myDataGridView</Shortcut>
+      <Title>#if</Title>
+      <Shortcut>my#if DEBUG</Shortcut>
     </Header>
     <Snippet>
       <Code Language="cSharp">
-        <![CDATA[セル内に複数行を表示するには
-DataGridViewCellStyle.WrapModeをTrue]]>
+        <![CDATA[#if DEBUG == true
+#else
+#endif]]>
       </Code>
     </Snippet>
   </CodeSnippet>

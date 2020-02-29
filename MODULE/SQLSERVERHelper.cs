@@ -50,7 +50,7 @@ namespace AAA
             catch (Exception ex)
             {
                 File.AppendAllText("ErrorLog.txt", DateTime.Now.ToString("yyyy/MM/dd (dddd) hh時mm分ss秒") + " " + ex.Message + (ex.InnerException == null ? "" : Environment.NewLine + ex.InnerException.Message));
-                MessageBox.Show("データベースに接続ができませんでした(ErrorLog.txt)：" + ex.Message + (ex.InnerException == null ? "" : Environment.NewLine + ex.InnerException.Message));
+                MessageBox.Show("データベースに接続ができませんでした(" + Application.StartupPath + @"\ErrorLog.txt)：" + ex.Message + (ex.InnerException == null ? "" : Environment.NewLine + ex.InnerException.Message));
                 throw ex;
             }
             finally
@@ -72,20 +72,20 @@ namespace AAA
             }
             catch (Exception ex)
             {
-                SQLSERVERHelper.Log("1", ex.Message + Environment.NewLine + (ex.InnerException == null ? "" : Environment.NewLine + ex.InnerException.Message), "検索", sql, "NoLoginUser");
-                MessageBox.Show("エラー発生:" + Environment.NewLine + ex.Message + (ex.InnerException == null ? "" : Environment.NewLine + ex.InnerException.Message));
+                //SQLSERVERHelper.Log("1", ex.Message + Environment.NewLine + (ex.InnerException == null ? "" : Environment.NewLine + ex.InnerException.Message), "検索", sql, "NoLoginUser");
+                //MessageBox.Show("エラー発生:" + Environment.NewLine + ex.Message + (ex.InnerException == null ? "" : Environment.NewLine + ex.InnerException.Message));
                 throw ex;
             }
             finally
             {
                 DB.Close();
+                return dt;
             }
-            return dt;
         }
         #endregion
 
         #region  挿入
-        public static int Insert(string sql, string connection, string errorTitle)
+        public static int Insert(string sql, string connection)
         {
             var cnt = 0;
             SQLSERVER DB = new SQLSERVER(connection);
@@ -94,51 +94,51 @@ namespace AAA
                 DB.Open();
                 cnt = DB.ExecuteNonQuery(sql);
                 SQLSERVERHelper.Log("0", "", "挿入 ( " + cnt + " 件)", sql, "NoLoginUser");
-                return cnt;
             }
             catch (Exception ex)
             {
-                SQLSERVERHelper.Log("1", ex.Message + (ex.InnerException == null ? "" : Environment.NewLine + ex.InnerException.Message), errorTitle, sql, "NoLoginUser");
-                MessageBox.Show("エラー発生:" + Environment.NewLine + ex.Message + (ex.InnerException == null ? "" : Environment.NewLine + ex.InnerException.Message));
+                //SQLSERVERHelper.Log("1", ex.Message + (ex.InnerException == null ? "" : Environment.NewLine + ex.InnerException.Message), errorTitle, sql, "NoLoginUser");
+                //MessageBox.Show("エラー発生:" + Environment.NewLine + ex.Message + (ex.InnerException == null ? "" : Environment.NewLine + ex.InnerException.Message));
                 throw ex;
             }
             finally
             {
                 DB.Close();
+                return cnt;
             }
-            return cnt;
         }
         #endregion
 
         #region  更新 
-        public static int Update(string sql, string connection, string errorTitle, string difference)
+        // update [マスタ] set [名前] = '旧姓たなか' 
+        // output deleted.*, inserted.*
+        // where [名前] = 'たなか'
+        public static string Update(string sql, string connection)
         {
-            var cnt = 0;
+            var difference = "";
             SQLSERVER DB = new SQLSERVER(connection);
             try
             {
                 DB.Open();
-                //更新処理
-                cnt = DB.ExecuteNonQuery(sql);
+                difference = DB.ExecuteScalar(sql);
                 SQLSERVERHelper.Log("0", "", "更新 ( " + cnt + " 件)", sql, "NoLoginUser", difference);
-                return cnt;
             }
             catch (Exception ex)
             {
-                SQLSERVERHelper.Log("1", ex.Message + (ex.InnerException == null ? "" : Environment.NewLine + ex.InnerException.Message), errorTitle, sql, "NoLoginUser", difference);
-                MessageBox.Show("エラー発生:" + Environment.NewLine + ex.Message + (ex.InnerException == null ? "" : Environment.NewLine + ex.InnerException.Message));
+                //SQLSERVERHelper.Log("1", ex.Message + (ex.InnerException == null ? "" : Environment.NewLine + ex.InnerException.Message), errorTitle, sql, "NoLoginUser", difference);
+                //MessageBox.Show("エラー発生:" + Environment.NewLine + ex.Message + (ex.InnerException == null ? "" : Environment.NewLine + ex.InnerException.Message));
                 throw ex;
             }
             finally
             {
                 DB.Close();
+                return ret;
             }
-            return cnt;
         }
         #endregion
 
         #region  削除
-        public static int Delete(string sql, string connection, string errorTitle)
+        public static int Delete(string sql, string connection)
         {
             var cnt = 0;
             SQLSERVER DB = new SQLSERVER(connection);
@@ -147,19 +147,18 @@ namespace AAA
                 DB.Open();
                 cnt = DB.ExecuteNonQuery(sql);
                 SQLSERVERHelper.Log("0", "", "削除 ( " + cnt + " 件)", sql, "NoLoginUser");
-                return cnt;
             }
             catch (Exception ex)
             {
-                SQLSERVERHelper.Log("1", ex.Message + (ex.InnerException == null ? "" : Environment.NewLine + ex.InnerException.Message), errorTitle, sql, "NoLoginUser");
-                MessageBox.Show("エラー発生:" + Environment.NewLine + ex.Message + (ex.InnerException == null ? "" : Environment.NewLine + ex.InnerException.Message));
+                //SQLSERVERHelper.Log("1", ex.Message + (ex.InnerException == null ? "" : Environment.NewLine + ex.InnerException.Message), errorTitle, sql, "NoLoginUser");
+                //MessageBox.Show("エラー発生:" + Environment.NewLine + ex.Message + (ex.InnerException == null ? "" : Environment.NewLine + ex.InnerException.Message));
                 throw ex;
-            } 
+            }
             finally
             {
                 DB.Close();
+                return cnt;
             }
-            return cnt;
         }
         #endregion
     }

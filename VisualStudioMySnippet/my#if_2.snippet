@@ -3,15 +3,13 @@
     xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
   <CodeSnippet Format="1.0.0">
     <Header>
-      <Title>SELECT_LOGなし</Title>
-      <Shortcut>myEntityCRUD</Shortcut>
+      <Title>#if</Title>
+      <Shortcut>my#if !DEBUG</Shortcut>
     </Header>
     <Snippet>
       <Code Language="cSharp">
-        <![CDATA[#if DEBUG == true
-
+        <![CDATA[#if !DEBUG == true
 #else
-
 #endif]]>
       </Code>
     </Snippet>

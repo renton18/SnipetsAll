@@ -3,13 +3,13 @@
     xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
   <CodeSnippet Format="1.0.0">
     <Header>
-      <Title>小ネタ</Title>
+      <Title>myデータグリッドビューの状態をDatatableに保存する</Title>
       <Shortcut>myDataGridView</Shortcut>
     </Header>
     <Snippet>
       <Code Language="cSharp">
-        <![CDATA[セル内に複数行を表示するには
-DataGridViewCellStyle.WrapModeをTrue]]>
+        <![CDATA[DatagridView.EndEdit();
+            ((DataRowView)DatagridView.CurrentRow.DataBoundItem).EndEdit();]]>
       </Code>
     </Snippet>
   </CodeSnippet>
