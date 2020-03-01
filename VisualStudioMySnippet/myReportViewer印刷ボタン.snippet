@@ -44,8 +44,7 @@
             }
             catch (Exception ex)
             {
-                SQLSERVERHelper.Log("1", ex.Message + Environment.NewLine + (ex.InnerException == null ? "" : Environment.NewLine + ex.InnerException.Message), "", sql, "NoLoginUser");
-                MessageBox.Show("エラー発生:" + Environment.NewLine + ex.Message + (ex.InnerException == null ? "" : Environment.NewLine + ex.InnerException.Message));
+                SQLSERVERHelper.Log("1", ex.Message, "", sql, "NoLoginUser");
             }
             ////////////////////////////////////////////////////////////////////////////////
             // ①レポートビューア表示 & 印刷
@@ -65,14 +64,14 @@
             reportViewer1.LocalReport.SetParameters(reportParams);
             reportViewer1.RefreshReport();
             
-            ReportViewerHelper rvh = new ReportViewerHelper("A4", COMMON.ListPrinter);
+            ReportViewerHelper rvh = new ReportViewerHelper(COMMON.ListPrinter, true);
             rvh.Run(reportViewer1.LocalReport);
             rvh.Dispose();
             
             ////////////////////////////////////////////////////////////////////////////////
             // ②直接印刷
             ////////////////////////////////////////////////////////////////////////////////
-            ReportViewerHelper rvh = new ReportViewerHelper("A4", COMMON.ListPrinter);
+            ReportViewerHelper rvh = new ReportViewerHelper(COMMON.ListPrinter, true);
             //パラメータを追加する
             var reportParams = new List<ReportParameter>();
             reportParams.Add(new ReportParameter("FileDate", filedate));
