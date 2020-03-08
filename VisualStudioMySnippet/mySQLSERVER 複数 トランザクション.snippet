@@ -53,7 +53,71 @@
                 DB.Close();
             }
             SQLSERVERHelper.Log("0", "", "【完了】", "", "NoLoginUser");
-            #endregion]]>
+            #endregion
+            
+         private void Method1(SQLSERVER DB)
+        {
+            string sql = "";
+            try
+            {
+                ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                //ここから　DB処理を代入する
+                #region sql
+                sql = "";
+                #endregion
+                DB.UpdateTrans(sql, new string[] { "Itak", "ItakKMCDN" }, "NoLoginUser");
+
+                #region sql
+                sql = "";
+                #endregion
+                DB.DeleteTrans(sql, "NoLoginUser");
+
+                #region sql
+                sql = "";
+                #endregion
+                DB.InsertTrans(sql, "NoLoginUser");
+
+                //ここまで DB処理を代入する
+                ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            }
+            catch (Exception ex)
+            {
+                SQLSERVERHelper.Log("1", ex.Message + (ex.InnerException == null ? "" : Environment.NewLine + ex.InnerException.Message), "【エラー中断】Method1", sql, "NoLoginUser");
+                throw ex;
+            }
+        }
+
+        private void Method2(SQLSERVER DB)
+        {
+            string sql = "";
+            try
+            {
+                ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                //ここから　DB処理を代入する
+                #region sql
+                sql = "";
+                #endregion
+                DB.UpdateTrans(sql, new string[] { "Itak", "ItakKMCDN" }, "NoLoginUser");
+
+                #region sql
+                sql = "";
+                #endregion
+                DB.DeleteTrans(sql, "NoLoginUser");
+
+                #region sql
+                sql = "";
+                #endregion
+                DB.InsertTrans(sql, "NoLoginUser");
+
+                //ここまで DB処理を代入する
+                ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            }
+            catch (Exception ex)
+            {
+                SQLSERVERHelper.Log("1", ex.Message + (ex.InnerException == null ? "" : Environment.NewLine + ex.InnerException.Message), "【エラー中断】Method2", sql, "NoLoginUser");
+                throw ex;
+            }
+        }]]>
       </Code>
     </Snippet>
   </CodeSnippet>
