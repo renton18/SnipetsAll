@@ -16,6 +16,7 @@
         /// <param name="e"></param>
         private void btnPrint_Click(object sender, EventArgs e)
         {
+            this.Enabled = false;
             ////////////////////////////////////////////////////////////////////////////////
             // ラジオボタンがある場合
             ////////////////////////////////////////////////////////////////////////////////
@@ -37,14 +38,20 @@
             DataTable dt = new DataTable();
             try
             {
-                SQLSERVER TRUST = new SQLSERVER(COMMON.TRUSTConnection);
-                TRUST.Open();
-                dt = TRUST.Select(sql);
-                TRUST.Close();
+                dt = SQLSERVERHelper.Search(sql, COMMON.NIBSConnecttion);
             }
             catch (Exception ex)
             {
-                SQLSERVERHelper.Log("1", ex.Message, "", sql, "NoLoginUser");
+                SQLSERVERHelper.Log("1", ex.Message + Environment.NewLine + (ex.InnerException == null ? "" : Environment.NewLine + ex.InnerException.Message), "印刷ボタン", sql, "NoLoginUser");
+                MessageBox.Show("エラー発生:" + Environment.NewLine + ex.Message + (ex.InnerException == null ? "" : Environment.NewLine + ex.InnerException.Message));
+                this.Enabled = true;
+                return;
+            }
+            if (dt.Rows.Count == 0)
+            {
+                MessageBox.Show("対象のレコードがありません");
+                this.Enabled = true;
+                return;
             }
             ////////////////////////////////////////////////////////////////////////////////
             // ①レポートビューア表示 & 印刷
@@ -82,6 +89,7 @@
             // ③レポップアッププレビューを表示して印刷
             ////////////////////////////////////////////////////////////////////////////////
             //追加予定
+            this.Enabled = true;
         }
         #endregion]]>
       </Code>

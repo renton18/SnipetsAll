@@ -113,15 +113,24 @@ namespace AAA
         // update [マスタ] set [名前] = '旧姓たなか' 
         // output deleted.*, inserted.*
         // where [名前] = 'たなか'
-        public static string Update(string sql, string connection)
+        public static void Update(string sql, string connection, string[] outputCol, string UserId)
         {
-            var difference = "";
+            string difference = "";
+            #region OUTPUT句のSQL生成
+            var outputSql = " OUTPUT ";
+            foreach (string item in outputCol)
+            {
+                outputSql = outputSql + " '" + item + " 「 ' + inserted." + item + " + '　」 => 「 ' + deleted." + item + " + ' 」  ' +";
+            }
+            outputSql = outputSql.TrimEnd('+');
+            sql = sql.Insert(sql.IndexOf("WHERE"), outputSql);
+            #endregion
             SQLSERVER DB = new SQLSERVER(connection);
             try
             {
                 DB.Open();
                 difference = DB.ExecuteScalar(sql);
-                SQLSERVERHelper.Log("0", "", "更新 ( " + cnt + " 件)", sql, "NoLoginUser", difference);
+                SQLSERVERHelper.Log("0", "", "更新", sql, UserId, difference);
             }
             catch (Exception ex)
             {
@@ -132,7 +141,6 @@ namespace AAA
             finally
             {
                 DB.Close();
-                return ret;
             }
         }
         #endregion

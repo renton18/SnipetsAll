@@ -71,22 +71,30 @@
                 DialogResult result = MessageBox.Show("削除してもいいですか？", "確認", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button2);
                 if (result == DialogResult.No) return;
                 var seq = senderGrid.CurrentRow.Cells[""].Value.ToString().Trim();
-                if (seq == "")
+                
+                #region 削除
+                string sql = "";
+                string loginUser = "NoLoginUser";
+                try
                 {
-                    var sql = "";
-                    try
-                    {
-                        sql = "";
-                        SQLSERVERHelper.Search(sql, COMMON.);
-                    }
-                    catch (Exception ex)
-                    {
-                        SQLSERVERHelper.Log("1", ex.Message + Environment.NewLine + (ex.InnerException == null ? "" : Environment.NewLine + ex.InnerException.Message), "削除ボタン", sql, "NoLoginUser");
-                        MessageBox.Show("エラー発生:" + Environment.NewLine + ex.Message + (ex.InnerException == null ? "" : Environment.NewLine + ex.InnerException.Message));
-                    }
+                    SQLSERVERHelper.Log("0", "", "【開始】", "", loginUser);
+                    #region sql
+                    sql = "";
+                    #endregion
+                    SQLSERVERHelper.Delete(sql, COMMON.TRUSTConnection, loginUser);
+                    SQLSERVERHelper.Log("0", "", "【完了】", "", loginUser);
+                }
+                catch (Exception ex)
+                {
+                    SQLSERVERHelper.Log("1", ex.Message + (ex.InnerException == null ? "" : Environment.NewLine + ex.InnerException.Message), "【エラー中断】", sql, loginUser);
+                    MessageBox.Show("エラーが発生しました：" + Environment.NewLine + ex.Message + (ex.InnerException == null ? "" : Environment.NewLine + ex.InnerException.Message));
                     return;
                 }
-            }
+                #endregion
+                
+                // DGV表示更新
+                reportItemBindingSource.RemoveCurrent();
+                }
             #endregion
             ////////////////////////////////////////////////////////////////////////////////
             // 選択チェックボックスON/OFF

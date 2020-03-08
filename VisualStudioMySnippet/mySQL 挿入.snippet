@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets
+    xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>挿入</Title>
+      <Shortcut>mySQL</Shortcut>
+    </Header>
+    <Snippet>
+      <Code Language="cSharp">
+        <![CDATA[#region sql
+            var sql ="INSERT INTO [dbo].[T_IdnoToIdzero] ( " +
+                        "  [Filedate] " +
+                        " ,[UpdateDt] " +
+                        " ,[UpdateId] " +
+                        " ,[UpdateTer] " +
+                        " ,[CreateDt] " +
+                        " ,[CreateId] " +
+                        " ,[CreateTer] " +
+                        ")VALUES( " +
+                        " "" +
+                        " , DateTime.Now " +
+                        " , 'NoLoginUser' " +
+                        " , Dns.GetHostName() " +
+                        " , DateTime.Now " +
+                        " , 'NoLoginUser' " +
+                        " , Dns.GetHostName() " +
+            #endregion]]>
+      </Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>

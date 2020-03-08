@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets
+    xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>更新 単一</Title>
+      <Shortcut>mySQLSERVER</Shortcut>
+    </Header>
+    <Snippet>
+      <Code Language="cSharp">
+        <![CDATA[////////////////////////////////////////////////////////////////////////////////
+            // 更新
+            ////////////////////////////////////////////////////////////////////////////////
+            #region 更新
+            string sql = "";
+            string loginUser = "NoLoginUser";
+            try
+            {
+                SQLSERVERHelper.Log("0", "", "【開始】", "", loginUser);
+                #region sql
+                sql = "";
+                #endregion
+                SQLSERVERHelper.Update(sql, COMMON.TRUSTConnection, new string[] { "", "" }, loginUser);
+                SQLSERVERHelper.Log("0", "", "【完了】", "", loginUser);
+            }
+            catch (Exception ex)
+            {
+                SQLSERVERHelper.Log("1", ex.Message + (ex.InnerException == null ? "" : Environment.NewLine + ex.InnerException.Message), "【エラー中断】", sql, loginUser);
+                MessageBox.Show("エラーが発生しました：" + Environment.NewLine + ex.Message + (ex.InnerException == null ? "" : Environment.NewLine + ex.InnerException.Message));
+                return;
+            }
+            #endregion]]>
+      </Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>

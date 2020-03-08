@@ -19,8 +19,8 @@ namespace AAA
         public LocalReport report = new LocalReport();
         private PrintDocument printDoc = new PrintDocument();
         private Boolean IsYoko;
+        private string paperSize;
 
-        public LocalReport report = new LocalReport();
         public string width = "21";
         public string height = "29.7";
         public string top = "0.5";
@@ -33,10 +33,11 @@ namespace AAA
         {
             printDoc.PrinterSettings.PrinterName = printerName;
             this.IsYoko = IsYoko;
+            this.paperSize = paperSize;
+
             //XPSファイルとして保存する場合
             if (printerName == "Microsoft XPS Document Writer")
             {
-                printDoc.PrinterSettings.PrinterName = "Microsoft XPS Document Writer";
                 printDoc.PrinterSettings.PrintFileName = "test.xps";
                 Process.Start(Application.StartupPath);
                 printDoc.PrinterSettings.PrintToFile = true;

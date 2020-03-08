@@ -3,29 +3,31 @@
     xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
   <CodeSnippet Format="1.0.0">
     <Header>
-      <Title>更新</Title>
+      <Title>挿入 単一</Title>
       <Shortcut>mySQLSERVER</Shortcut>
     </Header>
     <Snippet>
       <Code Language="cSharp">
         <![CDATA[////////////////////////////////////////////////////////////////////////////////
-            // 更新
+            // 挿入
             ////////////////////////////////////////////////////////////////////////////////
-            #region 更新
+            #region 挿入
             string sql = "";
+            string loginUser = "NoLoginUser";
             try
             {
-                SQLSERVERHelper.Log("0", "", "【開始】", "", "NoLoginUser");
+                SQLSERVERHelper.Log("0", "", "【開始】", "", loginUser);
                 #region sql
                 sql = "";
                 #endregion
-                SQLSERVERHelper.Update(sql, COMMON.)
-                SQLSERVERHelper.Log("0", "", "【完了】", "", "NoLoginUser");
+                SQLSERVERHelper.Insert(sql, COMMON.TRUSTConnection, loginUser);
+                SQLSERVERHelper.Log("0", "", "【完了】", "", loginUser);
             }
             catch (Exception ex)
             {
-                SQLSERVERHelper.Log("1", ex.Message + (ex.InnerException == null ? "" : Environment.NewLine + ex.InnerException.Message), "【中断】", sql, "NoLoginUser");
+                SQLSERVERHelper.Log("1", ex.Message + (ex.InnerException == null ? "" : Environment.NewLine + ex.InnerException.Message), "【エラー中断】", sql, loginUser);
                 MessageBox.Show("エラーが発生しました：" + Environment.NewLine + ex.Message + (ex.InnerException == null ? "" : Environment.NewLine + ex.InnerException.Message));
+                return;
             }
             #endregion]]>
       </Code>
