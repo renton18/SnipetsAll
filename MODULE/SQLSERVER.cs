@@ -194,21 +194,19 @@ namespace AAA
                 catch (Exception ex)
                 {
                     throw ex;
-                }finally
-                {
-                    return ret;
                 }
+                return ret;
             }
         }
 
         /// <summary>
-        /// insert後seq取得
+        /// OUTPUT句
         /// </summary>
         /// <param name="sql"></param>
         /// <returns></returns>
-        public long ExecuteScalar(string sql)
+        public string ExecuteScalar(string sql)
         {
-            long ret = 0;
+            string ret = "";
             using (var command = new SqlCommand() { Connection = connection, Transaction = transaction })
             {
                 try
@@ -217,7 +215,7 @@ namespace AAA
                     var returnSeq = command.ExecuteScalar();
                     if (returnSeq != null)
                     {
-                        ret = (long)returnSeq;
+                        ret = (string)returnSeq;
                     }
                 }
                 catch (Exception ex)
@@ -227,9 +225,6 @@ namespace AAA
             }
             return ret;
         }
-
-
-
 
     }
 }

@@ -8,7 +8,21 @@
     </Header>
     <Snippet>
       <Code Language="cSharp">
-        <![CDATA[var checkedRB = gbHyouji.Controls.OfType<RadioButton>().SingleOrDefault(rb => rb.Checked == true);]]>
+        <![CDATA[////////////////////////////////////////////////////////////////////////////////
+            // ラジオボタンがある場合
+            ////////////////////////////////////////////////////////////////////////////////
+            var OnRb = groupPrint.Controls.OfType<RadioButton>().SingleOrDefault(rb => rb.Checked == true);
+            var sql = "";
+            switch (OnRb.Name)
+            {
+                case "":
+                    sql = "";
+                    break;
+
+                case "":
+                    sql = "";
+                    break;
+            }]]>
       </Code>
     </Snippet>
   </CodeSnippet>

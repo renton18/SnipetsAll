@@ -104,8 +104,8 @@ namespace AAA
             finally
             {
                 DB.Close();
-                return cnt;
             }
+            return cnt;
         }
         #endregion
 
@@ -113,17 +113,20 @@ namespace AAA
         // update [マスタ] set [名前] = '旧姓たなか' 
         // output deleted.*, inserted.*
         // where [名前] = 'たなか'
-        public static void Update(string sql, string connection, string[] outputCol, string UserId)
+        public static void Update(string sql, string connection, string UserId, string[] outputCol = null)
         {
             string difference = "";
             #region OUTPUT句のSQL生成
-            var outputSql = " OUTPUT ";
-            foreach (string item in outputCol)
+            if (outputCol == null)
             {
-                outputSql = outputSql + " '" + item + " 「 ' + inserted." + item + " + '　」 => 「 ' + deleted." + item + " + ' 」  ' +";
+                var outputSql = " OUTPUT ";
+                foreach (string item in outputCol)
+                {
+                    outputSql = outputSql + " '" + item + " 「 ' + inserted." + item + " + '　」 => 「 ' + deleted." + item + " + ' 」  ' +";
+                }
+                outputSql = outputSql.TrimEnd('+');
+                sql = sql.Insert(sql.IndexOf("WHERE"), outputSql);
             }
-            outputSql = outputSql.TrimEnd('+');
-            sql = sql.Insert(sql.IndexOf("WHERE"), outputSql);
             #endregion
             SQLSERVER DB = new SQLSERVER(connection);
             try
@@ -165,8 +168,8 @@ namespace AAA
             finally
             {
                 DB.Close();
-                return cnt;
             }
+            return cnt;
         }
         #endregion
     }

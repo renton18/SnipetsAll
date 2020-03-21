@@ -2,8 +2,9 @@
   "ExpandedNodes": [
     "",
     "\\MODULE",
+    "\\SQLServerMySnipet",
     "\\VisualStudioMySnippet"
   ],
-  "SelectedNode": "\\MODULE\\SQLSERVERHelper.cs",
+  "SelectedNode": "\\VisualStudioMySnippet\\myRegex半角英数字のみ.snippet",
   "PreviewInSolutionExplorer": false
 }

@@ -20,7 +20,7 @@
                 #region sql
                 sql = "";
                 #endregion
-                SQLSERVERHelper.Update(sql, COMMON.TRUSTConnection, new string[] { "", "" }, loginUser);
+                SQLSERVERHelper.Update(sql, COMMON.TRUSTConnection, loginUser, new string[] { "", "" });
                 SQLSERVERHelper.Log("0", "", "【完了】", "", loginUser);
             }
             catch (Exception ex)
