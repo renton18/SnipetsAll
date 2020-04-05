@@ -1,3 +1,7 @@
 S_ReplaceAll('^', '"', 12);
 S_ReplaceAll('$', ' " +', 12);
+GoFileTop()
+S_InsText("var sql = "); // •¶Žš—ñ‘}“ü
+GoFileEnd()
+S_InsText(" \";"); // •¶Žš—ñ‘}“ü
 SelectAll(0);

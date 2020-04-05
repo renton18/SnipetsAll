@@ -14,6 +14,8 @@ namespace AAA
     public static class SQLSERVERHelper
     {
         public static string logConnection = "";
+        public static string loginId = "99999";
+        public static string loginUser = "NoLoginUser";
         #region Logを出力する
         public static void Log(string LOG_LEVEL, string ERROR_MESSAGE, string SUBJECT, string MESSAGE, string UPDTID, string UPDT_MESSAGE = "")
         {
@@ -35,14 +37,14 @@ namespace AAA
                         "       ,[UPDTTRM] " +
                         "       ) " +
                         "VALUES ( " +
-                        "       getdate() " +
+                        "       CONVERT(VARCHAR, GETDATE(), 120) " +
                         "       ," + LOG_LEVEL + " " + //0:情報、1:エラー
                         "       ,'" + Path.GetFileName(Environment.GetCommandLineArgs()[0]).Replace(".vshost", "") + "' " +
                         "       , '" + ERROR_MESSAGE.Replace("'", "''") + "' " +
                         "       , '" + SUBJECT.Replace("'", "''") + "' " +
                         "       ,'" + MESSAGE.Replace("'", "''") + "' " +
                         "       ,'" + UPDT_MESSAGE.Replace("'", "''") + "' " +
-                        "       ,getdate() " +
+                        "       ,CONVERT(VARCHAR, GETDATE(), 120) " +
                         "       ,'" + UPDTID + "' " +
                         "       ,'" + Dns.GetHostName() + "' " +
                         "       )");
