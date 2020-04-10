@@ -3,39 +3,16 @@
     xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
   <CodeSnippet Format="1.0.0">
     <Header>
-      <Title>印刷ボタン</Title>
+      <Title>コントロール使用</Title>
       <Shortcut>myReportViewer</Shortcut>
     </Header>
     <Snippet>
       <Code Language="cSharp">
-        <![CDATA[#region 印刷ボタン
-        /// <summary>
-        /// 印刷処理
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void btnPrint_Click(object sender, EventArgs e)
-        {
-            this.Enabled = false;
-            ////////////////////////////////////////////////////////////////////////////////
-            // ラジオボタンがある場合
-            ////////////////////////////////////////////////////////////////////////////////
-            var OnRb = groupPrint.Controls.OfType<RadioButton>().SingleOrDefault(rb => rb.Checked == true);
-            var sql = "";
-            switch (OnRb.Text)
-            {
-                case "編集済":
-                    sql = "";
-                    break;
-
-                case "依頼項目要確認":
-                    sql = "";
-                    break;
-            }
+        <![CDATA[
             ////////////////////////////////////////////////////////////////////////////////
             // レポートデータを取得する
             ////////////////////////////////////////////////////////////////////////////////
-            DataTable dt = new DataTable();
+            DataTable dt = new DataTable();  
             try
             {
                 dt = SQLSERVERHelper.Search(sql, COMMON.NIBSConnecttion);
@@ -84,13 +61,6 @@
             reportParams.Add(new ReportParameter("FileDate", filedate));
             rvh.Run("REPORT/Report.rdlc", dt, "DataSet1", reportParams);
             rvh.Dispose();
-
-            ////////////////////////////////////////////////////////////////////////////////
-            // ③レポップアッププレビューを表示して印刷
-            ////////////////////////////////////////////////////////////////////////////////
-            //追加予定
-            this.Enabled = true;
-        }
         #endregion]]>
       </Code>
     </Snippet>
