@@ -213,7 +213,7 @@ namespace AAA
                 {
                     command.CommandText = sql;
                     var returnSeq = command.ExecuteScalar();
-                    if (returnSeq != null)
+                    if (DBNull.Value.Equals(returnSeq) == false)
                     {
                         ret = (string)returnSeq;
                     }

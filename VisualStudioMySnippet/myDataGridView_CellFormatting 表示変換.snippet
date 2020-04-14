@@ -3,14 +3,15 @@
     xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
   <CodeSnippet Format="1.0.0">
     <Header>
-      <Title>CellFormatting</Title>
+      <Title>CellFormatting 表示変換</Title>
       <Shortcut>myDataGridView</Shortcut>
     </Header>
     <Snippet>
       <Code Language="cSharp">
         <![CDATA[////////////////////////////////////////////////////////////////////////////////////////////////////////////
             // 表示変換
-            ////////////////////////////////////////////////////////////////////////////////////////////////////////////var senderGrid = (DataGridView)sender;
+            ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            var senderGrid = (DataGridView)sender;
             if (senderGrid.Columns[e.ColumnIndex].DataPropertyName == "")
             {
                 switch (e.Value.ToString().Trim())
@@ -22,15 +23,7 @@
                         e.Value = "";
                         break;
                 }
-            }
-            ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-            // 行背景色設定
-            ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-            var Editabled = senderGrid.Rows[e.RowIndex].Cells["Editabled"].Value.ToString();
-            if (Editabled == "true")
-            {
-                e.CellStyle.BackColor = e.CellStyle.SelectionBackColor = Color.Gray;
-                e.CellStyle.ForeColor = e.CellStyle.SelectionForeColor = Color.LightGray;}]]>
+            }]]>
       </Code>
     </Snippet>
   </CodeSnippet>

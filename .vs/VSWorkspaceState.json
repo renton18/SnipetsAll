@@ -1,7 +1,10 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\MODULE",
+    "\\VisualStudioCodeSnipet",
+    "\\VisualStudioMySnippet"
   ],
-  "SelectedNode": "\\SakuraEditorSnipet",
+  "SelectedNode": "\\MODULE\\SQLSERVER.cs",
   "PreviewInSolutionExplorer": false
 }
