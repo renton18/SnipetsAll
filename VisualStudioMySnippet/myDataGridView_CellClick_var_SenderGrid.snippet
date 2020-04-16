@@ -3,14 +3,14 @@
     xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
   <CodeSnippet Format="1.0.0">
     <Header>
-      <Title>my#if DEBUG</Title>
-      <Shortcut>#if</Shortcut>
+      <Title>CellClick_var_SenderGrid</Title>
+      <Shortcut>myDataGridView</Shortcut>
     </Header>
     <Snippet>
       <Code Language="cSharp">
-        <![CDATA[#if DEBUG == true
-#else
-#endif]]>
+        <![CDATA[var senderGrid = (DataGridView)sender;
+            if (e.RowIndex == -1) return;
+            if (e.ColumnIndex == -1) return;]]>
       </Code>
     </Snippet>
   </CodeSnippet>

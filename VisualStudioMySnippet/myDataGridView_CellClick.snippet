@@ -8,21 +8,16 @@
     </Header>
     <Snippet>
       <Code Language="cSharp">
-        <![CDATA[var senderGrid = (DataGridView)sender;
-            if (e.RowIndex == -1) return;
-            if (e.ColumnIndex == -1) return;
+        <![CDATA[
             #region スルー
-            //削除ボタンと選択チェック以外はスルー
+            //列のスルー
             if (new int[] { deletedButtunPos, selectedPos }.Contains(e.ColumnIndex) == false)
             {
                 return;
             }
-            senderGrid.Columns[e.ColumnIndex].HeaderText
-            //禁止はスルー //出力済はスルー
-            if (senderGrid[fdTextPos, e.RowIndex].Value.ToString() == "1" || senderGrid[outputTextPos, e.RowIndex].Value.ToString() == "1")
-            {
-                return;
-            }
+            //指定列のセル値でスルーする
+            if (senderGrid.CurrentRow.Cells[""].Value.ToString().Trim() == "0") return;
+            if (senderGrid.CurrentRow.Cells[""].Value.ToString().Trim() == "1") return;
             #endregion
             ////////////////////////////////////////////////////////////////////////////////
             // レコードクリック　詳細表示
@@ -63,7 +58,7 @@
                 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
                 // ②論理削除 DB反映なし
                 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                rECORDBindingSource.RemoveAt(e.RowIndex);
+                rECORDBindingSource.RemoveCurrent();
                 return;
                 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
                 // ③物理削除 DB反映あり

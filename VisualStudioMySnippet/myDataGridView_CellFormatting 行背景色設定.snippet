@@ -11,7 +11,7 @@
         <![CDATA[////////////////////////////////////////////////////////////////////////////////////////////////////////////
             // 行背景色設定
             ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-            var Editabled = senderGrid.Rows[e.RowIndex].Cells["Editabled"].Value.ToString();
+            var Editabled = senderGrid.CurrentRow.Cells["Editabled"].Value.ToString();
             if (Editabled == "true")
             {
                 e.CellStyle.BackColor = e.CellStyle.SelectionBackColor = Color.Gray;

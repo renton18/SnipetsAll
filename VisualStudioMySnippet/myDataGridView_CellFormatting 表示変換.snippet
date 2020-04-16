@@ -12,7 +12,7 @@
             // 表示変換
             ////////////////////////////////////////////////////////////////////////////////////////////////////////////
             var senderGrid = (DataGridView)sender;
-            if (senderGrid.Columns[e.ColumnIndex].DataPropertyName == "")
+            if (senderGrid.CurrentRow.DataPropertyName == "")
             {
                 switch (e.Value.ToString().Trim())
                 {
