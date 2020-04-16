@@ -8,9 +8,10 @@
     </Header>
     <Snippet>
       <Code Language="cSharp">
-        <![CDATA[ // Reflectionでダブルバッファリングを有効化
+        <![CDATA[ #region Reflectionでダブルバッファリングを有効化
             PropertyInfo myPropertyInfo = typeof(DataGridView).GetProperty("DoubleBuffered", BindingFlags.Instance | BindingFlags.NonPublic);
-            myPropertyInfo.SetValue(orderInformationDetailDataGridView, true, null);]]>
+            myPropertyInfo.SetValue(orderInformationDetailDataGridView, true, null);
+            #endregion]]>
       </Code>
     </Snippet>
   </CodeSnippet>

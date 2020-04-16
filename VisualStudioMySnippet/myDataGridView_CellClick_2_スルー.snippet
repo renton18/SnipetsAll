@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets
+    xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>CellClick_2_スルー</Title>
+      <Shortcut>myDataGridView</Shortcut>
+    </Header>
+    <Snippet>
+      <Code Language="cSharp">
+        <![CDATA[
+            #region スルー
+            //列指定以外
+            if (new int[] { deletedButtunPos, selectedPos }.Contains(e.ColumnIndex) == false)
+            {
+                return;
+            }
+            //指定列セル値
+            if (senderGrid.CurrentRow.Cells[""].Value.ToString().Trim() == "0") return;
+            if (senderGrid.CurrentRow.Cells[""].Value.ToString().Trim() == "1") return;
+            #endregion]]>
+      </Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>

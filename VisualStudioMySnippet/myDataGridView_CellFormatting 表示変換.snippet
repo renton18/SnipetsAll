@@ -11,8 +11,7 @@
         <![CDATA[////////////////////////////////////////////////////////////////////////////////////////////////////////////
             // 表示変換
             ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-            var senderGrid = (DataGridView)sender;
-            if (senderGrid.CurrentRow.DataPropertyName == "")
+            if (senderGrid.Columns[e.ColumnIndex].Name == "")
             {
                 switch (e.Value.ToString().Trim())
                 {
