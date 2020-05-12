@@ -14,10 +14,9 @@ namespace AAA
     public static class SQLSERVERHelper
     {
         public static string logConnection = "";
-        public static string loginId = "99999";
-        public static string loginUser = "NoLoginUser";
+        public static string loginId = "NoLoginUser";
         #region Logを出力する
-        public static void Log(string LOG_LEVEL, string ERROR_MESSAGE, string SUBJECT, string MESSAGE, string UPDTID, string UPDT_MESSAGE = "")
+        public static void Log(string LOG_LEVEL, string ERROR_MESSAGE, string SUBJECT, string MESSAGE, string UPDT_MESSAGE = "")
         {
             SQLSERVER DB = new SQLSERVER(logConnection);
             try
@@ -37,6 +36,7 @@ namespace AAA
                         "       ,[UPDTTRM] " +
                         "       ) " +
                         "VALUES ( " +
+                        "VALUES ( " +
                         "       CONVERT(VARCHAR, GETDATE(), 120) " +
                         "       ," + LOG_LEVEL + " " + //0:情報、1:エラー
                         "       ,'" + Path.GetFileName(Environment.GetCommandLineArgs()[0]).Replace(".vshost", "") + "' " +
@@ -45,7 +45,7 @@ namespace AAA
                         "       ,'" + MESSAGE.Replace("'", "''") + "' " +
                         "       ,'" + UPDT_MESSAGE.Replace("'", "''") + "' " +
                         "       ,CONVERT(VARCHAR, GETDATE(), 120) " +
-                        "       ,'" + UPDTID + "' " +
+                        "       ,'" + loginId + "' " +
                         "       ,'" + Dns.GetHostName() + "' " +
                         "       )");
             }
@@ -81,21 +81,20 @@ namespace AAA
             finally
             {
                 DB.Close();
-                return dt;
             }
+            return dt;  
         }
         #endregion
 
         #region  挿入
         public static int Insert(string sql, string connection)
         {
-            var cnt = 0;
             SQLSERVER DB = new SQLSERVER(connection);
             try
             {
                 DB.Open();
                 cnt = DB.ExecuteNonQuery(sql);
-                SQLSERVERHelper.Log("0", "", "挿入 ( " + cnt + " 件)", sql, "NoLoginUser");
+                SQLSERVERHelper.Log("0", "", "挿入", sql, "NoLoginUser");
             }
             catch (Exception ex)
             {
@@ -107,7 +106,6 @@ namespace AAA
             {
                 DB.Close();
             }
-            return cnt;
         }
         #endregion
 
@@ -115,7 +113,7 @@ namespace AAA
         // update [マスタ] set [名前] = '旧姓たなか' 
         // output deleted.*, inserted.*
         // where [名前] = 'たなか'
-        public static void Update(string sql, string connection, string UserId, string[] outputCol = null)
+        public static void Update(string sql, string connection, string[] outputCol = null)
         {
             string difference = "";
             #region OUTPUT句のSQL生成
@@ -150,16 +148,46 @@ namespace AAA
         }
         #endregion
 
-        #region  削除
-        public static int Delete(string sql, string connection)
+        #region  更新 
+        // トランザクション用
+        public static void UpdateTran(string sql, SQLSERVER DB, string[] outputCol = null)
         {
-            var cnt = 0;
+            string difference = "";
+            #region OUTPUT句のSQL生成
+            if (outputCol == null)
+            {
+                var outputSql = " OUTPUT ";
+                foreach (string item in outputCol)
+                {
+                    outputSql = outputSql + " '" + item + " 「 ' + inserted." + item + " + '　」 => 「 ' + deleted." + item + " + ' 」  ' +";
+                }
+                outputSql = outputSql.TrimEnd('+');
+                sql = sql.Insert(sql.IndexOf("WHERE"), outputSql);
+            }
+            #endregion
+            try
+            {
+                difference = DB.ExecuteScalar(sql);
+                SQLSERVERHelper.Log("0", "", "更新", sql, loginId, difference);
+            }
+            catch (Exception ex)
+            {
+                //SQLSERVERHelper.Log("1", ex.Message + (ex.InnerException == null ? "" : Environment.NewLine + ex.InnerException.Message), errorTitle, sql, "NoLoginUser", difference);
+                //MessageBox.Show("エラー発生:" + Environment.NewLine + ex.Message + (ex.InnerException == null ? "" : Environment.NewLine + ex.InnerException.Message));
+                throw ex;
+            }
+        }
+        #endregion
+
+        #region  削除
+        public static void Delete(string sql, string connection)
+        {
             SQLSERVER DB = new SQLSERVER(connection);
             try
             {
                 DB.Open();
-                cnt = DB.ExecuteNonQuery(sql);
-                SQLSERVERHelper.Log("0", "", "削除 ( " + cnt + " 件)", sql, "NoLoginUser");
+                DB.ExecuteNonQuery(sql);
+                SQLSERVERHelper.Log("0", "", "削除", sql, "NoLoginUser");
             }
             catch (Exception ex)
             {
@@ -171,7 +199,6 @@ namespace AAA
             {
                 DB.Close();
             }
-            return cnt;
         }
         #endregion
     }

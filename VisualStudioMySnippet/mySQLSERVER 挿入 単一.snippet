@@ -13,21 +13,19 @@
             ////////////////////////////////////////////////////////////////////////////////
             #region 挿入
             string sql = "";
-            string loginUser = "NoLoginUser";
             try
             {
-                SQLSERVERHelper.Log("0", "", "【開始】", "", loginUser);
+                SQLSERVERHelper.Log("0", "", "【開始】", "");
                 #region sql
                 sql = "";
                 #endregion
-                SQLSERVERHelper.Insert(sql, COMMON.TRUSTConnection, loginUser);
-                SQLSERVERHelper.Log("0", "", "【完了】", "", loginUser);
+                SQLSERVERHelper.Insert(sql, COMMON.TRUSTConnection);
+                SQLSERVERHelper.Log("0", "", "【完了】", "");
             }
             catch (Exception ex)
             {
-                SQLSERVERHelper.Log("1", ex.Message + (ex.InnerException == null ? "" : Environment.NewLine + ex.InnerException.Message), "【エラー中断】", sql, loginUser);
+                SQLSERVERHelper.Log("1", ex.Message + (ex.InnerException == null ? "" : Environment.NewLine + ex.InnerException.Message), "【エラー中断】", sql);
                 MessageBox.Show("エラーが発生しました：" + Environment.NewLine + ex.Message + (ex.InnerException == null ? "" : Environment.NewLine + ex.InnerException.Message));
-                return;
             }
             #endregion]]>
       </Code>

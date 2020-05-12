@@ -3,12 +3,14 @@
     xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
   <CodeSnippet Format="1.0.0">
     <Header>
-      <Title>空白行区切り</Title>
-      <Shortcut>mySplit</Shortcut>
+      <Title>削除 指定行</Title>
+      <Shortcut>myDataTable</Shortcut>
     </Header>
     <Snippet>
       <Code Language="cSharp">
-        <![CDATA[Regex(@"\s+").Split(word);]]>
+        <![CDATA[//削除したい行のINDEXの取得
+            var index = dt.Rows.IndexOf(dt.AsEnumerable().Where(a => a.Field<int>(0) == tar).FirstOrDefault());
+            dt.Rows.RemoveAt(index);]]>
       </Code>
     </Snippet>
   </CodeSnippet>

@@ -3,13 +3,13 @@
     xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
   <CodeSnippet Format="1.0.0">
     <Header>
-      <Title>数字チェック</Title>
-      <Shortcut>myCheckNumber</Shortcut>
+      <Title>コントロール名からコントロールを取得する</Title>
+      <Shortcut>myコントロール名からコントロールを取得する</Shortcut>
     </Header>
     <Snippet>
       <Code Language="cSharp">
-        <![CDATA[var result = "";
-        if (int.TryParse(idno, out result) == false) return;]]>
+        <![CDATA[Control[] cList = this.Controls.Find("", true);
+            var tb = (TextBox)cList[0];]]>
       </Code>
     </Snippet>
   </CodeSnippet>

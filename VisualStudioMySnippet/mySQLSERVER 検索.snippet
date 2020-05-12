@@ -3,24 +3,22 @@
     xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
   <CodeSnippet Format="1.0.0">
     <Header>
-      <Title>更新 単一</Title>
+      <Title>検索</Title>
       <Shortcut>mySQLSERVER</Shortcut>
     </Header>
     <Snippet>
       <Code Language="cSharp">
         <![CDATA[////////////////////////////////////////////////////////////////////////////////
-            // 更新
+            // 検索
             ////////////////////////////////////////////////////////////////////////////////
-            #region 更新
+            #region 検索
             string sql = "";
             try
             {
-                SQLSERVERHelper.Log("0", "", "【開始】", "");
                 #region sql
                 sql = "";
                 #endregion
-                SQLSERVERHelper.Update(sql, COMMON.TRUSTConnection, loginUser, new string[] { "", "" });
-                SQLSERVERHelper.Log("0", "", "【完了】", "");
+                SQLSERVERHelper.Search(sql, COMMON.TRUSTConnection, loginUser, new string[] { "", "" });
             }
             catch (Exception ex)
             {

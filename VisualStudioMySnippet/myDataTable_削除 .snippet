@@ -3,12 +3,13 @@
     xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
   <CodeSnippet Format="1.0.0">
     <Header>
-      <Title>空白行区切り</Title>
-      <Shortcut>mySplit</Shortcut>
+      <Title>削除</Title>
+      <Shortcut>myDataTable</Shortcut>
     </Header>
     <Snippet>
       <Code Language="cSharp">
-        <![CDATA[Regex(@"\s+").Split(word);]]>
+        <![CDATA[dt.Rows.Remove(dt.Rows[0]);
+            dt.Rows.RemoveAt(0);;]]>
       </Code>
     </Snippet>
   </CodeSnippet>
