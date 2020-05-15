@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets
+    xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>1行テーブルに分割</Title>
+      <Shortcut>myDataTable</Shortcut>
+    </Header>
+    <Snippet>
+      <Code Language="cSharp">
+        <![CDATA[// 指定する行を別のDataTableにコピーする
+            DataTable dt2 = dt.Clone();
+            // 1行目をdt2にコピー
+            dt2.ImportRow(dt.Rows[0]);]]>
+      </Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>

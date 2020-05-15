@@ -10,11 +10,10 @@
       <Code Language="cSharp">
         <![CDATA[
             #region スルー
-            //列指定以外
-            if (new int[] { deletedButtunPos, selectedPos }.Contains(e.ColumnIndex) == false)
-            {
-                return;
-            }
+            //列インデックス指定
+            if (new int[] { deletedButtunPos, selectedPos }.Contains(e.ColumnIndex) == false) return;
+            //列名指定
+            if (new string[] { "column1" }.Contains(senderGrid.Columns[e.ColumnIndex].Name) == false) return;
             //指定列セル値
             if (senderGrid.CurrentRow.Cells[""].Value.ToString().Trim() == "0") return;
             if (senderGrid.CurrentRow.Cells[""].Value.ToString().Trim() == "1") return;

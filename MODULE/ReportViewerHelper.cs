@@ -44,6 +44,7 @@ namespace AAA
             }
             printDoc.PrintController = new StandardPrintController(); //プリント中を表示させない
             report.SubreportProcessing += new SubreportProcessingEventHandler(LocalReport_SubreportProcessing);
+
         }
         #endregion
 
