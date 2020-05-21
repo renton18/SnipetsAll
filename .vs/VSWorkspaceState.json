@@ -3,8 +3,10 @@
     "",
     "\\MODULE",
     "\\VisualStudioCodeSnipet",
-    "\\VisualStudioMySnippet"
+    "\\VisualStudioMySnippet",
+    "\\フォーム",
+    "\\各設定"
   ],
-  "SelectedNode": "\\VisualStudioMySnippet\\myDataTable_1行テーブルに分割.snippet",
+  "SelectedNode": "\\VisualStudioMySnippet\\myEntitySELECT_LOGなし.snippet",
   "PreviewInSolutionExplorer": false
 }

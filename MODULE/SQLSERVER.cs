@@ -60,7 +60,7 @@ namespace AAA
         public DataTable Select(string sql, Dictionary<string, Object> paramDict)
         {
             var datatable = new DataTable();
-            using (var command = this.connection.CreateCommand())
+            using (var command = new SqlCommand() { Connection = connection, Transaction = transaction })
             {
                 try
                 {
