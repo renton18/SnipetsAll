@@ -36,7 +36,6 @@ namespace AAA
                         "       ,[UPDTTRM] " +
                         "       ) " +
                         "VALUES ( " +
-                        "VALUES ( " +
                         "       CONVERT(VARCHAR, GETDATE(), 120) " +
                         "       ," + LOG_LEVEL + " " + //0:情報、1:エラー
                         "       ,'" + Path.GetFileName(Environment.GetCommandLineArgs()[0]).Replace(".vshost", "") + "' " +
@@ -51,9 +50,9 @@ namespace AAA
             }
             catch (Exception ex)
             {
-                File.AppendAllText("ErrorLog.txt", DateTime.Now.ToString("yyyy/MM/dd (dddd) hh時mm分ss秒") + " " + ex.Message + (ex.InnerException == null ? "" : Environment.NewLine + ex.InnerException.Message));
-                MessageBox.Show("データベースに接続ができませんでした(" + Application.StartupPath + @"\ErrorLog.txt)：" + ex.Message + (ex.InnerException == null ? "" : Environment.NewLine + ex.InnerException.Message));
-                throw ex;
+                File.AppendAllText("ErrorLog.txt", DateTime.Now.ToString("yyyy/MM/dd (dddd) hh時mm分ss秒") + " " + ex.Message + "      " + ex.StackTrace);
+                MessageBox.Show("データベースに接続ができませんでした(" + Application.StartupPath + @"\ErrorLog.txt)：" + ex.Message + Environment.NewLine + ex.StackTrace);
+                throw;
             }
             finally
             {
@@ -72,35 +71,35 @@ namespace AAA
                 DB.Open();
                 dt = DB.Select(sql);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 //SQLSERVERHelper.Log("1", ex.Message + Environment.NewLine + (ex.InnerException == null ? "" : Environment.NewLine + ex.InnerException.Message), "検索", sql, "NoLoginUser");
                 //MessageBox.Show("エラー発生:" + Environment.NewLine + ex.Message + (ex.InnerException == null ? "" : Environment.NewLine + ex.InnerException.Message));
-                throw ex;
+                throw;
             }
             finally
             {
                 DB.Close();
             }
-            return dt;  
+            return dt;
         }
         #endregion
 
         #region  挿入
-        public static int Insert(string sql, string connection)
+        public static void Insert(string sql, string connection)
         {
             SQLSERVER DB = new SQLSERVER(connection);
             try
             {
                 DB.Open();
-                cnt = DB.ExecuteNonQuery(sql);
-                SQLSERVERHelper.Log("0", "", "挿入", sql, "NoLoginUser");
+                DB.ExecuteNonQuery(sql);
+                SQLSERVERHelper.Log("0", "", "挿入", sql);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 //SQLSERVERHelper.Log("1", ex.Message + (ex.InnerException == null ? "" : Environment.NewLine + ex.InnerException.Message), errorTitle, sql, "NoLoginUser");
                 //MessageBox.Show("エラー発生:" + Environment.NewLine + ex.Message + (ex.InnerException == null ? "" : Environment.NewLine + ex.InnerException.Message));
-                throw ex;
+                throw;
             }
             finally
             {
@@ -133,13 +132,13 @@ namespace AAA
             {
                 DB.Open();
                 difference = DB.ExecuteScalar(sql);
-                SQLSERVERHelper.Log("0", "", "更新", sql, UserId, difference);
+                SQLSERVERHelper.Log("0", "", "更新", sql, difference);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 //SQLSERVERHelper.Log("1", ex.Message + (ex.InnerException == null ? "" : Environment.NewLine + ex.InnerException.Message), errorTitle, sql, "NoLoginUser", difference);
                 //MessageBox.Show("エラー発生:" + Environment.NewLine + ex.Message + (ex.InnerException == null ? "" : Environment.NewLine + ex.InnerException.Message));
-                throw ex;
+                throw;
             }
             finally
             {
@@ -168,13 +167,13 @@ namespace AAA
             try
             {
                 difference = DB.ExecuteScalar(sql);
-                SQLSERVERHelper.Log("0", "", "更新", sql, loginId, difference);
+                SQLSERVERHelper.Log("0", "", "更新", sql, difference);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 //SQLSERVERHelper.Log("1", ex.Message + (ex.InnerException == null ? "" : Environment.NewLine + ex.InnerException.Message), errorTitle, sql, "NoLoginUser", difference);
                 //MessageBox.Show("エラー発生:" + Environment.NewLine + ex.Message + (ex.InnerException == null ? "" : Environment.NewLine + ex.InnerException.Message));
-                throw ex;
+                throw;
             }
         }
         #endregion
@@ -187,13 +186,13 @@ namespace AAA
             {
                 DB.Open();
                 DB.ExecuteNonQuery(sql);
-                SQLSERVERHelper.Log("0", "", "削除", sql, "NoLoginUser");
+                SQLSERVERHelper.Log("0", "", "削除", sql);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 //SQLSERVERHelper.Log("1", ex.Message + (ex.InnerException == null ? "" : Environment.NewLine + ex.InnerException.Message), errorTitle, sql, "NoLoginUser");
                 //MessageBox.Show("エラー発生:" + Environment.NewLine + ex.Message + (ex.InnerException == null ? "" : Environment.NewLine + ex.InnerException.Message));
-                throw ex;
+                throw;
             }
             finally
             {

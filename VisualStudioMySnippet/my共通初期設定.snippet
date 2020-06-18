@@ -18,15 +18,19 @@
                 this.Close();
                 return;
             }
-            //ステータスバーを表示する
-            //COMMON.SetForm(this);
             //EXEワーキングフォルダの設定
             Directory.SetCurrentDirectory(Application.StartupPath);
+
+            //Reflectionでダブルバッファリングを有効化
+            //PropertyInfo myPropertyInfo = typeof(DataGridView).GetProperty("DoubleBuffered", BindingFlags.Instance | BindingFlags.NonPublic);
+            //myPropertyInfo.SetValue(reportItemDataGridView, true, null);
+
+            SQLSERVERHelper.logConnection = COMMON.TRUSTConnection;
+
             #endregion
             ////////////////////////////////////////////////////////////////////////////////
             // その他初期設定
             ////////////////////////////////////////////////////////////////////////////////
-            SQLSERVERHelper.logConnection = COMMON.TRUSTConnection;
 #if DEBUG == true
 #endif]]>
       </Code>
