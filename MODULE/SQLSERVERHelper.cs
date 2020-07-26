@@ -74,7 +74,7 @@ namespace AAA
             catch (Exception)
             {
                 //SQLSERVERHelper.Log("1", ex.Message + Environment.NewLine + (ex.InnerException == null ? "" : Environment.NewLine + ex.InnerException.Message), "検索", sql, "NoLoginUser");
-                //MessageBox.Show("エラー発生:" + Environment.NewLine + ex.Message + (ex.InnerException == null ? "" : Environment.NewLine + ex.InnerException.Message));
+                //MessageBox.Show("エラー発生:" + Environment.NewLine + ex.Message + Environment.NewLine + ex.StackTrace);
                 throw;
             }
             finally
@@ -97,8 +97,8 @@ namespace AAA
             }
             catch (Exception)
             {
-                //SQLSERVERHelper.Log("1", ex.Message + (ex.InnerException == null ? "" : Environment.NewLine + ex.InnerException.Message), errorTitle, sql, "NoLoginUser");
-                //MessageBox.Show("エラー発生:" + Environment.NewLine + ex.Message + (ex.InnerException == null ? "" : Environment.NewLine + ex.InnerException.Message));
+                //SQLSERVERHelper.Log("1", ex.Message + Environment.NewLine + ex.StackTrace, errorTitle, sql, "NoLoginUser");
+                //MessageBox.Show("エラー発生:" + Environment.NewLine + ex.Message + Environment.NewLine + ex.StackTrace);
                 throw;
             }
             finally
@@ -136,8 +136,8 @@ namespace AAA
             }
             catch (Exception)
             {
-                //SQLSERVERHelper.Log("1", ex.Message + (ex.InnerException == null ? "" : Environment.NewLine + ex.InnerException.Message), errorTitle, sql, "NoLoginUser", difference);
-                //MessageBox.Show("エラー発生:" + Environment.NewLine + ex.Message + (ex.InnerException == null ? "" : Environment.NewLine + ex.InnerException.Message));
+                //SQLSERVERHelper.Log("1", ex.Message + Environment.NewLine + ex.StackTrace, errorTitle, sql, "NoLoginUser", difference);
+                //MessageBox.Show("エラー発生:" + Environment.NewLine + ex.Message + Environment.NewLine + ex.StackTrace);
                 throw;
             }
             finally
@@ -171,8 +171,8 @@ namespace AAA
             }
             catch (Exception)
             {
-                //SQLSERVERHelper.Log("1", ex.Message + (ex.InnerException == null ? "" : Environment.NewLine + ex.InnerException.Message), errorTitle, sql, "NoLoginUser", difference);
-                //MessageBox.Show("エラー発生:" + Environment.NewLine + ex.Message + (ex.InnerException == null ? "" : Environment.NewLine + ex.InnerException.Message));
+                //SQLSERVERHelper.Log("1", ex.Message + Environment.NewLine + ex.StackTrace, errorTitle, sql, "NoLoginUser", difference);
+                //MessageBox.Show("エラー発生:" + Environment.NewLine + ex.Message + Environment.NewLine + ex.StackTrace);
                 throw;
             }
         }
@@ -190,8 +190,8 @@ namespace AAA
             }
             catch (Exception)
             {
-                //SQLSERVERHelper.Log("1", ex.Message + (ex.InnerException == null ? "" : Environment.NewLine + ex.InnerException.Message), errorTitle, sql, "NoLoginUser");
-                //MessageBox.Show("エラー発生:" + Environment.NewLine + ex.Message + (ex.InnerException == null ? "" : Environment.NewLine + ex.InnerException.Message));
+                //SQLSERVERHelper.Log("1", ex.Message + Environment.NewLine + ex.StackTrace, errorTitle, sql, "NoLoginUser");
+                //MessageBox.Show("エラー発生:" + Environment.NewLine + ex.Message + Environment.NewLine + ex.StackTrace);
                 throw;
             }
             finally

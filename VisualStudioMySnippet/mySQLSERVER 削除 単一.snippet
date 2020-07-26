@@ -24,8 +24,8 @@
             }
             catch (Exception ex)
             {
-                SQLSERVERHelper.Log("1", ex.Message + (ex.InnerException == null ? "" : Environment.NewLine + ex.InnerException.Message), "【エラー中断】", sql);
-                MessageBox.Show("エラーが発生しました：" + Environment.NewLine + ex.Message + (ex.InnerException == null ? "" : Environment.NewLine + ex.InnerException.Message));
+                SQLSERVERHelper.Log("1", ex.Message + Environment.NewLine + ex.StackTrace, "【エラー中断】", sql);
+                MessageBox.Show("エラーが発生しました：" + Environment.NewLine + ex.Message + Environment.NewLine + ex.StackTrace);
             }
             #endregion]]>
       </Code>

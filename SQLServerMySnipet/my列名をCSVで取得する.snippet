@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+  <Header>
+    <Title>列名をCSVで取得する</Title>
+    <Shortcut>my列名をCSVで取得する</Shortcut>
+  </Header>
+  <Snippet>
+    <Code Language="SQL">SELECT ' ,' + COLUMN_NAME
+FROM NIBS_DB.INFORMATION_SCHEMA.COLUMNS
+WHERE table_name = N'tablename'
+FOR XML PATH('')</Code>
+  </Snippet>
+</CodeSnippet>
+</CodeSnippets>

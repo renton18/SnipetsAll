@@ -3,12 +3,15 @@
     xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
   <CodeSnippet Format="1.0.0">
     <Header>
-      <Title>直接印刷</Title>
+      <Title>表示メソッド</Title>
       <Shortcut>myReportViewer</Shortcut>
     </Header>
     <Snippet>
       <Code Language="cSharp">
-        <![CDATA[
+        <![CDATA[#region 表示
+        private void Preview()
+        {
+            var sql = "";
             try
             {
                 this.Enabled = false;
@@ -16,7 +19,6 @@
                 // ラジオボタンがある場合
                 ////////////////////////////////////////////////////////////////////////////////
                 var OnRb = groupPrint.Controls.OfType<RadioButton>().SingleOrDefault(rb => rb.Checked == true);
-                var sql = "";
                 switch (OnRb.Text)
                 {
                     case "":
@@ -30,32 +32,30 @@
                 ////////////////////////////////////////////////////////////////////////////////
                 // レポートデータを取得する
                 ////////////////////////////////////////////////////////////////////////////////
-                DataTable dt = SQLSERVERHelper.Search(sql, COMMON.NIBSConnecttion);
+                DataTable dt = SQLSERVERHelper.Search(sql, COMMON.);
                 if (dt.Rows.Count == 0)
                 {
                     MessageBox.Show("対象のレコードがありません");
                     return;
                 }
                 ////////////////////////////////////////////////////////////////////////////////
-                // 印刷
+                //【表示】データグリッドビュー
                 ////////////////////////////////////////////////////////////////////////////////
-                ReportViewerHelper rvh = new ReportViewerHelper(COMMON.ListPrinter, true);
-                var reportParams = new List<ReportParameter>(); //パラメータを追加する
-                reportParams.Add(new ReportParameter("FileDate", filedate));
-                rvh.Run("REPORT/Report.rdlc", dt, "DataSet1", reportParams);
-                rvh.Dispose();
-                }
-                catch (Exception ex)
-                {
-                    SQLSERVERHelper.Log("1", ex.Message + Environment.NewLine + (ex.InnerException == null ? "" : Environment.NewLine + ex.InnerException.Message), "印刷ボタン", sql, "NoLoginUser");
-                    MessageBox.Show("エラー発生:" + Environment.NewLine + ex.Message + Environment.NewLine + ex.StackTrace);
-                }
-                finally
-                {
-                    this.Enabled = true;
-                }
-
-             }]]>
+                reportItemBindingSource.DataSource = dt;
+                toolStripStatusLabel1.Text = "取得件数：" + reportItemBindingSource.Count + " 件";
+            }
+            catch (Exception ex)
+            {
+                //SQLSERVERHelper.Log("1", ex.Message + Environment.NewLine + ex.StackTrace, "Previewメソッド", sql, "NoLoginUser");
+                //MessageBox.Show("エラー発生:" + Environment.NewLine + ex.Message + Environment.NewLine + ex.StackTrace);
+                throw;
+            }
+            finally
+            {
+                this.Enabled = true;
+            }
+        }
+        #endregion]]>
       </Code>
     </Snippet>
   </CodeSnippet>

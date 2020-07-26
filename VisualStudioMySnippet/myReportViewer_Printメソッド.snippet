@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets
+    xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>印刷メソッド</Title>
+      <Shortcut>myReportViewer</Shortcut>
+    </Header>
+    <Snippet>
+      <Code Language="cSharp">
+        <![CDATA[#region 印刷メソッド
+        private void Print(DataTable dt)
+        {
+            try
+            {
+                this.Enabled = false;
+                ////////////////////////////////////////////////////////////////////////////////
+                // 印刷
+                ////////////////////////////////////////////////////////////////////////////////
+                ReportViewerHelper rvh = new ReportViewerHelper(COMMON.ListPrinter, true);
+                var reportParams = new List<ReportParameter>(); //パラメータを追加する
+                //reportParams.Add(new ReportParameter("FileDate", filedate));
+                rvh.Run("REPORT/Report.rdlc", dt, "DataSet1", reportParams);
+                rvh.Dispose();
+            }
+            catch (Exception ex)
+            {
+                //SQLSERVERHelper.Log("1", ex.Message + Environment.NewLine + ex.StackTrace, "印刷メソッド", sql, "NoLoginUser");
+                //MessageBox.Show("エラー発生:" + Environment.NewLine + ex.Message + Environment.NewLine + ex.StackTrace);
+                throw;
+            }
+            finally
+            {
+                this.Enabled = true;
+            }
+        }
+        #endregion]]>
+      </Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>

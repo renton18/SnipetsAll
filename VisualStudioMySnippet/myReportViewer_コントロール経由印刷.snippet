@@ -9,9 +9,9 @@
     <Snippet>
       <Code Language="cSharp">
         <![CDATA[
-            this.Enabled = false;
             try
             {
+                this.Enabled = false;
                 ////////////////////////////////////////////////////////////////////////////////
                 // ラジオボタンがある場合
                 ////////////////////////////////////////////////////////////////////////////////
@@ -57,7 +57,7 @@
             catch (Exception ex)
             {
                 SQLSERVERHelper.Log("1", ex.Message + Environment.NewLine + (ex.InnerException == null ? "" : Environment.NewLine + ex.InnerException.Message), "印刷ボタン", sql, "NoLoginUser");
-                MessageBox.Show("エラー発生:" + Environment.NewLine + ex.Message + (ex.InnerException == null ? "" : Environment.NewLine + ex.InnerException.Message));
+                MessageBox.Show("エラー発生:" + Environment.NewLine + ex.Message + Environment.NewLine + ex.StackTrace);
             }
             finally
             {
