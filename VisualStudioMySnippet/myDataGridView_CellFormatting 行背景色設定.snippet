@@ -9,9 +9,9 @@
     <Snippet>
       <Code Language="cSharp">
         <![CDATA[////////////////////////////////////////////////////////////////////////////////////////////////////////////
-            // 行背景色設定
+            // 行背景色設定 cellFormattingイベントに追加する
             ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-            var Editabled = senderGrid.CurrentRow.Cells["Editabled"].Value.ToString();
+            var Editabled = senderGrid.senderGrid[10, e.RowIndex].Value.ToString();
             if (Editabled == "true")
             {
                 e.CellStyle.BackColor = e.CellStyle.SelectionBackColor = Color.Gray;
