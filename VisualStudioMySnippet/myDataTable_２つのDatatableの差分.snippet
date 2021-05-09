@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets
+    xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>２つのDatatableの差分</Title>
+      <Shortcut>myDataTable</Shortcut>
+    </Header>
+    <Snippet>
+      <Code Language="cSharp">
+        <![CDATA[//２つのDatatableの差分
+            var result = dt1.AsEnumerable().Except(dt3.AsEnumerable(), DataRowComparer.Default).CopyToDataTable();]]>
+      </Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>
