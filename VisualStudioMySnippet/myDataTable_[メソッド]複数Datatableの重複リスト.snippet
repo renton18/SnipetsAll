@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets
+    xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>[メソッド]複数Datatableの重複リスト</Title>
+      <Shortcut>myDataTable</Shortcut>
+    </Header>
+    <Snippet>
+      <Code Language="cSharp">
+        <![CDATA[//[メソッド]複数Datatableの重複リスト
+private DataTable GetDuplicate(int dupliNum)
+{
+    DataTable dt1 = GetSeal("1");
+    DataTable dt3 = GetSeal("3");
+    dt1.Merge(dt3);
+
+    if (dupliNum == 3)
+    {
+        DataTable dt2 = GetSeal("2");
+        dt1.Merge(dt2);
+    }
+    //重複行の取り出し
+    var groups = dt1.AsEnumerable().GroupBy(r => r.Field<Int64>("列名"));
+    var duplicatesDt = groups.Where(grp => grp.Count() >= dupliNum).SelectMany(grp => grp);
+    if (duplicatesDt.Count() != 0)
+    {
+        var tempDt = duplicatesDt.CopyToDataTable();
+        //重複行の削除
+        DataView dv = new DataView(tempDt);
+        tempDt = dv.ToTable(true, "列名", "列名", "列名", "列名", "列名", "列名");
+        return tempDt;
+    }
+    return null;
+}]]>
+      </Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>

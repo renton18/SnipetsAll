@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets
+    xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>データコピー</Title>
+      <Shortcut>myDataGridView</Shortcut>
+    </Header>
+    <Snippet>
+      <Code Language="cSharp">
+        <![CDATA[rESULTDataGridView.SelectAll();
+rESULTDataGridView.ClipboardCopyMode = DataGridViewClipboardCopyMode.EnableAlwaysIncludeHeaderText;
+Clipboard.SetDataObject(rESULTDataGridView.GetClipboardContent());
+this.Refresh();
+
+var CIform = new CopyInfoForm();//フォームは作成必要
+CIform.Show();
+CIform.Refresh();
+System.Threading.Thread.Sleep(500);
+CIform.Close();]]>
+      </Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>

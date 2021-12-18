@@ -3,14 +3,17 @@
     xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
   <CodeSnippet Format="1.0.0">
     <Header>
-      <Title>削除 指定行</Title>
+      <Title>Datatable複製</Title>
       <Shortcut>myDataTable</Shortcut>
     </Header>
     <Snippet>
       <Code Language="cSharp">
-        <![CDATA[//削除したい行のINDEXの取得
-            var index = dt.Rows.IndexOf(dt.AsEnumerable().Where(a => a.Field<int>(0) == tar).FirstOrDefault());
-            dt.Rows.RemoveAt(index);]]>
+        <![CDATA[//Datatable複製
+foreach (DataRow row in dt.Rows)
+{
+    var rowDt = dt.Clone();
+    rowDt.ImportRow(row);
+}]]>
       </Code>
     </Snippet>
   </CodeSnippet>

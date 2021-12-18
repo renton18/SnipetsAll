@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+  <Header>
+    <Title>INDEX再構築_確認</Title>
+    <Shortcut>myCASE</Shortcut>
+  </Header>
+  <Snippet>
+    <Code Language="SQL">SELECT DB_NAME(s.database_id) DB,
+      OBJECT_NAME(s.object_id) TableN,
+      s.index_type_desc,
+      i.name,
+      s.page_count,
+      s.fragment_count,
+      s.avg_fragmentation_in_percent
+      FROM sys.dm_db_index_physical_stats(DB_ID('dbsdb'), NULL, NULL, NULL, 'LIMITED') s
+      INNER JOIN sys.indexes i
+      ON i.object_id = s.object_id AND i.index_id = s.index_id
+      WHERE s.avg_fragmentation_in_percent > 10
+      ORDER BY avg_fragmentation_in_percent DESC</Code>
+  </Snippet>
+</CodeSnippet>
+</CodeSnippets>

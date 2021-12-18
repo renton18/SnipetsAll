@@ -19,7 +19,6 @@ namespace AAA
         public LocalReport report = new LocalReport();
         private PrintDocument printDoc = new PrintDocument();
         private Boolean IsYoko;
-        private string paperSize;
 
         public string width = "21";
         public string height = "29.7";
@@ -29,11 +28,14 @@ namespace AAA
         public string right = "0.5";
 
         #region コンストラクタ
-        public ReportViewerHelper(string paperSize, string printerName = "Microsoft XPS Document Writer", Boolean IsYoko = false)
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        /// <param name="printerName"></param>
+        public ReportViewerHelper(string printerName, Boolean IsYoko = false)
         {
             printDoc.PrinterSettings.PrinterName = printerName;
             this.IsYoko = IsYoko;
-            this.paperSize = paperSize;
             //XPSファイルとして保存する場合
             if (printerName == "Microsoft XPS Document Writer")
             {
@@ -42,16 +44,16 @@ namespace AAA
                 Process.Start(Application.StartupPath);
                 printDoc.PrinterSettings.PrintToFile = true;
             }
-            printDoc.PrintController = new StandardPrintController(); //プリント中を表示させない
             report.SubreportProcessing += new SubreportProcessingEventHandler(LocalReport_SubreportProcessing);
-
         }
         #endregion
 
         #region 処理
         // Routine to provide to the report renderer, in order to
         //    save an image for each page of the report.
-        private Stream CreateStream(string name, string fileNameExtension, Encoding encoding, string mimeType, bool willSeek)
+        private Stream CreateStream(string name,
+          string fileNameExtension, Encoding encoding,
+          string mimeType, bool willSeek)
         {
             Stream stream = new MemoryStream();
             m_streams.Add(stream);
@@ -62,7 +64,7 @@ namespace AAA
         {
             string deviceInfo =
               @"<DeviceInfo> " +
-                "<OutputFormat>EMF</OutputFormat> " +
+                "<OutputFormat>EMF</OutputFormat>" +
                 "<PageWidth>" + width + "cm</PageWidth>" +
                 "<PageHeight>" + height + "cm</PageHeight>" +
                 "<MarginTop>" + top + "cm</MarginTop>" +
@@ -74,13 +76,13 @@ namespace AAA
             {
                 deviceInfo =
               @"<DeviceInfo> " +
-                "<OutputFormat>EMF</OutputFormat> " +
+                "<OutputFormat>EMF</OutputFormat>" +
                 "<PageWidth>" + height + "cm</PageWidth>" +
                 "<PageHeight>" + width + "cm</PageHeight>" +
                 "<MarginTop>" + top + "cm</MarginTop>" +
-                "<MarginLeft>" + left + "cm</MarginLeft> " +
-                "<MarginRight>" + right + "cm</MarginRight> " +
-                "<MarginBottom>" + bottom + "cm</MarginBottom> " +
+                "<MarginLeft>" + left + "cm</MarginLeft>" +
+                "<MarginRight>" + right + "cm</MarginRight>" +
+                "<MarginBottom>" + bottom + "cm</MarginBottom>" +
             "</DeviceInfo>";
             }
             Warning[] warnings;
@@ -125,37 +127,10 @@ namespace AAA
                 printDoc.PrintPage += new PrintPageEventHandler(PrintPage);
                 // 用紙の向きを設定(横：true、縦：false)
                 printDoc.DefaultPageSettings.Landscape = IsYoko;
-                #region サイズ用紙設定
-                PaperKind pk = new PaperKind();
-                switch (paperSize)
-                {
-                    case "A4":
-                        pk = PaperKind.A4;
-                        break;
-                    case "B4":
-                        pk = PaperKind.B4;
-                        break;
-                    case "B5":
-                        pk = PaperKind.B5;
-                        break;
-                    case "A5":
-                        pk = PaperKind.A5;
-                        break;
-                }
-                foreach (PaperSize ps in printDoc.PrinterSettings.PaperSizes)
-                {
-                    if (ps.Kind == pk)
-                    {
-                        printDoc.DefaultPageSettings.PaperSize = ps;
-                    }
-                }
-                #endregion
                 m_currentPageIndex = 0;
                 printDoc.Print();
             }
         }
-        #endregion
-
         /// <summary>
         /// 印刷の実行
         /// </summary>
@@ -173,6 +148,7 @@ namespace AAA
                 MessageBox.Show("印刷に失敗しました：" + ex.Message);
             }
         }
+        #endregion
 
         /// <summary>
         ///  印刷設定1
@@ -217,6 +193,34 @@ namespace AAA
                 ReportDataSource rds = new ReportDataSource();
                 rds.Name = datasetName;
                 rds.Value = dt;
+                report.DataSources.Add(rds);
+                if (paramList != null)
+                {
+                    report.SetParameters(paramList);
+                }
+                Run();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("印刷に失敗しました：" + ex.Message);
+            }
+        }
+
+        /// <summary>
+        ///  印刷を実行する
+        /// </summary>
+        /// <param name="reportPath"></param>
+        /// <param name="dt"></param>
+        /// <param name="datasetName"></param>
+        /// <param name="paramList"></param>
+        public void Run(string reportPath, DataRow[] rows, string datasetName, List<ReportParameter> paramList)
+        {
+            try
+            {
+                report.ReportPath = reportPath;
+                ReportDataSource rds = new ReportDataSource();
+                rds.Name = datasetName;
+                rds.Value = rows;
                 report.DataSources.Add(rds);
                 if (paramList != null)
                 {

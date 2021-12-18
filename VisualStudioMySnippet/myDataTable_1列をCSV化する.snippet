@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets
+    xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>1列をCSV化する</Title>
+      <Shortcut>myDataTable</Shortcut>
+    </Header>
+    <Snippet>
+      <Code Language="cSharp">
+        <![CDATA[var tempDt = T_OrderDt.Select(filter + $@" AND FileDate = '{filedate}' AND Idno = '{idno}' ");
+var irais = tempDt.AsEnumerable().Select(a => a.Field<Int32>("ItemCD")).ToArray();
+var iraisCanma = string.Join(",", irais);]]>
+      </Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>

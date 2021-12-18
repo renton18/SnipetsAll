@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+  <Header>
+    <Title>固定値に対して左部外部結合をする方法</Title>
+    <Shortcut>mySQL</Shortcut>
+  </Header>
+  <Snippet>
+    <Code Language="SQL">
+      WITH BASE AS(
+      SELECT '249500' Item
+      UNION ALL
+      SELECT '331000' Item
+      UNION ALL
+      SELECT '406800' Item
+      ),
+      ORDER_TEMP AS(
+      SELECT ORD.*,
+      REQ.KanjaNMK
+      FROM D_CI_OrderInformationDetail ORD
+      LEFT JOIN D_CI_Request REQ
+      ON ORD.RequestSeq = REQ.RequestSeq
+      WHERE WSBlockNo = 380 AND OrderInformationDetailSeq > 56922493
+      ),
+      BASE2 AS(
+      SELECT ORD.WSblockNO, ORD.FileDate, ORD.Idno, BA.Item FROM BASE BA
+      CROSS JOIN ORDER_TEMP ORD
+      )
+
+      SELECT
+      BA.FileDate,
+      BA.Idno,
+      BA.Item,
+      ORD.WSblockNO,
+      Format(ORD.FileDate, 'yyyyMMdd') FileDate,
+      ORD.Komoku_SEQ,
+      ORD.Irai,
+      ORD.Bun_SEQ,
+      ORD.Idno,
+      ORD.BCNo,
+      LEFT('0' + CONVERT(VARCHAR, ORD.YoukiNo), 2) YoukiNo,
+      ORD.KanjaNMK
+      FROM BASE2 BA
+      LEFT JOIN ORDER_TEMP ORD
+      ON BA.FileDate = ORD.FileDate AND BA.Idno = ORD.Idno AND BA.Item = ORD.Irai
+      ORDER BY BA.FileDate, BA.Idno, BA.Item DESC
+    </Code>
+  </Snippet>
+</CodeSnippet>
+</CodeSnippets></CodeSnippets>
